@@ -80,20 +80,20 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Barlow'
 .day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 16px;margin-bottom:16px}
 .day-btn{padding:10px 4px;border-radius:var(--r2);border:1px solid var(--border2);background:var(--bg2);color:var(--txt2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;-webkit-appearance:none;display:flex;flex-direction:column;align-items:center;gap:2px}
 .day-btn .day-letter{font-size:20px;font-weight:800}
-.day-btn .day-label{font-size:11px;letter-spacing:.3px;text-align:center;line-height:1.2}
+.day-btn .day-label{font-size:12px;letter-spacing:.3px;text-align:center;line-height:1.3;font-weight:600}
 .day-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent3)}
 .day-btn.optional .day-letter{color:var(--purple)}
 /* WORKOUT CARD */
 .workout-block{padding:0 16px;margin-bottom:12px}
 .superset-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
 .superset-header{padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
-.superset-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt2)}
-.superset-tag{font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif}
-.exercise-block{padding:12px 14px;border-bottom:1px solid var(--border)}
+.superset-label{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--txt)}
+.superset-tag{font-size:13px;font-weight:700;padding:5px 12px;border-radius:10px;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif}
+.exercise-block{padding:14px 14px;border-bottom:1px solid var(--border)}
 .exercise-block:last-child{border-bottom:none}
-.exercise-name{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.exercise-meta{font-size:14px;color:var(--txt2);margin-bottom:10px;font-family:'Barlow Condensed',sans-serif}
-.exercise-tip{font-size:13px;color:var(--txt2);margin-bottom:10px;line-height:1.5;padding:8px 12px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--txt3)}
+.exercise-name{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;margin-bottom:5px;display:flex;align-items:center;gap:6px;line-height:1.2}
+.exercise-meta{font-size:15px;color:var(--accent);margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.exercise-tip{font-size:14px;color:var(--txt2);margin-bottom:10px;line-height:1.55;padding:10px 12px;background:var(--bg3);border-radius:8px;border-left:3px solid var(--txt3)}
 .alert-tip{border-left-color:var(--red);color:var(--red)}
 .tip-label{font-weight:700;color:var(--txt2)}
 .sets-table{display:flex;flex-direction:column;gap:6px}
@@ -109,13 +109,13 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Barlow'
 .set-check.done svg{stroke:#000}
 .last-weight{font-size:13px;color:var(--accent);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif}
 /* FINISHER */
-.finisher-block{padding:10px 14px;background:var(--bg3);border-top:1px solid var(--border)}
-.finisher-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--txt2);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
-.finisher-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;padding:10px 12px;background:var(--bg4);border-radius:8px}
+.finisher-block{padding:12px 14px;background:var(--bg3);border-top:1px solid var(--border)}
+.finisher-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--txt2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.finisher-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;padding:12px 12px;background:var(--bg4);border-radius:8px}
 .finisher-item:last-child{margin-bottom:0}
-.finisher-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--txt)}
-.finisher-detail{font-size:13px;color:var(--txt2)}
-.finisher-tip{font-size:12px;color:var(--txt3);margin-top:3px}
+.finisher-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--txt)}
+.finisher-detail{font-size:14px;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.finisher-tip{font-size:13px;color:var(--txt2);margin-top:4px;line-height:1.5}
 /* CIRCUIT */
 .circuit-info{padding:12px 14px;background:var(--accent3);border:1px solid var(--accent2);border-radius:var(--r2);margin:0 16px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
 .circuit-stat{font-family:'Barlow Condensed',sans-serif}
@@ -185,8 +185,9 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Barlow'
 .stat-lbl{font-size:13px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
 .stat-change{font-size:13px;color:var(--green);font-weight:600;margin-top:3px}
 .stat-change.neg{color:var(--red)}
-.chart-container{margin:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
-.chart-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px}
+.chart-container{margin:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px;min-height:220px}
+.chart-container canvas{display:block;width:100%!important;height:180px!important}
+.chart-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;margin-bottom:14px}
 /* WEIGHT LOG */
 .weight-log-btn{margin:0 16px 16px;padding:14px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;-webkit-appearance:none;width:calc(100%-32px)}
 .log-weight-form{padding:14px;background:var(--bg3);border-top:1px solid var(--border);display:none}
@@ -916,7 +917,7 @@ function init() {
   renderDayGrid();
   renderWorkout();
   renderDiet();
-  renderProgress();
+  renderProgressStats(); // stats only — no chart (canvas is hidden at init)
   loadConfig();
   updateHeader();
   updateGoalBar();
@@ -953,7 +954,11 @@ function showScreen(name, btn) {
   document.getElementById('screen-' + name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   (btn || document.querySelector(`[data-screen="${name}"]`)).classList.add('active');
-  if (name === 'progresso') renderProgress();
+  if (name === 'progresso') {
+    renderProgressStats();
+    // Defer chart render until screen is visually active (canvas has real dimensions)
+    setTimeout(() => renderWeightChart(), 60);
+  }
 }
 
 // ==================== HEADER ====================
@@ -1012,7 +1017,7 @@ function renderDayGrid() {
   renderPhaseInfo();
   const ph = PHASES[state.currentPhase];
   const c = document.getElementById('day-grid');
-  const dayNames = {A:'Peito\nCostas',B:'Pernas\nGlúteos',C:'Ombros\nBraços',D:'Full\nBody',E:'Core\nLombar'};
+  const dayNames = {A:'Peito\nBíceps',B:'Pernas\nGlúteos',C:'Ombros\nTríceps',D:'Costas\nPanturrilha',E:'Core\nLombar'};
   c.innerHTML = Object.keys(ph.days).map(d => {
     const day = ph.days[d];
     return `<button class="day-btn ${state.currentDay==d?'active':''} ${day.optional?'optional':''}"
@@ -1067,12 +1072,21 @@ function renderWorkout() {
   if (day.isCircuit) {
     html += renderCircuit(day);
   } else {
+    // Superset explanation banner
+    const isTri = (day.groups||[]).some(g => g.exercises.length >= 3);
+    html += `<div style="margin:0 16px 14px;padding:12px 14px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);border-radius:10px;border-left:4px solid #3b82f6">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:#3b82f6;margin-bottom:5px">${isTri ? '⚡ O que é Tri-Set?' : '⚡ O que é Superset?'}</div>
+      <div style="font-size:14px;color:var(--txt2);line-height:1.55">${isTri
+        ? 'Execute os <strong style="color:var(--txt)">3 exercícios em sequência</strong>, sem parar entre eles. Descanse só após terminar os 3. Isso aumenta muito o gasto calórico e economiza tempo.'
+        : 'Execute os <strong style="color:var(--txt)">2 exercícios em sequência</strong>, sem parar entre eles. Descanse só após terminar os 2. Isso aumenta o gasto calórico e economiza tempo de treino.'
+      }</div>
+    </div>`;
     html += '<div class="workout-block">';
     (day.groups||[]).forEach(g => { html += renderSuperset(g); });
     if (day.finishers?.length) {
       html += `<div class="superset-card"><div class="finisher-block" style="padding-top:0">
-        <div style="padding:10px 14px;border-bottom:1px solid var(--border)">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">Finalizadores (Core + Lombar)</span>
+        <div style="padding:12px 14px;border-bottom:1px solid var(--border)">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800">🏁 Finalizadores</span>
         </div>
         ${day.finishers.map(f => `
           <div class="finisher-item" style="margin:10px 0 0">
@@ -1097,25 +1111,27 @@ function renderWorkout() {
 
 function renderSuperset(g) {
   const isTriset = g.exercises.length >= 3;
+  const n = g.exercises.length;
   return `<div class="superset-card">
     <div class="superset-header">
       <span class="superset-label">${g.label}</span>
-      <span class="superset-tag">${isTriset?'TRI-SET':'SUPERSET'} · ${g.restAfter} descanso</span>
+      <span class="superset-tag">${isTriset?`${n} exercícios seguidos`:'2 exercícios seguidos'} · ${g.restAfter} descanso</span>
     </div>
-    ${g.exercises.map(ex => renderExercise(ex)).join('')}
+    ${g.exercises.map((ex,i) => renderExercise(ex, i+1, n)).join('')}
   </div>`;
 }
 
-function renderExercise(ex) {
+function renderExercise(ex, orderNum, totalInGroup) {
   const lastW = getLastExerciseWeight(ex.name);
   const placeholder = lastW ? lastW.toString() : 'kg';
   const setsArr = Array.from({length: ex.sets}, (_,i) => i);
+  const orderLabel = orderNum && totalInGroup > 1 ? `<span style="font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--bg3);color:var(--txt2);margin-right:4px">${orderNum}°</span>` : '';
   return `<div class="exercise-block">
     <div class="exercise-name">
-      ${ex.name}
-      ${ex.alert ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : ''}
+      ${orderLabel}${ex.name}
+      ${ex.alert ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : ''}
     </div>
-    <div class="exercise-meta">${ex.sets} séries · ${ex.reps} reps · após superset: ${ex.rest||'ver superset'}</div>
+    <div class="exercise-meta">${ex.sets} séries × ${ex.reps} reps</div>
     ${lastW ? `<div class="last-weight">↑ Último registro: ${lastW}kg</div>` : ''}
     ${ex.tip ? `<div class="exercise-tip ${ex.alert?'alert-tip':''}">${ex.tip}</div>` : ''}
     <div class="sets-table">
@@ -1285,7 +1301,8 @@ function logWeight() {
   saveData();
   updateHeader();
   updateGoalBar();
-  renderProgress();
+  renderProgressStats();
+  setTimeout(() => renderWeightChart(), 60);
   document.getElementById('weight-input-val').value = '';
   showToast('Peso registrado: ' + val + 'kg', 'success');
   // Close form
@@ -1300,7 +1317,7 @@ function toggleWeightLog(hdr) {
   if (ch) ch.classList.toggle('open', f.classList.contains('open'));
 }
 
-function renderProgress() {
+function renderProgressStats() {
   const current = getLastWeight();
   const lost = Math.max(0, 93 - current).toFixed(1);
   const pct = Math.min(100, (lost / 10 * 100)).toFixed(0);
@@ -1312,7 +1329,6 @@ function renderProgress() {
   document.getElementById('stat-workouts').textContent = state.workoutHistory.length;
   document.getElementById('stat-days').textContent = Math.max(0, daysLeft);
 
-  // Change indicator
   const prev = state.weightHistory.length > 1 ? state.weightHistory[state.weightHistory.length - 2].weight : null;
   if (prev) {
     const diff = (current - prev).toFixed(1);
@@ -1321,8 +1337,12 @@ function renderProgress() {
     el.className = 'stat-change' + (diff <= 0 ? '' : ' neg');
   }
 
-  renderWeightChart();
   renderHistoryList();
+}
+
+function renderProgress() {
+  renderProgressStats();
+  renderWeightChart();
 }
 
 function renderWeightChart() {
@@ -1332,14 +1352,14 @@ function renderWeightChart() {
   if (weightChart) weightChart.destroy();
 
   if (!data.length) {
-    // Show placeholder
     weightChart = new Chart(ctx, {
       type: 'line',
-      data: { labels: ['Início', 'Meta'], datasets: [{
+      data: { labels: ['Início', 'Meta (dez/2026)'], datasets: [{
+        label: 'Objetivo: 93kg → 83kg',
         data: [93, 83], borderColor: '#f97316', pointBackgroundColor: '#f97316',
-        fill: true, backgroundColor: 'rgba(249,115,22,.08)', tension: .4
+        fill: true, backgroundColor: 'rgba(249,115,22,.08)', tension: .4, pointRadius: 5
       }]},
-      options: chartOpts('Meta: 83kg até dezembro')
+      options: chartOpts()
     });
     return;
   }
@@ -1374,13 +1394,14 @@ function chartOpts(subtitle) {
   return {
     responsive: true, maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, labels: { color: '#a0a0a0', font: { family: 'Barlow', size: 11 }, boxWidth: 20, padding: 10 } },
+      legend: { display: true, labels: { color: '#b8b8b8', font: { family: 'Barlow', size: 12 }, boxWidth: 20, padding: 12 } },
       tooltip: { backgroundColor: '#161616', borderColor: '#2e2e2e', borderWidth: 1,
-        titleColor: '#fff', bodyColor: '#a0a0a0', titleFont: { family: 'Barlow Condensed', size: 13, weight: 700 } }
+        titleColor: '#fff', bodyColor: '#b8b8b8', titleFont: { family: 'Barlow Condensed', size: 14, weight: 700 },
+        bodyFont: { family: 'Barlow', size: 13 }, padding: 10 }
     },
     scales: {
-      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#555', font: { family: 'Barlow', size: 10 } } },
-      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#555', font: { family: 'Barlow', size: 10 } },
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#707070', font: { family: 'Barlow', size: 11 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#707070', font: { family: 'Barlow', size: 11 } },
         min: 78, max: 96 }
     }
   };
