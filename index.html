@@ -505,27 +505,27 @@ const PHASES = {
   1: {
     name:"Fase 1", subtitle:"Base Metabólica", color:"#3b82f6",
     period:"Maio — Junho 2026", weeks:"8 semanas",
-    goal:"Adaptação muscular, criar consistência e iniciar o déficit calórico. Foco em executar os movimentos com perfeição.",
-    tips:["Foque na FORMA — peso vem depois","Controle a descida em 2-3 segundos (excêntrica)","Aumente 2,5kg quando completar todas as séries com facilidade","Descanso entre supersets: 60s — respeite esse tempo"],
+    goal:"Aprender os movimentos com perfeição, criar consistência e iniciar o déficit calórico. Supersets elevam a frequência cardíaca e aumentam o gasto calórico dentro dos 45 minutos.",
+    tips:["Foque na FORMA — peso vem depois","Excêntrica de 3s na descida, subida explosiva","Aumente 2,5kg quando completar todas as reps com facilidade","Descanso entre supersets: respeite o tempo indicado"],
     days:{
-      A:{name:"Peito + Costas", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
+      A:{name:"Peito + Bíceps", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Supino — Smith Machine",sets:4,reps:"10-12",tip:"Controle a descida 3s. Cotovelos a ~75° do tronco, não abrir demais."},
-            {name:"Remada Sentada — Máquina",sets:4,reps:"10-12",tip:"Puxe pelos cotovelos, não pelas mãos. Tronco ereto, peito alto."}
+            {name:"Supino Inclinado 30° — Smith Machine",sets:4,reps:"10-12",tip:"Inclinação 30° ativa a parte superior do peitoral. Cotovelos a ~75°, descida 3s controlada."},
+            {name:"Rosca Scott — Banco Scott ou Barra EZ",sets:4,reps:"10-12",tip:"Cotovelos fixos no suporte. Isola completamente o bíceps. Não solte no fundo — mantenha tensão."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Crossover — Cabo Alto",sets:3,reps:"12-15",tip:"Braços levemente flexionados. Cruzar as mãos na frente do peito no final."},
-            {name:"Pulldown — Polia Aberta",sets:3,reps:"12-15",tip:"Cotovelos para baixo e para trás. Expanda o peito, contraia as costas."}
+            {name:"Crossover — Cabo Baixo",sets:3,reps:"12-15",tip:"Cabo na cintura ou abaixo. Braços cruzam na altura do peito — ativa fibras inferiores do peitoral."},
+            {name:"Rosca Martelo — Cabo ou Haltere",sets:3,reps:"12-15",tip:"Polegar aponta para cima. Trabalha o braquial e braquiorradial além do bíceps. Sem balanço de tronco."}
           ]},
           {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"15",tip:"Squeeze 1 segundo no fechamento. Abrir até sentir o alongamento."},
-            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"15",tip:"Braços ligeiramente flexionados, cotovelos altos. Aperta as escápulas."}
+            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"15",tip:"Squeeze 1s no fechamento. Abrir até sentir o alongamento. Não rebater no final."},
+            {name:"Rosca Inclinada — Haltere",sets:3,reps:"15",tip:"Banco a 45-60°. Braço fica atrás do corpo — máximo alongamento e recrutamento do bíceps longo."}
           ]}
         ],
         finishers:[
-          {name:"Prancha Abdominal",sets:3,reps:"45s",tip:"Core ativado. Não deixe o quadril cair nem subir demais."},
-          {name:"Dead Bug",sets:3,reps:"10 cada lado",tip:"⚠️ LOMBAR COLADA NO CHÃO o tempo todo. Excelente para fortalecer o core sem sobrecarregar a hérnia.",alert:true}
+          {name:"Rosca 21",sets:3,reps:"21 reps (7+7+7)",tip:"7 reps na metade inferior, 7 reps na metade superior, 7 reps completas. Usa barra EZ ou halteres leves."},
+          {name:"Prancha Abdominal",sets:3,reps:"45s",tip:"Core ativado. Não deixe o quadril cair nem subir demais."}
         ]
       },
       B:{name:"Pernas + Glúteos", warmup:"5 min bicicleta ergométrica",
@@ -548,19 +548,19 @@ const PHASES = {
           {name:"Bird Dog — 4 Apoios",sets:3,reps:"10 cada lado",tip:"⚠️ CORE FIRME — braço e perna opostos. Fortalece lombar e glúteos sem carga axial. Ideal para hérnia.",alert:true}
         ]
       },
-      C:{name:"Ombros + Braços", warmup:"5 min mobilidade: rotações de ombro + círculos de braço",
+      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade: rotações de ombro + círculos de braço",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Desenvolvimento — Máquina",sets:4,reps:"10-12",tip:"Não trave o cotovelo no topo. Mantenha tensão durante todo o movimento."},
-            {name:"Rosca Direta — Barra EZ ou Cabo",sets:4,reps:"12",tip:"Cotovelos fixos ao lado do tronco. Zero balanço de tronco."}
+            {name:"Desenvolvimento — Máquina",sets:4,reps:"10-12",tip:"Não trave o cotovelo no topo. Mantenha tensão durante todo o movimento. Cotovelos a 90° na descida."},
+            {name:"Tríceps Testa — Barra EZ",sets:4,reps:"10-12",tip:"Cotovelos apontam para o teto, fixos. Baixa até a testa. Isola o tríceps com segurança para o ombro."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Elevação Lateral — Halteres",sets:3,reps:"15",tip:"Cotovelo levemente flexionado. Polegar ligeiramente para baixo. Sem solavancos — movimento limpo."},
-            {name:"Tríceps Corda — Cabo",sets:3,reps:"15",tip:"Abra as pontas da corda no final da extensão. Cotovelos fixos ao lado do corpo."}
+            {name:"Elevação Lateral — Cabo",sets:3,reps:"15",tip:"Cabo oferece tensão constante em todo o arco do movimento — mais efetivo que haltere. Cotovelo levemente flexionado."},
+            {name:"Tríceps Corda — Cabo",sets:3,reps:"15",tip:"Abra as pontas da corda no final da extensão. Cotovelos fixos ao lado do corpo. Squeeze no final."}
           ]},
           {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Face Pull — Cabo (corda)",sets:3,reps:"15",tip:"PRIORITÁRIO para saúde do manguito e postura. Cotovelos altos, puxe até as orelhas. Rotação externa."},
-            {name:"Rosca Martelo — Halteres",sets:3,reps:"12",tip:"Polegar aponta para cima durante todo o movimento. Trabalha o braquial."}
+            {name:"Face Pull — Cabo (corda)",sets:3,reps:"15",tip:"PRIORITÁRIO para saúde do manguito e postura. Cotovelos altos, puxe até as orelhas. Rotação externa no final."},
+            {name:"Tríceps Coice — Cabo Unilateral",sets:3,reps:"12 cada lado",tip:"Tronco inclinado 45°, braço paralelo ao chão. Extends o cotovelo completamente. Squeeze 1s no topo."}
           ]}
         ],
         finishers:[
@@ -568,15 +568,24 @@ const PHASES = {
           {name:"Superman — Colchão",sets:3,reps:"15",tip:"Extensão lombar lenta e controlada. Segure 2s no topo. Fortalece o erector spinae sem carga axial."}
         ]
       },
-      D:{name:"Full Body Metabólico", warmup:"5 min esteira leve",
-        isCircuit:true, rounds:4, workTime:40, restTime:20, roundRest:120,
-        exercises:[
-          {name:"Goblet Squat — Haltere",tip:"Haltere no peito. Joelhos seguem a ponta do pé. Lombar NEUTRA — sem hiperextensão."},
-          {name:"Remada Unilateral — Cabo",tip:"Alterne os lados a cada round. Tronco fixo, cotovelo puxado para trás."},
-          {name:"Push Up (Flexão de Braço)",tip:"Adaptação: use banco inclinado se necessário. Core firme, cotovelos a 45°."},
-          {name:"Step Up — Banco ou Caixa",tip:"Alterne pernas. Empurre pelo calcanhar da perna que está no banco."},
-          {name:"Face Pull — Cabo",tip:"Cotovelos altos, postura ativa. Não relaxe entre rodadas."},
-          {name:"Prancha com Alcance Alternado",tip:"Quadril NÃO gira. Core firme. Alcance lento e controlado."}
+      D:{name:"Costas + Panturrilha", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
+        groups:[
+          {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
+            {name:"Remada Sentada — Cabo (barra reta)",sets:4,reps:"10-12",tip:"Puxe pelos cotovelos, não pelas mãos. Tronco ereto, peito alto. Aperta as escápulas no final."},
+            {name:"Panturrilha em Pé — Máquina",sets:4,reps:"15-20",tip:"Amplitude completa: desça até sentir o alongamento. Segure 1s no topo. Baixe devagar (3s)."}
+          ]},
+          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
+            {name:"Pulldown — Polia Aberta",sets:3,reps:"12",tip:"Cotovelos para baixo e para trás. Expanda o peito, contraia as dorsais. Não use momentum."},
+            {name:"Remada Máquina — Apoio no Peito",sets:3,reps:"12",tip:"Peito apoiado elimina o trapézio da equação. Foco total nas dorsais e rombóides."}
+          ]},
+          {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
+            {name:"Pullover — Polia Baixa",sets:3,reps:"12-15",tip:"Braços quase retos, arco amplo. Trabalha a dorsal no comprimento total. Segure 1s na contração."},
+            {name:"Pulldown — Braço Reto (corda ou barra)",sets:3,reps:"12-15",tip:"Puxe a corda de cima para baixo com os braços retos. Mantém a dorsal em tensão constante."}
+          ]}
+        ],
+        finishers:[
+          {name:"Panturrilha Sentado — Máquina",sets:3,reps:"20",tip:"A panturrilha sentada (sóleo) só é ativada com o joelho flexionado. Complementa a em pé."},
+          {name:"Dead Bug",sets:3,reps:"10 cada lado",tip:"⚠️ LOMBAR COLADA NO CHÃO o tempo todo. Excelente para fortalecer o core sem sobrecarregar a hérnia.",alert:true}
         ]
       },
       E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
@@ -602,19 +611,19 @@ const PHASES = {
     goal:"Aumento de volume e intensidade. Drop sets, menor descanso, maior sobrecarga progressiva para acelerar a queima de gordura.",
     tips:["Descanso reduzido: 45s entre supersets","Adicione 1 drop set na última série de cada Superset C","Aumente o peso 5-10% em relação à Fase 1","Agora deve estar mais difícil — isso é o sinal certo"],
     days:{
-      A:{name:"Peito + Costas", warmup:"5 min esteira — 7km/h",
+      A:{name:"Peito + Bíceps", warmup:"5 min esteira — 7km/h",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Supino Inclinado — Smith Machine",sets:4,reps:"8-10",tip:"Inclinação 30-45°. Foca na parte superior do peitoral. Mais intenso que o plano."},
-            {name:"Remada no Cabo — Barra Reta",sets:4,reps:"10",tip:"Cotovelos colados ao corpo. Contrai escápulas no final."}
+            {name:"Supino Inclinado 30° — Smith Machine",sets:4,reps:"8-10",tip:"Aumente o peso vs Fase 1. Inclinação 30° foca na parte superior do peitoral. Excêntrica 3s."},
+            {name:"Rosca Scott Unilateral — Cabo",sets:4,reps:"10 cada",tip:"Unilateral corrige desequilíbrios. Cabo garante tensão mesmo no fundo do movimento."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Crossover — Cabo Baixo",sets:3,reps:"12",tip:"Cabo na altura da cintura ou mais baixo. Foca na parte inferior do peitoral."},
-            {name:"Pulldown — Pegada Supinada",sets:3,reps:"12",tip:"Pegada com palmas para cima. Trabalha mais o bíceps e dorsais baixos."}
+            {name:"Crossover — Cabo Baixo",sets:3,reps:"12",tip:"Mais pesado que Fase 1. Foca na porção inferior e esternal do peitoral. Braços levemente fletidos."},
+            {name:"Rosca Concentrada — Haltere",sets:3,reps:"12",tip:"Cotovelo no joelho. Máxima concentração no pico do bíceps. Supine o punho no topo."}
           ]},
           {type:"superset",label:"Superset C + Drop Set",restAfter:"60s",exercises:[
-            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"12 + drop",tip:"Nas 3 séries, na última faça um drop set: reduza 30% do peso e execute até a falha."},
-            {name:"Remada Máquina — Pegada Fechada",sets:3,reps:"12 + drop",tip:"Drop set na última série. Pegada neutra (paralela) — ativa mais o rombóide."}
+            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"12 + drop",tip:"Nas 3 séries, na última faça drop set: reduza 30% do peso e execute até a falha."},
+            {name:"Rosca Direta — Barra EZ",sets:3,reps:"12 + drop",tip:"Drop set na última série. Mantenha cotovelos fixos — zero balanço de tronco."}
           ]}
         ],
         finishers:[
@@ -642,19 +651,19 @@ const PHASES = {
           {name:"Agachamento Goblet — Isométrico",sets:3,reps:"30s",tip:"Desça e segure a posição por 30s. Queima intensa. Core firme."}
         ]
       },
-      C:{name:"Ombros + Braços", warmup:"5 min mobilidade + 1 série de aquecimento leve em cada exercício",
+      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade + 1 série de aquecimento leve em cada exercício",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
             {name:"Desenvolvimento Arnold — Halteres",sets:4,reps:"10-12",tip:"Rotação do punho: começa com palmas para dentro, termina com palmas para frente. Mais amplitude."},
-            {name:"Rosca Scott — Banco Scott ou Cabo",sets:4,reps:"10-12",tip:"Cotovelos fixos no suporte. Isola completamente o bíceps."}
+            {name:"Tríceps Francês — Haltere ou EZ",sets:4,reps:"10-12",tip:"Cotovelos apontando para o teto. Não abra os cotovelos. Amplitude completa. Mais carga vs Fase 1."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
             {name:"Elevação Lateral — Cabo",sets:3,reps:"15",tip:"Cabo oferece tensão constante durante todo o movimento — mais efetivo que haltere."},
-            {name:"Tríceps Francês — Haltere ou EZ",sets:3,reps:"12",tip:"Cotovelos apontando para o teto. Não abra os cotovelos. Amplitude completa."}
+            {name:"Tríceps Corda — Cabo",sets:3,reps:"15",tip:"Abra as pontas no final. Aumente a carga vs Fase 1. Cotovelos fixos ao corpo."}
           ]},
           {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
             {name:"Face Pull — Cabo (corda)",sets:3,reps:"15 + drop",tip:"NUNCA abandone esse exercício — saúde do ombro é prioritária. Drop set na última série."},
-            {name:"Rosca Concentrada — Haltere",sets:3,reps:"12 + drop",tip:"Cotovelo no joelho. Máxima concentração no pico do bíceps."}
+            {name:"Tríceps Coice — Haltere (banco inclinado)",sets:3,reps:"12 + drop",tip:"Apoiado no banco inclinado. Cotovelo paralelo ao tronco, extends completamente. Drop set na última."}
           ]}
         ],
         finishers:[
@@ -662,15 +671,24 @@ const PHASES = {
           {name:"Superman com Haltere Leve",sets:3,reps:"12",tip:"Segure um haltere leve nas mãos estendidas. Mesmo movimento controlado."}
         ]
       },
-      D:{name:"Full Body Metabólico — Alta Intensidade", warmup:"5 min esteira leve",
-        isCircuit:true, rounds:5, workTime:40, restTime:15, roundRest:90,
-        exercises:[
-          {name:"Agachamento com Salto",tip:"Desça, exploda para cima. Se sentir dor lombar, volte para o Goblet Squat sem salto."},
-          {name:"Remada Unilateral — Haltere",tip:"Apoie no banco para estabilizar. Tronco paralelo ao chão."},
-          {name:"Push Up Explosivo",tip:"Empurre forte o suficiente para as mãos saírem do chão. Adaptação: push up convencional."},
-          {name:"Step Up Rápido — Caixa",tip:"Pace rápido alternando as pernas. Explosão na subida."},
-          {name:"Remada Alta — Halteres",tip:"Halteres sobem até o queixo. Cotovelos acima dos ombros."},
-          {name:"Mountain Climber",tip:"Core firme, quadril NÃO sobe. Joelhos chegam rápido ao peito."}
+      D:{name:"Costas + Panturrilha — Intensificação", warmup:"5 min esteira — 7km/h",
+        groups:[
+          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
+            {name:"Remada no Cabo — Barra Reta",sets:4,reps:"10",tip:"Cotovelos colados ao corpo. Contrai escápulas no final. Aumente 5-10% vs Fase 1."},
+            {name:"Panturrilha em Pé — Máquina (Unilateral)",sets:4,reps:"15 cada",tip:"Unilateral corrige desequilíbrios. Amplitude máxima — descida lenta (3s), subida explosiva."}
+          ]},
+          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
+            {name:"Pulldown — Pegada Supinada",sets:3,reps:"12",tip:"Pegada com palmas para cima. Trabalha mais o bíceps e dorsais baixos. Mais carga que Fase 1."},
+            {name:"Remada Máquina — Pegada Fechada (neutra)",sets:3,reps:"12",tip:"Pegada neutra (paralela) — ativa mais o rombóide. Peito no apoio para eliminar trapézio."}
+          ]},
+          {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
+            {name:"Pullover — Polia Baixa",sets:3,reps:"12 + drop",tip:"Drop set na última série. Reduza 30% e execute até a falha. Mantenha os braços quase retos."},
+            {name:"Panturrilha Sentado — Máquina",sets:3,reps:"20 + drop",tip:"Drop set na última: reduza o peso e continue. Sóleo em chamas — músculos diferentes da em pé."}
+          ]}
+        ],
+        finishers:[
+          {name:"Glute Bridge Unilateral — Colchão",sets:3,reps:"15 cada lado",tip:"Uma perna no ar. Mais difícil e mais isolado. Segure 2s no topo. Lombar neutra."},
+          {name:"Dead Bug com Bola Medicinal",sets:3,reps:"10 cada lado",tip:"Segure a bola entre a mão e o joelho opostos durante o movimento."}
         ]
       },
       E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
@@ -696,17 +714,17 @@ const PHASES = {
     goal:"Máxima definição para dezembro. Tri-sets, alto volume, reps altas, menor descanso. O corpo já está adaptado — hora de extrair o máximo.",
     tips:["TRI-SETS: 3 exercícios sem pausa entre eles","Descanso entre tri-sets: 45-60s APENAS","Reps: 15-20 para máxima densidade e pump","Aumente as corridas para 35-40 min quando possível"],
     days:{
-      A:{name:"Peito + Costas", warmup:"5 min esteira — 7-8km/h",
+      A:{name:"Peito + Bíceps", warmup:"5 min esteira — 7-8km/h",
         groups:[
           {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
             {name:"Supino Smith Machine",sets:4,reps:"15",tip:"Peso moderado, volume alto. Foco na queima, não na força máxima."},
-            {name:"Pulldown — Polia Aberta",sets:4,reps:"15",tip:"Amplitude completa. Ritmo constante sem parar."},
-            {name:"Crossover — Cabo Alto",sets:4,reps:"15",tip:"Terceiro exercício do tri-set. Continue sem parar!"}
+            {name:"Crossover — Cabo Baixo",sets:4,reps:"15",tip:"Sem pausa entre exercícios do tri-set. Mantém a tensão no peitoral."},
+            {name:"Peck Deck — Crucifixo Máquina",sets:4,reps:"15",tip:"Terceiro exercício do tri-set. Continue sem parar! Squeeze em cada repetição."}
           ]},
           {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
-            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"20",tip:"Reps altas, peso leve-moderado. Squeeze a cada rep."},
-            {name:"Remada Sentada — Máquina",sets:3,reps:"20",tip:"Ritmo constante. Não relaxe a postura."},
-            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"20",tip:"Último exercício — vai queimar. Empurre até a falha na última série!"}
+            {name:"Rosca Scott — Barra EZ",sets:3,reps:"20",tip:"Reps altas, peso leve-moderado. Squeeze no pico de cada rep. Sem pausa."},
+            {name:"Rosca Martelo — Cabo",sets:3,reps:"20",tip:"Ritmo constante. Não solte a tensão entre as reps."},
+            {name:"Rosca Inclinada — Haltere",sets:3,reps:"15",tip:"Último exercício — vai queimar. Amplitude máxima — empurre até a falha na última série!"}
           ]}
         ],
         finishers:[
@@ -732,17 +750,17 @@ const PHASES = {
           {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
         ]
       },
-      C:{name:"Ombros + Braços", warmup:"5 min mobilidade + aquecimento",
+      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade + aquecimento",
         groups:[
           {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
             {name:"Desenvolvimento Máquina",sets:4,reps:"15",tip:"Peso moderado. Ritmo constante durante o tri-set."},
             {name:"Elevação Lateral — Cabo",sets:4,reps:"15",tip:"Tensão constante no cabo. Sem pausa."},
-            {name:"Rosca Direta — Barra EZ",sets:4,reps:"15",tip:"Terceiro exercício — continua sem parar!"}
+            {name:"Elevação Frontal — Cabo",sets:4,reps:"15",tip:"Terceiro exercício — continua sem parar! Foco nos deltóides anteriores."}
           ]},
           {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
-            {name:"Tríceps Corda — Cabo",sets:3,reps:"20",tip:"Volume máximo. Bíceps e tríceps vão estar bombeados."},
+            {name:"Tríceps Corda — Cabo",sets:3,reps:"20",tip:"Volume máximo. Tríceps em chamas. Sem pausa entre os exercícios."},
             {name:"Face Pull — Cabo",sets:3,reps:"20",tip:"Prioridade mantida mesmo na Fase 3. Saúde do ombro em dia."},
-            {name:"Rosca Martelo — Halteres",sets:3,reps:"15",tip:"Finalizou — DESCANSO de 45s."}
+            {name:"Tríceps Coice — Haltere",sets:3,reps:"15",tip:"Finalizou — DESCANSO de 45s. Cotovelo paralelo ao tronco no topo."}
           ]}
         ],
         finishers:[
@@ -750,15 +768,22 @@ const PHASES = {
           {name:"Superman Pulsado",sets:3,reps:"20",tip:"No topo da extensão, faça pulsos rápidos de 10cm. Intensifica a ativação do erector spinae."}
         ]
       },
-      D:{name:"Full Body Metabólico — Peak", warmup:"5 min esteira",
-        isCircuit:true, rounds:5, workTime:45, restTime:15, roundRest:60,
-        exercises:[
-          {name:"Agachamento Goblet com Pausa",tip:"Desça, segure 2s na posição mais baixa, suba rápido. Lombar neutra."},
-          {name:"Remada Unilateral — Cabo",tip:"Explosão na puxada, controlado na volta. Alterne os lados."},
-          {name:"Push Up Inclinado → Normal → Declinado",tip:"Primeiro 15s inclinado, depois 15s normal, depois 15s declinado — se conseguir."},
-          {name:"Step Up com Joelho",tip:"Suba e levante o joelho oposto até a altura do quadril. Equilíbrio e core."},
-          {name:"Y-T-W com Halteres Leves",tip:"Em pé, inclinado ou no banco. Movimentos em Y, T e W para o deltóide posterior."},
-          {name:"Abdominal Bicicleta",tip:"Cotovelo no joelho oposto. Lento e controlado — não é corrida!"}
+      D:{name:"Costas + Panturrilha — Peak", warmup:"5 min esteira — 7-8km/h",
+        groups:[
+          {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
+            {name:"Remada Sentada — Cabo",sets:4,reps:"15",tip:"Peso moderado, volume alto. Mantém as costas em tensão constante durante todo o tri-set."},
+            {name:"Pulldown — Polia Aberta",sets:4,reps:"15",tip:"Sem pausa. Cotovelos para baixo e para trás. Expanda o peito."},
+            {name:"Pullover — Polia Baixa",sets:4,reps:"15",tip:"Terceiro do tri-set. Braços quase retos, arco amplo. Continue sem parar!"}
+          ]},
+          {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
+            {name:"Remada Máquina — Apoio no Peito",sets:3,reps:"20",tip:"Reps altas, foco no rombóide e dorsais. Sem pausa entre os exercícios."},
+            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"20",tip:"Deltóides posteriores e rombóides. Ritmo constante."},
+            {name:"Panturrilha em Pé — Máquina",sets:3,reps:"25",tip:"Finalizou o tri-set! Amplitude total — DESCANSO de 45s agora."}
+          ]}
+        ],
+        finishers:[
+          {name:"Panturrilha Sentado — Máquina",sets:3,reps:"25",tip:"Sóleo em chamas. Amplitude máxima. Descida lenta, subida explosiva. Pré-dezembro = máxima queima."},
+          {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
         ]
       },
       E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
@@ -1372,7 +1397,7 @@ function renderHistoryList() {
   }
 
   const recent = [...state.workoutHistory].reverse().slice(0, 20);
-  const dayNames = {A:'Peito + Costas',B:'Pernas + Glúteos',C:'Ombros + Braços',D:'Full Body',E:'Core + Lombar'};
+  const dayNames = {A:'Peito + Bíceps',B:'Pernas + Glúteos',C:'Ombros + Tríceps',D:'Costas + Panturrilha',E:'Core + Lombar'};
 
   c.innerHTML = recent.map(w => {
     const dt = new Date(w.date);
