@@ -529,7 +529,7 @@ const PHASES = {
           {name:"Prancha Abdominal",sets:3,reps:"45s",tip:"Core ativado. Não deixe o quadril cair nem subir demais."}
         ]
       },
-      B:{name:"Pernas + Glúteos", warmup:"5 min bicicleta ergométrica",
+      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"75s",exercises:[
             {name:"Leg Press Horizontal / Sled",sets:4,reps:"12",tip:"⚠️ NUNCA use o Leg Press 45° — pressão axial na lombar agrava a hérnia. Use APENAS o horizontal ou o sled.",alert:true},
@@ -545,6 +545,7 @@ const PHASES = {
           ]}
         ],
         finishers:[
+          {name:"Panturrilha em Pé — Máquina",sets:3,reps:"15-20",tip:"Amplitude completa: desça até sentir o alongamento. Segure 1s no topo. Baixe devagar (3s)."},
           {name:"Glute Bridge — Colchão",sets:3,reps:"20",tip:"Segure 2s no topo. Ative o glúteo, não a lombar."},
           {name:"Bird Dog — 4 Apoios",sets:3,reps:"10 cada lado",tip:"⚠️ CORE FIRME — braço e perna opostos. Fortalece lombar e glúteos sem carga axial. Ideal para hérnia.",alert:true}
         ]
@@ -569,23 +570,22 @@ const PHASES = {
           {name:"Superman — Colchão",sets:3,reps:"15",tip:"Extensão lombar lenta e controlada. Segure 2s no topo. Fortalece o erector spinae sem carga axial."}
         ]
       },
-      D:{name:"Costas + Panturrilha", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
+      D:{name:"Costas", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
             {name:"Remada Sentada — Cabo (barra reta)",sets:4,reps:"10-12",tip:"Puxe pelos cotovelos, não pelas mãos. Tronco ereto, peito alto. Aperta as escápulas no final."},
-            {name:"Panturrilha em Pé — Máquina",sets:4,reps:"15-20",tip:"Amplitude completa: desça até sentir o alongamento. Segure 1s no topo. Baixe devagar (3s)."}
+            {name:"Remada Máquina — Apoio no Peito",sets:4,reps:"10-12",tip:"Peito apoiado elimina o trapézio. Foco total nas dorsais e rombóides. Varie a pegada."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
             {name:"Pulldown — Polia Aberta",sets:3,reps:"12",tip:"Cotovelos para baixo e para trás. Expanda o peito, contraia as dorsais. Não use momentum."},
-            {name:"Remada Máquina — Apoio no Peito",sets:3,reps:"12",tip:"Peito apoiado elimina o trapézio da equação. Foco total nas dorsais e rombóides."}
+            {name:"Pullover — Polia Baixa",sets:3,reps:"12-15",tip:"Braços quase retos, arco amplo. Trabalha a dorsal no comprimento total. Segure 1s na contração."}
           ]},
           {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Pullover — Polia Baixa",sets:3,reps:"12-15",tip:"Braços quase retos, arco amplo. Trabalha a dorsal no comprimento total. Segure 1s na contração."},
-            {name:"Pulldown — Braço Reto (corda ou barra)",sets:3,reps:"12-15",tip:"Puxe a corda de cima para baixo com os braços retos. Mantém a dorsal em tensão constante."}
+            {name:"Pulldown — Braço Reto (corda ou barra)",sets:3,reps:"12-15",tip:"Puxe a corda de cima para baixo com os braços retos. Mantém a dorsal em tensão constante."},
+            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"15",tip:"Deltóides posteriores e rombóides. Cotovelos altos, aperta as escápulas no final."}
           ]}
         ],
         finishers:[
-          {name:"Panturrilha Sentado — Máquina",sets:3,reps:"20",tip:"A panturrilha sentada (sóleo) só é ativada com o joelho flexionado. Complementa a em pé."},
           {name:"Dead Bug",sets:3,reps:"10 cada lado",tip:"⚠️ LOMBAR COLADA NO CHÃO o tempo todo. Excelente para fortalecer o core sem sobrecarregar a hérnia.",alert:true}
         ]
       },
@@ -632,7 +632,7 @@ const PHASES = {
           {name:"Dead Bug com Bola Medicinal",sets:3,reps:"10 cada lado",tip:"Segure a bola entre a mão e o joelho opostos durante o movimento."}
         ]
       },
-      B:{name:"Pernas + Glúteos", warmup:"5 min bicicleta ergométrica — carga média",
+      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica — carga média",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
             {name:"Leg Press Horizontal / Sled",sets:4,reps:"10",tip:"⚠️ Mesma regra: APENAS horizontal ou sled. Aumente o peso 5-10% vs Fase 1. Amplitude completa.",alert:true},
@@ -648,6 +648,7 @@ const PHASES = {
           ]}
         ],
         finishers:[
+          {name:"Panturrilha em Pé — Máquina (Unilateral)",sets:3,reps:"15 cada",tip:"Unilateral corrige desequilíbrios. Amplitude máxima — descida lenta (3s), subida explosiva."},
           {name:"Glute Bridge Unilateral — Colchão",sets:3,reps:"15 cada lado",tip:"Uma perna no ar. Mais difícil e mais isolado. Segure 2s no topo."},
           {name:"Agachamento Goblet — Isométrico",sets:3,reps:"30s",tip:"Desça e segure a posição por 30s. Queima intensa. Core firme."}
         ]
@@ -672,23 +673,22 @@ const PHASES = {
           {name:"Superman com Haltere Leve",sets:3,reps:"12",tip:"Segure um haltere leve nas mãos estendidas. Mesmo movimento controlado."}
         ]
       },
-      D:{name:"Costas + Panturrilha — Intensificação", warmup:"5 min esteira — 7km/h",
+      D:{name:"Costas — Intensificação", warmup:"5 min esteira — 7km/h",
         groups:[
           {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
             {name:"Remada no Cabo — Barra Reta",sets:4,reps:"10",tip:"Cotovelos colados ao corpo. Contrai escápulas no final. Aumente 5-10% vs Fase 1."},
-            {name:"Panturrilha em Pé — Máquina (Unilateral)",sets:4,reps:"15 cada",tip:"Unilateral corrige desequilíbrios. Amplitude máxima — descida lenta (3s), subida explosiva."}
+            {name:"Remada Máquina — Pegada Fechada (neutra)",sets:4,reps:"10",tip:"Pegada neutra (paralela) — ativa mais o rombóide. Peito no apoio para eliminar trapézio."}
           ]},
           {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
             {name:"Pulldown — Pegada Supinada",sets:3,reps:"12",tip:"Pegada com palmas para cima. Trabalha mais o bíceps e dorsais baixos. Mais carga que Fase 1."},
-            {name:"Remada Máquina — Pegada Fechada (neutra)",sets:3,reps:"12",tip:"Pegada neutra (paralela) — ativa mais o rombóide. Peito no apoio para eliminar trapézio."}
+            {name:"Pullover — Polia Baixa",sets:3,reps:"12",tip:"Braços quase retos, arco amplo. Trabalha a dorsal no comprimento total."}
           ]},
           {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
-            {name:"Pullover — Polia Baixa",sets:3,reps:"12 + drop",tip:"Drop set na última série. Reduza 30% e execute até a falha. Mantenha os braços quase retos."},
-            {name:"Panturrilha Sentado — Máquina",sets:3,reps:"20 + drop",tip:"Drop set na última: reduza o peso e continue. Sóleo em chamas — músculos diferentes da em pé."}
+            {name:"Pulldown — Braço Reto (corda ou barra)",sets:3,reps:"12 + drop",tip:"Drop set na última série. Puxe de cima para baixo com os braços retos. Tensão constante na dorsal."},
+            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"15 + drop",tip:"Deltóides posteriores e rombóides. Drop set na última série — empurre até a falha."}
           ]}
         ],
         finishers:[
-          {name:"Glute Bridge Unilateral — Colchão",sets:3,reps:"15 cada lado",tip:"Uma perna no ar. Mais difícil e mais isolado. Segure 2s no topo. Lombar neutra."},
           {name:"Dead Bug com Bola Medicinal",sets:3,reps:"10 cada lado",tip:"Segure a bola entre a mão e o joelho opostos durante o movimento."}
         ]
       },
@@ -733,7 +733,7 @@ const PHASES = {
           {name:"Dead Bug + Extensão de Braço",sets:3,reps:"12 cada lado",tip:"Variação mais avançada do Dead Bug clássico."}
         ]
       },
-      B:{name:"Pernas + Glúteos", warmup:"5 min bicicleta ergométrica — carga alta",
+      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica — carga alta",
         groups:[
           {type:"superset",label:"Tri-Set A",restAfter:"75s",exercises:[
             {name:"Leg Press Horizontal / Sled",sets:4,reps:"15",tip:"⚠️ Mantenha a regra do horizontal. Volume alto, técnica perfeita.",alert:true},
@@ -747,6 +747,7 @@ const PHASES = {
           ]}
         ],
         finishers:[
+          {name:"Panturrilha em Pé — Máquina",sets:3,reps:"25",tip:"Fase Peak — amplitude total, descida lenta (3s). Panturrilha definida para dezembro."},
           {name:"Glute Bridge Isométrico",sets:3,reps:"45s",tip:"Sobe e segura. 45s de contração isométrica de glúteo. Definição máxima."},
           {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
         ]
@@ -769,7 +770,7 @@ const PHASES = {
           {name:"Superman Pulsado",sets:3,reps:"20",tip:"No topo da extensão, faça pulsos rápidos de 10cm. Intensifica a ativação do erector spinae."}
         ]
       },
-      D:{name:"Costas + Panturrilha — Peak", warmup:"5 min esteira — 7-8km/h",
+      D:{name:"Costas — Peak", warmup:"5 min esteira — 7-8km/h",
         groups:[
           {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
             {name:"Remada Sentada — Cabo",sets:4,reps:"15",tip:"Peso moderado, volume alto. Mantém as costas em tensão constante durante todo o tri-set."},
@@ -779,11 +780,10 @@ const PHASES = {
           {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
             {name:"Remada Máquina — Apoio no Peito",sets:3,reps:"20",tip:"Reps altas, foco no rombóide e dorsais. Sem pausa entre os exercícios."},
             {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"20",tip:"Deltóides posteriores e rombóides. Ritmo constante."},
-            {name:"Panturrilha em Pé — Máquina",sets:3,reps:"25",tip:"Finalizou o tri-set! Amplitude total — DESCANSO de 45s agora."}
+            {name:"Pulldown — Braço Reto (corda)",sets:3,reps:"20",tip:"Finalizou o tri-set! Braços retos, puxe de cima para baixo. DESCANSO de 45s agora."}
           ]}
         ],
         finishers:[
-          {name:"Panturrilha Sentado — Máquina",sets:3,reps:"25",tip:"Sóleo em chamas. Amplitude máxima. Descida lenta, subida explosiva. Pré-dezembro = máxima queima."},
           {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
         ]
       },
@@ -1017,7 +1017,7 @@ function renderDayGrid() {
   renderPhaseInfo();
   const ph = PHASES[state.currentPhase];
   const c = document.getElementById('day-grid');
-  const dayNames = {A:'Peito\nBíceps',B:'Pernas\nGlúteos',C:'Ombros\nTríceps',D:'Costas\nPanturrilha',E:'Core\nLombar'};
+  const dayNames = {A:'Peito\nBíceps',B:'Pernas\nGeral',C:'Ombros\nTríceps',D:'Costas',E:'Core\nLombar'};
   c.innerHTML = Object.keys(ph.days).map(d => {
     const day = ph.days[d];
     return `<button class="day-btn ${state.currentDay==d?'active':''} ${day.optional?'optional':''}"
@@ -1418,7 +1418,7 @@ function renderHistoryList() {
   }
 
   const recent = [...state.workoutHistory].reverse().slice(0, 20);
-  const dayNames = {A:'Peito + Bíceps',B:'Pernas + Glúteos',C:'Ombros + Tríceps',D:'Costas + Panturrilha',E:'Core + Lombar'};
+  const dayNames = {A:'Peito + Bíceps',B:'Pernas Geral',C:'Ombros + Tríceps',D:'Costas',E:'Core + Lombar'};
 
   c.innerHTML = recent.map(w => {
     const dt = new Date(w.date);
