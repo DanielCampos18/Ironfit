@@ -2,1562 +2,198 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07050f">
+<meta name="description" content="IronFit — programa de treino, dieta e preparação para o torneio de beach tennis. Daniel Campos.">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <title>IronFit — Daniel Campos</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>
-:root {
-  --bg: #000;
-  --bg2: #0d0d0d;
-  --bg3: #161616;
-  --bg4: #1e1e1e;
-  --border: #242424;
-  --border2: #2e2e2e;
-  --txt: #fff;
-  --txt2: #b8b8b8;
-  --txt3: #707070;
-  --accent: #f97316;
-  --accent2: rgba(249,115,22,.15);
-  --accent3: rgba(249,115,22,.08);
-  --blue: #3b82f6;
-  --green: #22c55e;
-  --red: #ef4444;
-  --yellow: #eab308;
-  --purple: #8b5cf6;
-  --nav: 68px;
-  --safe: env(safe-area-inset-bottom, 0px);
-  --r: 14px;
-  --r2: 10px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;font-size:16px;line-height:1.5;overflow-x:hidden}
-#app{display:flex;flex-direction:column;height:100%;height:100dvh}
-/* NAV */
-#nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--bg2);border-top:1px solid var(--border);padding-bottom:var(--safe);display:flex;height:calc(var(--nav) + var(--safe))}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:8px 0;color:var(--txt3);transition:color .2s;border:none;background:none;-webkit-appearance:none}
-.nav-btn svg{width:22px;height:22px;stroke-width:1.8;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
-.nav-btn span{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif}
-.nav-btn.active{color:var(--accent)}
-/* HEADER */
-#header{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 16px 12px;flex-shrink:0}
-.header-row{display:flex;align-items:center;justify-content:space-between}
-.header-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--accent)}
-.header-sub{font-size:13px;color:var(--txt2);font-weight:500;letter-spacing:.5px}
-.header-meta{text-align:right}
-.header-weight{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700}
-.header-weight span{color:var(--accent)}
-/* PROGRESS BAR */
-.goal-bar{margin-top:10px}
-.goal-bar-track{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden}
-.goal-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:4px;transition:width .5s}
-.goal-bar-labels{display:flex;justify-content:space-between;margin-top:4px}
-.goal-bar-labels span{font-size:12px;color:var(--txt2);font-family:'Barlow Condensed',sans-serif}
-/* SCREENS */
-#screens{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav) + var(--safe) + 16px);padding-top:8px}
-.screen{display:none}
-.screen.active{display:block}
-/* SECTION */
-.section{padding:0 16px;margin-bottom:20px}
-.section-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--txt2);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;padding-top:4px}
-/* CARD */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
-.card-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:10px}
-.card-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;flex:1}
-.card-badge{font-size:12px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:20px;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;flex-shrink:0}
-.card-badge.blue{background:rgba(59,130,246,.15);color:var(--blue)}
-.card-badge.green{background:rgba(34,197,94,.15);color:var(--green)}
-.card-badge.purple{background:rgba(139,92,246,.15);color:var(--purple)}
-.card-badge.yellow{background:rgba(234,179,8,.15);color:var(--yellow)}
-/* PHASE SELECTOR */
-.phase-tabs{display:flex;gap:8px;padding:0 16px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.phase-tabs::-webkit-scrollbar{display:none}
-.phase-tab{flex-shrink:0;padding:8px 16px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--txt2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .2s;-webkit-appearance:none}
-.phase-tab.active{background:var(--accent);border-color:var(--accent);color:#000}
-/* DAY SELECTOR */
-.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 16px;margin-bottom:16px}
-.day-btn{padding:10px 4px;border-radius:var(--r2);border:1px solid var(--border2);background:var(--bg2);color:var(--txt2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;-webkit-appearance:none;display:flex;flex-direction:column;align-items:center;gap:2px}
-.day-btn .day-letter{font-size:20px;font-weight:800}
-.day-btn .day-label{font-size:12px;letter-spacing:.3px;text-align:center;line-height:1.3;font-weight:600}
-.day-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent3)}
-.day-btn.optional .day-letter{color:var(--purple)}
-/* WORKOUT CARD */
-.workout-block{padding:0 16px;margin-bottom:12px}
-.superset-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
-.superset-header{padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
-.superset-label{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--txt)}
-.superset-tag{font-size:13px;font-weight:700;padding:5px 12px;border-radius:10px;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif}
-.exercise-block{padding:14px 14px;border-bottom:1px solid var(--border)}
-.exercise-block:last-child{border-bottom:none}
-.exercise-name{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;margin-bottom:5px;display:flex;align-items:center;gap:6px;line-height:1.2}
-.exercise-meta{font-size:15px;color:var(--accent);margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700}
-.exercise-tip{font-size:14px;color:var(--txt2);margin-bottom:10px;line-height:1.55;padding:10px 12px;background:var(--bg3);border-radius:8px;border-left:3px solid var(--txt3)}
-.alert-tip{border-left-color:var(--red);color:var(--red)}
-.tip-label{font-weight:700;color:var(--txt2)}
-.sets-table{display:flex;flex-direction:column;gap:6px}
-.set-row{display:grid;grid-template-columns:32px 1fr 1fr 36px;gap:6px;align-items:center}
-.set-num{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--txt2);text-align:center}
-.set-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 6px;text-align:center;font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;color:var(--txt);-webkit-appearance:none;width:100%;min-width:0;transition:border-color .2s}
-.set-input:focus{outline:none;border-color:var(--accent)}
-.set-input::placeholder{color:var(--txt3);font-size:13px}
-.set-label{font-size:12px;color:var(--txt2);text-align:center;margin-top:2px}
-.set-check{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;-webkit-appearance:none}
-.set-check.done{background:var(--green);border-color:var(--green)}
-.set-check svg{width:16px;height:16px;stroke:var(--txt3);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.set-check.done svg{stroke:#000}
-.last-weight{font-size:13px;color:var(--accent);margin-bottom:8px;font-family:'Barlow Condensed',sans-serif}
-/* FINISHER */
-.finisher-block{padding:12px 14px;background:var(--bg3);border-top:1px solid var(--border)}
-.finisher-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--txt2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
-.finisher-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;padding:12px 12px;background:var(--bg4);border-radius:8px}
-.finisher-item:last-child{margin-bottom:0}
-.finisher-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--txt)}
-.finisher-detail{font-size:14px;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700}
-.finisher-tip{font-size:13px;color:var(--txt2);margin-top:4px;line-height:1.5}
-/* CIRCUIT */
-.circuit-info{padding:12px 14px;background:var(--accent3);border:1px solid var(--accent2);border-radius:var(--r2);margin:0 16px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.circuit-stat{font-family:'Barlow Condensed',sans-serif}
-.circuit-stat .val{font-size:24px;font-weight:800;color:var(--accent)}
-.circuit-stat .lbl{font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
-.circuit-exercise{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
-.circuit-exercise:last-child{border-bottom:none}
-.circuit-num{width:28px;height:28px;border-radius:50%;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.circuit-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
-.circuit-tip{font-size:13px;color:var(--txt2);margin-top:3px;line-height:1.5}
-/* SAVE WORKOUT BTN */
-.save-workout-btn{margin:12px 16px;padding:16px;border-radius:var(--r);background:var(--accent);border:none;color:#000;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.5px;cursor:pointer;width:calc(100% - 32px);-webkit-appearance:none;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.save-workout-btn:active{opacity:.8}
-.save-workout-btn.saved{background:var(--green)}
-/* WARMUP */
-.warmup-bar{margin:0 16px 12px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);display:flex;align-items:center;gap:10px;border-left:3px solid var(--yellow)}
-.warmup-bar svg{width:16px;height:16px;stroke:var(--yellow);fill:none;flex-shrink:0}
-.warmup-text{font-size:14px;color:var(--txt)}
-/* PHASE INFO */
-.phase-info{margin:0 16px 16px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r)}
-.phase-info-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px}
-.phase-info-period{font-size:13px;color:var(--txt2);margin-bottom:10px}
-.phase-info-goal{font-size:14px;color:var(--txt2);line-height:1.5;padding:10px 12px;background:var(--bg3);border-radius:8px}
-/* TIPS */
-.tips-list{margin-top:10px;display:flex;flex-direction:column;gap:6px}
-.tip-item{font-size:13px;color:var(--txt2);padding-left:16px;position:relative;line-height:1.5}
-.tip-item::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:11px}
-/* DIET */
-.meal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
-.meal-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-.meal-time{font-size:13px;color:var(--txt2);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.5px}
-.meal-cal{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800}
-.meal-cal span{font-size:13px;color:var(--txt2);font-weight:400}
-.meal-prot{font-size:13px;color:var(--green);font-weight:600;font-family:'Barlow Condensed',sans-serif}
-.meal-body{padding:0 14px 14px;display:none}
-.meal-body.open{display:block}
-.option-tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
-.option-tabs::-webkit-scrollbar{display:none}
-.opt-tab{flex-shrink:0;font-size:13px;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--bg3);color:var(--txt2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:.3px;-webkit-appearance:none;transition:all .2s}
-.opt-tab.active{border-color:var(--accent);color:var(--accent);background:var(--accent3)}
-.food-list{display:flex;flex-direction:column;gap:4px}
-.food-item{display:flex;justify-content:space-between;align-items:flex-start;padding:7px 10px;background:var(--bg3);border-radius:8px;gap:8px}
-.food-name{font-size:14px;line-height:1.5;flex:1}
-.food-prep{font-size:12px;color:var(--txt2);margin-top:2px}
-.food-cals{text-align:right;flex-shrink:0}
-.food-cal-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--accent)}
-.food-prot{font-size:12px;color:var(--green);font-family:'Barlow Condensed',sans-serif;font-weight:600}
-.meal-total{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--accent3);border:1px solid var(--accent2);border-radius:8px;margin-top:8px}
-.meal-total-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--accent)}
-.meal-total-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--accent)}
-/* MACROS OVERVIEW */
-.macros-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px;margin-bottom:16px}
-.macro-pill{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;text-align:center}
-.macro-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800}
-.macro-lbl{font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.macro-cal{font-size:12px;color:var(--txt2);margin-top:2px}
-/* WEEKEND */
-.weekend-box{margin:0 16px 16px;padding:14px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);border-left:3px solid var(--purple)}
-.weekend-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--purple);margin-bottom:6px}
-.weekend-note{font-size:14px;color:var(--txt2);line-height:1.6;margin-bottom:10px}
-.weekend-sug{font-size:13px;color:var(--txt2);padding:4px 0;padding-left:16px;position:relative;line-height:1.5}
-.weekend-sug::before{content:'✦';position:absolute;left:0;color:var(--purple);font-size:9px;top:5px}
-/* PROGRESS */
-.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px;margin-bottom:16px}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px}
-.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800}
-.stat-lbl{font-size:13px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
-.stat-change{font-size:13px;color:var(--green);font-weight:600;margin-top:3px}
-.stat-change.neg{color:var(--red)}
-.chart-container{margin:0 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px;min-height:220px}
-.chart-container canvas{display:block;width:100%!important;height:180px!important}
-.chart-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;margin-bottom:14px}
-/* WEIGHT LOG */
-.weight-log-btn{margin:0 16px 16px;padding:14px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;-webkit-appearance:none;width:calc(100%-32px)}
-.log-weight-form{padding:14px;background:var(--bg3);border-top:1px solid var(--border);display:none}
-.log-weight-form.open{display:flex;gap:10px;align-items:center}
-.weight-input{flex:1;background:var(--bg4);border:1px solid var(--border2);border-radius:10px;padding:12px;font-size:24px;font-weight:700;font-family:'Barlow Condensed',sans-serif;color:var(--txt);text-align:center;-webkit-appearance:none}
-.weight-input:focus{outline:none;border-color:var(--accent)}
-.log-btn{padding:12px 20px;border-radius:10px;background:var(--accent);border:none;color:#000;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;cursor:pointer;flex-shrink:0;-webkit-appearance:none}
-/* HISTORY */
-.history-item{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.history-item:last-child{border-bottom:none}
-.history-date{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700}
-.history-detail{font-size:13px;color:var(--txt2);margin-top:2px}
-.history-badge{font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px;background:var(--accent2);color:var(--accent);font-family:'Barlow Condensed',sans-serif}
-/* CONFIG */
-.config-section{padding:0 16px;margin-bottom:20px}
-.config-label{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--txt2);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
-.config-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.config-row{padding:14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.config-row:last-child{border-bottom:none}
-.config-row-label{font-size:14px;font-weight:600}
-.config-row-sub{font-size:13px;color:var(--txt2);margin-top:2px}
-.config-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--txt);-webkit-appearance:none;text-align:right;max-width:140px;transition:border-color .2s}
-.config-input:focus{outline:none;border-color:var(--accent)}
-.sync-btn{padding:10px 18px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;-webkit-appearance:none}
-.sync-btn:active{background:var(--bg4)}
-.sync-btn.primary{background:var(--accent);border-color:var(--accent);color:#000}
-.sync-status{font-size:13px;margin-top:8px;padding:8px 12px;border-radius:6px;text-align:center}
-.sync-status.ok{background:rgba(34,197,94,.1);color:var(--green)}
-.sync-status.err{background:rgba(239,68,68,.1);color:var(--red)}
-.sync-status.loading{background:var(--bg3);color:var(--txt3)}
-/* SCHEDULE */
-.schedule-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:0 16px;margin-bottom:16px}
-.sch-day{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
-.sch-day-name{font-size:11px;color:var(--txt2);font-weight:700;letter-spacing:.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif}
-.sch-day-icon{font-size:20px;margin:4px 0}
-.sch-day-lbl{font-size:10px;color:var(--txt2);line-height:1.4}
-.sch-day.rest{opacity:.4}
-/* TOAST */
-.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 18px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;z-index:999;transition:transform .3s cubic-bezier(.175,.885,.32,1.275);white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(--green);color:var(--green)}
-.toast.error{border-color:var(--red);color:var(--red)}
-/* UTILS */
-.flex{display:flex}.gap-8{gap:8px}.items-center{align-items:center}.justify-between{justify-content:space-between}
-.icon-orange svg{stroke:var(--accent)}
-.icon-yellow svg{stroke:var(--yellow)}
-.icon-green svg{stroke:var(--green)}
-.icon-purple svg{stroke:var(--purple)}
-.empty-state{padding:40px 16px;text-align:center;color:var(--txt3)}
-.empty-state svg{width:40px;height:40px;stroke:var(--txt3);fill:none;margin:0 auto 12px}
-.empty-state p{font-size:14px;line-height:1.6}
-.chevron{transition:transform .2s;width:16px;height:16px;stroke:var(--txt3);fill:none;flex-shrink:0}
-.chevron.open{transform:rotate(180deg)}
-/* SCROLLBAR */
-#screens::-webkit-scrollbar{width:0}
-</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- ?v= força o navegador a buscar a versão nova em vez da que está em cache.
+     Incremente sempre que editar o CSS ou o JS. -->
+<link rel="stylesheet" href="assets/css/app.css?v=2.0.2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath d='M9 12v8M23 12v8M6.5 14v4M25.5 14v4M9 16h14' stroke='%2307050f' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
+
+<!-- fundo aurora -->
+<div id="aurora" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- gradiente reutilizável para os anéis de progresso -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="ringGradOk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+  </defs>
+</svg>
+
 <div id="app">
-  <!-- HEADER -->
-  <div id="header">
-    <div class="header-row">
-      <div>
-        <div class="header-logo">⬡ IRONFIT</div>
-        <div class="header-sub">DANIEL CAMPOS · IRON HEALTH LA SALLE</div>
-      </div>
-      <div class="header-meta">
-        <div class="header-weight" id="header-weight">93<span>kg</span></div>
-        <div class="header-sub" id="header-goal">meta 83kg · dez/2026</div>
-      </div>
-    </div>
-    <div class="goal-bar" id="goal-bar">
-      <div class="goal-bar-track"><div class="goal-bar-fill" id="goal-fill" style="width:0%"></div></div>
-      <div class="goal-bar-labels">
-        <span>93kg (início)</span>
-        <span id="goal-pct">0% concluído</span>
-        <span>83kg (meta)</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- SCREENS -->
-  <div id="screens">
-    <!-- ===== TREINO ===== -->
-    <div id="screen-treino" class="screen active">
-      <div style="padding:12px 16px 8px">
-        <div class="section-title">Fase de Treino</div>
-      </div>
-      <div class="phase-tabs" id="phase-tabs"></div>
-      <div id="phase-info-box" class="phase-info"></div>
-
-      <div style="padding:0 16px 8px">
-        <div class="section-title">Dia de Treino</div>
-      </div>
-      <div class="day-grid" id="day-grid"></div>
-
-      <div id="workout-content"></div>
-    </div>
-
-    <!-- ===== DIETA ===== -->
-    <div id="screen-dieta" class="screen">
-      <div class="section" style="padding-top:12px">
-        <div class="section-title">Plano Nutricional</div>
-        <div style="font-size:12px;color:var(--txt3);line-height:1.5;margin-bottom:12px">
-          Meta: <strong style="color:var(--txt)">2.600 kcal/dia</strong> · Déficit de ~700 kcal/dia · Perda estimada: 0,6kg/semana
+  <!-- ================= CABEÇALHO ================= -->
+  <header id="header">
+    <div class="hdr-row">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24"><path d="M6.5 8v8M17.5 8v8M3.5 10v4M20.5 10v4M6.5 12h11"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">IRON<em>FIT</em></div>
+          <div class="brand-sub" id="hdrSub">DANIEL CAMPOS</div>
         </div>
       </div>
-      <!-- MACROS -->
-      <div class="macros-bar">
-        <div class="macro-pill"><div class="macro-val" style="color:var(--green)">200g</div><div class="macro-lbl">Proteína</div><div class="macro-cal">800 kcal</div></div>
-        <div class="macro-pill"><div class="macro-val" style="color:var(--blue)">280g</div><div class="macro-lbl">Carboidrato</div><div class="macro-cal">1.120 kcal</div></div>
-        <div class="macro-pill"><div class="macro-val" style="color:var(--yellow)">75g</div><div class="macro-lbl">Gordura</div><div class="macro-cal">675 kcal</div></div>
-      </div>
-      <div id="diet-content"></div>
-      <!-- WEEKEND -->
-      <div class="weekend-box">
-        <div class="weekend-title">⚡ Refeições Livres (Final de Semana)</div>
-        <div class="weekend-note">Você tem <strong style="color:var(--purple)">3 refeições livres</strong> no final de semana, cada uma com até <strong style="color:var(--purple)">1.200 kcal</strong>. As demais refeições do FDS seguem o plano normal.</div>
-        <div class="weekend-sug">Churrasco em família — carne à vontade + saladas</div>
-        <div class="weekend-sug">Hambúrguer gourmet ou pizza</div>
-        <div class="weekend-sug">Restaurante japonês / rodízio</div>
-        <div class="weekend-sug">Almoço de domingo especial</div>
-        <div style="margin-top:8px;font-size:11px;color:var(--txt3)">Dica: distribua 2 livres no sábado + 1 no domingo, ou 1+2. Nas outras refeições do FDS, prefira ovos, frutas, iogurte e frango simples.</div>
-      </div>
-
-      <!-- SCHEDULE -->
-      <div class="section">
-        <div class="section-title">Semana Sugerida</div>
-        <div class="schedule-grid">
-          <div class="sch-day"><div class="sch-day-name">Seg</div><div class="sch-day-icon">💪</div><div class="sch-day-lbl">Treino A</div></div>
-          <div class="sch-day"><div class="sch-day-name">Ter</div><div class="sch-day-icon">🏃</div><div class="sch-day-lbl">Corrida 30'</div></div>
-          <div class="sch-day"><div class="sch-day-name">Qua</div><div class="sch-day-icon">💪</div><div class="sch-day-lbl">Treino B</div></div>
-          <div class="sch-day"><div class="sch-day-name">Qui</div><div class="sch-day-icon">💪</div><div class="sch-day-lbl">Treino C</div></div>
-          <div class="sch-day"><div class="sch-day-name">Sex</div><div class="sch-day-icon">🔥</div><div class="sch-day-lbl">Treino D</div></div>
-          <div class="sch-day"><div class="sch-day-name">Sáb</div><div class="sch-day-icon">🏃</div><div class="sch-day-lbl">Corrida 30'</div></div>
-          <div class="sch-day"><div class="sch-day-name">Dom</div><div class="sch-day-icon">😴</div><div class="sch-day-lbl">Descanso</div></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="hdr-metric">
+          <div class="hdr-weight" id="hdrWeight">94<small>kg</small></div>
+          <div class="hdr-delta flat" id="hdrDelta">registre seu peso</div>
         </div>
-        <div style="font-size:11px;color:var(--txt3);padding:0 16px">* Adapte conforme seu horário. Garanta 4 treinos + 3 corridas por semana. Treino E (core) é opcional — encaixe quando sobrar tempo.</div>
+        <button class="btn btn-sm" onclick="go('ajustes')" aria-label="Ajustes" style="padding:9px;border-radius:10px">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
       </div>
     </div>
 
-    <!-- ===== PROGRESSO ===== -->
-    <div id="screen-progresso" class="screen">
-      <div class="section" style="padding-top:12px">
-        <div class="section-title">Seu Progresso</div>
+    <div class="goal-strip">
+      <div class="goal-track">
+        <div class="goal-fill" id="goalFill" style="width:0%"></div>
+        <div class="goal-marker" id="goalMarker" style="left:0%"></div>
       </div>
-
-      <!-- LOG PESO -->
-      <div style="margin:0 16px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-        <div class="card-header" onclick="toggleWeightLog(this)" style="cursor:pointer">
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">Registrar Peso</div>
-            <div style="font-size:11px;color:var(--txt3);margin-top:1px">Atualize seu peso corporal</div>
-          </div>
-          <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="log-weight-form" id="weight-log-form">
-          <input class="weight-input" type="number" id="weight-input-val" placeholder="93.0" step="0.1" min="50" max="200">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--txt2);flex-shrink:0">kg</span>
-          <button class="log-btn" onclick="logWeight()">Salvar</button>
-        </div>
-      </div>
-
-      <!-- STATS -->
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-val" id="stat-current">93kg</div>
-          <div class="stat-lbl">Peso Atual</div>
-          <div class="stat-change" id="stat-change">—</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" id="stat-lost">0kg</div>
-          <div class="stat-lbl">Perdido</div>
-          <div class="stat-change" style="color:var(--txt3)" id="stat-lost-pct">da meta de 10kg</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" id="stat-workouts">0</div>
-          <div class="stat-lbl">Treinos</div>
-          <div class="stat-change" style="color:var(--txt3)">registrados</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" id="stat-days">0</div>
-          <div class="stat-lbl">Dias p/ Dez</div>
-          <div class="stat-change" style="color:var(--txt3)">na jornada</div>
-        </div>
-      </div>
-
-      <!-- CHART -->
-      <div class="chart-container">
-        <div class="chart-title">Evolução do Peso (kg)</div>
-        <canvas id="weightChart" height="160"></canvas>
-      </div>
-
-      <!-- WORKOUT HISTORY -->
-      <div class="section">
-        <div class="section-title">Histórico de Treinos</div>
-        <div class="card" id="history-list">
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <p>Nenhum treino registrado ainda.<br>Complete um treino para ver o histórico.</p>
-          </div>
-        </div>
+      <div class="goal-labels">
+        <span id="goalStart"><b>94,0</b> início</span>
+        <span id="goalPct">0% da meta</span>
+        <span id="goalEnd"><b>83,0</b> meta</span>
       </div>
     </div>
+  </header>
 
-    <!-- ===== CONFIG ===== -->
-    <div id="screen-config" class="screen">
-      <div class="config-section" style="padding-top:12px">
-        <div class="config-label">Perfil</div>
-        <div class="config-card">
-          <div class="config-row">
-            <div><div class="config-row-label">Nome</div></div>
-            <div style="font-size:14px;color:var(--txt2)">Daniel Campos</div>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">Peso Inicial</div></div>
-            <div style="font-size:14px;color:var(--txt2)">93 kg</div>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">Meta de Peso</div></div>
-            <div style="font-size:14px;color:var(--txt2)">83 kg</div>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">Altura / Idade</div></div>
-            <div style="font-size:14px;color:var(--txt2)">1,85m · 27 anos</div>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">TDEE Estimado</div></div>
-            <div style="font-size:14px;color:var(--txt2)">~3.300 kcal</div>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">Meta Calórica</div></div>
-            <div style="font-size:14px;color:var(--accent);font-weight:700">2.600 kcal/dia</div>
-          </div>
-        </div>
+  <!-- ================= CONTEÚDO ================= -->
+  <main id="main">
+
+    <!-- ========== HOJE ========== -->
+    <section id="screen-hoje" class="screen active">
+      <div class="countdown glass-hi glow-ring" style="margin-bottom:14px">
+        <div class="cd-label">Torneio de Beach Tennis</div>
+        <div class="cd-days grad-txt" id="cdDays">—</div>
+        <div class="cd-unit" id="cdUnit">dias restantes</div>
+        <div class="cd-date" id="cdDate">sábado, 26 de setembro de 2026</div>
+        <div class="cd-bar"><div class="cd-bar-fill" id="cdBar" style="width:0%"></div></div>
+        <div class="tiny dim" style="margin-top:7px" id="cdPhase"></div>
       </div>
 
-      <div class="config-section">
-        <div class="config-label">Sincronização GitHub Gist</div>
-        <div class="config-card">
-          <div class="config-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-            <div>
-              <div class="config-row-label">Personal Access Token</div>
-              <div class="config-row-sub">Crie em github.com/settings/tokens → New token → marque "gist"</div>
+      <div id="todayCard"></div>
+
+      <div class="sec">
+        <div class="sec-head"><h2 class="sec-title">Sua semana</h2><span class="sec-action" id="weekLabel"></span></div>
+        <div class="week" id="weekGrid"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2 class="sec-title">Onde você está</h2></div>
+        <div class="stat-grid" id="hojeStats"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h2 class="sec-title">Registro rápido</h2></div>
+        <div class="glass card">
+          <div class="field" style="margin-bottom:10px">
+            <label for="quickWeight">Peso de hoje</label>
+            <div class="row">
+              <input class="input input-xl" type="number" id="quickWeight" placeholder="94,0" step="0.1" min="40" max="220" inputmode="decimal">
+              <button class="btn btn-primary" onclick="logWeight('quickWeight')" style="padding-inline:20px">Salvar</button>
             </div>
-            <input class="config-input" type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxx" style="max-width:100%;width:100%;text-align:left" onchange="saveToken(this.value)">
           </div>
-          <div class="config-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-            <div>
-              <div class="config-row-label">Gist ID (automático)</div>
-              <div class="config-row-sub">Preenchido automaticamente na primeira sincronização</div>
-            </div>
-            <input class="config-input" type="text" id="gist-id-input" placeholder="Vazio — será criado no primeiro sync" style="max-width:100%;width:100%;text-align:left;font-size:11px" onchange="saveGistId(this.value)">
-          </div>
-          <div style="padding:14px;display:flex;gap:8px;flex-wrap:wrap">
-            <button class="sync-btn primary" onclick="syncToGist()">⬆ Enviar para Gist</button>
-            <button class="sync-btn" onclick="loadFromGist()">⬇ Baixar do Gist</button>
-          </div>
-          <div id="sync-status" class="sync-status" style="margin:0 14px 14px;display:none"></div>
-        </div>
-        <div style="font-size:11px;color:var(--txt3);margin-top:8px;line-height:1.6;padding:0 4px">
-          Os dados ficam salvos automaticamente no navegador (localStorage). Use o Gist para sincronizar entre dispositivos. Seu token fica armazenado apenas neste dispositivo.
+          <p class="tiny dim">Pese-se sempre no mesmo horário — de manhã, em jejum, após ir ao banheiro. O peso oscila 1&nbsp;kg ou mais dentro do mesmo dia; o que importa é a tendência da semana.</p>
         </div>
       </div>
+    </section>
 
-      <div class="config-section">
-        <div class="config-label">Dados</div>
-        <div class="config-card">
-          <div class="config-row">
-            <div><div class="config-row-label">Exportar Dados</div><div class="config-row-sub">Baixar JSON com todo o histórico</div></div>
-            <button class="sync-btn" onclick="exportData()">Exportar</button>
-          </div>
-          <div class="config-row">
-            <div><div class="config-row-label">Resetar App</div><div class="config-row-sub">Apaga todo o histórico local</div></div>
-            <button class="sync-btn" onclick="resetApp()" style="border-color:var(--red);color:var(--red)">Resetar</button>
-          </div>
-        </div>
-      </div>
+    <!-- ========== TREINO ========== -->
+    <section id="screen-treino" class="screen">
+      <div class="segmented" id="treinoTabs" style="margin-bottom:14px"></div>
+      <div id="treinoContent"></div>
+    </section>
 
-      <div style="padding:16px;text-align:center">
-        <div style="font-size:11px;color:var(--txt3);line-height:1.6">
-          IronFit v1.0 · Daniel Campos · Iron Health La Salle, Toledo<br>
-          Jornada: Maio — Dezembro 2026 · Meta: −10kg de gordura
-        </div>
-      </div>
-    </div>
-  </div><!-- end screens -->
+    <!-- ========== DIETA ========== -->
+    <section id="screen-dieta" class="screen">
+      <div class="segmented" id="dietaTabs" style="margin-bottom:14px"></div>
+      <div id="dietaContent"></div>
+    </section>
 
-  <!-- BOTTOM NAV -->
-  <nav id="nav">
-    <button class="nav-btn active" data-screen="treino" onclick="showScreen('treino',this)">
-      <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11"/><path d="M6.5 17.5h11"/><path d="M2 12h20"/><circle cx="4" cy="6.5" r="2"/><circle cx="20" cy="6.5" r="2"/><circle cx="4" cy="17.5" r="2"/><circle cx="20" cy="17.5" r="2"/></svg>
+    <!-- ========== PLANO ========== -->
+    <section id="screen-plano" class="screen">
+      <div class="segmented" id="planoTabs" style="margin-bottom:14px"></div>
+      <div id="planoContent"></div>
+    </section>
+
+    <!-- ========== PROGRESSO ========== -->
+    <section id="screen-progresso" class="screen">
+      <div id="progressoContent"></div>
+    </section>
+
+    <!-- ========== AJUSTES ========== -->
+    <section id="screen-ajustes" class="screen">
+      <div id="ajustesContent"></div>
+    </section>
+
+  </main>
+
+  <!-- ================= NAVEGAÇÃO ================= -->
+  <nav id="nav" aria-label="Navegação principal">
+    <button class="nav-btn active" data-screen="hoje" onclick="go('hoje')">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.6V21h14V9.6"/><path d="M9.5 21v-6h5v6"/></svg>
+      <span>Hoje</span>
+    </button>
+    <button class="nav-btn" data-screen="treino" onclick="go('treino')">
+      <svg viewBox="0 0 24 24"><path d="M6.5 8v8M17.5 8v8M3.5 10v4M20.5 10v4M6.5 12h11"/></svg>
       <span>Treino</span>
     </button>
-    <button class="nav-btn" data-screen="dieta" onclick="showScreen('dieta',this)">
-      <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+    <button class="nav-btn" data-screen="dieta" onclick="go('dieta')">
+      <svg viewBox="0 0 24 24"><path d="M12 8c0-3 2-5 5-5 0 3-2 5-5 5Z"/><path d="M8.5 8C6 8 4 10.2 4 13.4 4 17.6 7.4 22 10 22c1 0 1.4-.6 2-.6s1 .6 2 .6c2.6 0 6-4.4 6-8.6C20 10.2 18 8 15.5 8c-1.4 0-2.3.7-3.5.7S9.9 8 8.5 8Z"/></svg>
       <span>Dieta</span>
     </button>
-    <button class="nav-btn" data-screen="progresso" onclick="showScreen('progresso',this)">
-      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      <span>Progresso</span>
+    <button class="nav-btn" data-screen="plano" onclick="go('plano')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13.5h3M7.5 17.5h9M13.5 13.5h3"/></svg>
+      <span>Plano</span>
     </button>
-    <button class="nav-btn" data-screen="config" onclick="showScreen('config',this)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-      <span>Config</span>
+    <button class="nav-btn" data-screen="progresso" onclick="go('progresso')">
+      <svg viewBox="0 0 24 24"><path d="M3 20.5h18"/><path d="M4 16.5 9.5 11l4 3.5L20 7"/><path d="M20 11V7h-4"/></svg>
+      <span>Progresso</span>
     </button>
   </nav>
 </div>
 
-<div class="toast" id="toast"></div>
-
-<script>
-// ==================== DATA ====================
-
-const PHASES = {
-  1: {
-    name:"Fase 1", subtitle:"Base Metabólica", color:"#3b82f6",
-    period:"Maio — Junho 2026", weeks:"8 semanas",
-    goal:"Aprender os movimentos com perfeição, criar consistência e iniciar o déficit calórico. Supersets elevam a frequência cardíaca e aumentam o gasto calórico dentro dos 45 minutos.",
-    tips:["Foque na FORMA — peso vem depois","Excêntrica de 3s na descida, subida explosiva","Aumente 2,5kg quando completar todas as reps com facilidade","Descanso entre supersets: respeite o tempo indicado"],
-    days:{
-      A:{name:"Peito + Bíceps", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Supino Inclinado 30° — Smith Machine",sets:4,reps:"10-12",tip:"Inclinação 30° ativa a parte superior do peitoral. Cotovelos a ~75°, descida 3s controlada."},
-            {name:"Rosca Scott — Banco Scott ou Barra EZ",sets:4,reps:"10-12",tip:"Cotovelos fixos no suporte. Isola completamente o bíceps. Não solte no fundo — mantenha tensão."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Crossover — Cabo Baixo",sets:3,reps:"12-15",tip:"Cabo na cintura ou abaixo. Braços cruzam na altura do peito — ativa fibras inferiores do peitoral."},
-            {name:"Rosca Martelo — Cabo ou Haltere",sets:3,reps:"12-15",tip:"Polegar aponta para cima. Trabalha o braquial e braquiorradial além do bíceps. Sem balanço de tronco."}
-          ]},
-          {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"15",tip:"Squeeze 1s no fechamento. Abrir até sentir o alongamento. Não rebater no final."},
-            {name:"Rosca Inclinada — Haltere",sets:3,reps:"15",tip:"Banco a 45-60°. Braço fica atrás do corpo — máximo alongamento e recrutamento do bíceps longo."}
-          ]}
-        ],
-        finishers:[
-          {name:"Rosca 21",sets:3,reps:"21 reps (7+7+7)",tip:"7 reps na metade inferior, 7 reps na metade superior, 7 reps completas. Usa barra EZ ou halteres leves."},
-          {name:"Prancha Abdominal",sets:3,reps:"45s",tip:"Core ativado. Não deixe o quadril cair nem subir demais."}
-        ]
-      },
-      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"75s",exercises:[
-            {name:"Leg Press Horizontal / Sled",sets:4,reps:"12",tip:"⚠️ NUNCA use o Leg Press 45° — pressão axial na lombar agrava a hérnia. Use APENAS o horizontal ou o sled.",alert:true},
-            {name:"Mesa Flexora (Deitada)",sets:4,reps:"12",tip:"Amplitude completa. Não hiperextender o joelho no final."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"60s",exercises:[
-            {name:"Extensão de Pernas — Cadeira",sets:3,reps:"15",tip:"Peak contraction: segure 1s no topo. Controlado na volta."},
-            {name:"Agachamento Sumô — Smith Machine",sets:3,reps:"12-15",tip:"Pés largos e apontados para fora (~45°). Desça controlado até a parallel, joelhos seguindo a linha dos pés. Ativa glúteo máximo e adutores — mesma função do hip thrust sem carga axial pesada na lombar."}
-          ]},
-          {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Cadeira Adutora",sets:3,reps:"15",tip:"Feche devagar, controle sem usar momentum."},
-            {name:"Cadeira Abdutora",sets:3,reps:"15",tip:"Abra e feche controlado. Postura ereta."}
-          ]}
-        ],
-        finishers:[
-          {name:"Panturrilha em Pé — Máquina",sets:3,reps:"15-20",tip:"Amplitude completa: desça até sentir o alongamento. Segure 1s no topo. Baixe devagar (3s)."},
-          {name:"Glute Bridge — Colchão",sets:3,reps:"20",tip:"Segure 2s no topo. Ative o glúteo, não a lombar."},
-          {name:"Bird Dog — 4 Apoios",sets:3,reps:"10 cada lado",tip:"⚠️ CORE FIRME — braço e perna opostos. Fortalece lombar e glúteos sem carga axial. Ideal para hérnia.",alert:true}
-        ]
-      },
-      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade: rotações de ombro + círculos de braço",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Desenvolvimento — Máquina",sets:4,reps:"10-12",tip:"Não trave o cotovelo no topo. Mantenha tensão durante todo o movimento. Cotovelos a 90° na descida."},
-            {name:"Tríceps Testa — Barra EZ",sets:4,reps:"10-12",tip:"Cotovelos apontam para o teto, fixos. Baixa até a testa. Isola o tríceps com segurança para o ombro."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Elevação Lateral — Cabo",sets:3,reps:"15",tip:"Cabo oferece tensão constante em todo o arco do movimento — mais efetivo que haltere. Cotovelo levemente flexionado."},
-            {name:"Tríceps Corda — Cabo",sets:3,reps:"15",tip:"Abra as pontas da corda no final da extensão. Cotovelos fixos ao lado do corpo. Squeeze no final."}
-          ]},
-          {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Face Pull — Cabo (corda)",sets:3,reps:"15",tip:"PRIORITÁRIO para saúde do manguito e postura. Cotovelos altos, puxe até as orelhas. Rotação externa no final."},
-            {name:"Tríceps Coice — Cabo Unilateral",sets:3,reps:"12 cada lado",tip:"Tronco inclinado 45°, braço paralelo ao chão. Extends o cotovelo completamente. Squeeze 1s no topo."}
-          ]}
-        ],
-        finishers:[
-          {name:"Prancha Lateral",sets:3,reps:"30s cada lado",tip:"Corpo em linha reta do calcanhar ao ombro. Quadril não pode cair."},
-          {name:"Superman — Colchão",sets:3,reps:"15",tip:"Extensão lombar lenta e controlada. Segure 2s no topo. Fortalece o erector spinae sem carga axial."}
-        ]
-      },
-      D:{name:"Costas", warmup:"5 min esteira — caminhada rápida (6-7km/h)",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Remada Sentada — Cabo (barra reta)",sets:4,reps:"10-12",tip:"Puxe pelos cotovelos, não pelas mãos. Tronco ereto, peito alto. Aperta as escápulas no final."},
-            {name:"Remada Máquina — Apoio no Peito",sets:4,reps:"10-12",tip:"Peito apoiado elimina o trapézio. Foco total nas dorsais e rombóides. Varie a pegada."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Pulldown — Polia Aberta",sets:3,reps:"12",tip:"Cotovelos para baixo e para trás. Expanda o peito, contraia as dorsais. Não use momentum."},
-            {name:"Remada Unilateral — Haltere",sets:3,reps:"10-12 cada lado",tip:"Apoie uma mão no banco. Puxe o haltere do chão até o quadril com o cotovelo subindo acima da linha das costas. Contraia a dorsal 1s no topo. Corrige desequilíbrios entre os lados."}
-          ]},
-          {type:"superset",label:"Superset C",restAfter:"45s",exercises:[
-            {name:"Remada Alta — Cabo (barra reta)",sets:3,reps:"15",tip:"Puxe a barra do cabo até o queixo com os cotovelos subindo alto e abrindo para os lados. Treina trapézio superior e deltóide posterior — vetor único que nenhum outro exercício do dia cobre. Cotovelos sempre acima dos pulsos."},
-            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"15",tip:"Deltóides posteriores e rombóides. Cotovelos altos, aperta as escápulas no final. Segure 1s na contração."}
-          ]}
-        ],
-        finishers:[
-          {name:"Dead Bug",sets:3,reps:"10 cada lado",tip:"⚠️ LOMBAR COLADA NO CHÃO o tempo todo. Excelente para fortalecer o core sem sobrecarregar a hérnia.",alert:true}
-        ]
-      },
-      E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Extensão Lombar 45° — Cadeira",sets:3,reps:"15",tip:"Movimento LENTO. Segure 1s no topo. Descomprime e fortalece a região lombar sem impacto."},
-            {name:"Abdominal — Máquina Crunch",sets:3,reps:"15",tip:"Contração deliberada. Zero impulso de pescoço. Respira fora na contração."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Hiperextensão Reversa — Banco",sets:3,reps:"15",tip:"Eleva as pernas até paralelo ao chão. Descomprime a lombar — excelente para hérnia."},
-            {name:"Abdominal Oblíquo — Cabo",sets:3,reps:"12 cada lado",tip:"Rotação controlada do tronco. Lombar neutra."}
-          ]}
-        ],
-        finishers:[
-          {name:"HIIT Esteira",sets:1,reps:"15 min",tip:"30s corrida rápida (8-10km/h) + 30s caminhada × 15 rodadas. Não conta como corrida da semana."}
-        ]
-      }
-    }
-  },
-  2:{
-    name:"Fase 2", subtitle:"Intensificação", color:"#f97316",
-    period:"Julho — Agosto 2026", weeks:"8 semanas",
-    goal:"Aumento de volume e intensidade. Drop sets, menor descanso, maior sobrecarga progressiva para acelerar a queima de gordura.",
-    tips:["Descanso reduzido: 45s entre supersets","Adicione 1 drop set na última série de cada Superset C","Aumente o peso 5-10% em relação à Fase 1","Agora deve estar mais difícil — isso é o sinal certo"],
-    days:{
-      A:{name:"Peito + Bíceps", warmup:"5 min esteira — 7km/h",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Supino Inclinado 30° — Smith Machine",sets:4,reps:"8-10",tip:"Mesmo compound da Fase 1, agora mais pesado. Inclinação 30° é o melhor ângulo para o peitoral superior — continue dominando esse movimento. Excêntrica 3s, subida explosiva."},
-            {name:"Rosca Scott Unilateral — Cabo",sets:4,reps:"10 cada",tip:"Unilateral corrige desequilíbrios. Cabo garante tensão mesmo no fundo do movimento."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Crossover — Cabo Baixo",sets:3,reps:"12",tip:"Mais pesado que Fase 1. Foca na porção inferior e esternal do peitoral. Braços levemente fletidos."},
-            {name:"Rosca Martelo — Cabo",sets:3,reps:"12",tip:"Cabo mantém tensão constante em todo o arco — diferente do haltere da Fase 1. Polegar aponta para cima. Treina braquial e braquiorradial: a parte do braço que fica visível de lado."}
-          ]},
-          {type:"superset",label:"Superset C + Drop Set",restAfter:"60s",exercises:[
-            {name:"Peck Deck — Crucifixo Máquina",sets:3,reps:"12 + drop",tip:"Nas 3 séries, na última faça drop set: reduza 30% do peso e execute até a falha."},
-            {name:"Rosca Direta — Barra EZ",sets:3,reps:"12 + drop",tip:"Drop set na última série. Mantenha cotovelos fixos — zero balanço de tronco."}
-          ]}
-        ],
-        finishers:[
-          {name:"Prancha com Deslizamento de Prato",sets:3,reps:"10 cada lado",tip:"Coloque um prato no chão e deslize o braço para frente mantendo o core firme."},
-          {name:"Dead Bug com Bola Medicinal",sets:3,reps:"10 cada lado",tip:"Segure a bola entre a mão e o joelho opostos durante o movimento."}
-        ]
-      },
-      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica — carga média",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"60s",exercises:[
-            {name:"Leg Press Horizontal / Sled",sets:4,reps:"10",tip:"⚠️ Mesma regra: APENAS horizontal ou sled. Aumente o peso 5-10% vs Fase 1. Amplitude completa.",alert:true},
-            {name:"Mesa Flexora — Unilateral",sets:4,reps:"10 cada",tip:"Trabalha cada perna separado. Identifica e corrige desequilíbrios."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Agachamento Búlgaro — Halteres",sets:3,reps:"10 cada lado",tip:"⚠️ Pé traseiro elevado no banco. Descida controlada. NÃO incline o tronco para frente — protege a lombar.",alert:true},
-            {name:"Agachamento Sumô — Smith Machine",sets:3,reps:"10-12",tip:"Pés mais largos que ombros, apontados ~45°. Mais carga que Fase 1. Desça até a parallel — glúteo máximo e adutores em trabalho máximo. Tronco ereto na subida."}
-          ]},
-          {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
-            {name:"Cadeira Adutora",sets:3,reps:"15 + drop",tip:"Drop set na última série. Reduza 30% e execute até a falha."},
-            {name:"Cadeira Abdutora",sets:3,reps:"15 + drop",tip:"Drop set na última série. Controle total."}
-          ]}
-        ],
-        finishers:[
-          {name:"Panturrilha em Pé — Máquina (Unilateral)",sets:3,reps:"15 cada",tip:"Unilateral corrige desequilíbrios. Amplitude máxima — descida lenta (3s), subida explosiva."},
-          {name:"Glute Bridge Unilateral — Colchão",sets:3,reps:"15 cada lado",tip:"Uma perna no ar. Mais difícil e mais isolado. Segure 2s no topo."},
-          {name:"Agachamento Goblet — Isométrico",sets:3,reps:"30s",tip:"Desça e segure a posição por 30s. Queima intensa. Core firme."}
-        ]
-      },
-      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade + 1 série de aquecimento leve em cada exercício",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Desenvolvimento Arnold — Halteres",sets:4,reps:"10-12",tip:"Rotação do punho: começa com palmas para dentro, termina com palmas para frente. Mais amplitude."},
-            {name:"Tríceps Francês — Haltere ou EZ",sets:4,reps:"10-12",tip:"Cotovelos apontando para o teto. Não abra os cotovelos. Amplitude completa. Mais carga vs Fase 1."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Elevação Lateral — Cabo",sets:3,reps:"15",tip:"Cabo oferece tensão constante durante todo o movimento — mais efetivo que haltere."},
-            {name:"Tríceps Corda — Cabo",sets:3,reps:"15",tip:"Abra as pontas no final. Aumente a carga vs Fase 1. Cotovelos fixos ao corpo."}
-          ]},
-          {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
-            {name:"Face Pull — Cabo (corda)",sets:3,reps:"15 + drop",tip:"NUNCA abandone esse exercício — saúde do ombro é prioritária. Drop set na última série."},
-            {name:"Tríceps Coice — Haltere (banco inclinado)",sets:3,reps:"12 + drop",tip:"Apoiado no banco inclinado. Cotovelo paralelo ao tronco, extends completamente. Drop set na última."}
-          ]}
-        ],
-        finishers:[
-          {name:"Prancha Lateral Dinâmica",sets:3,reps:"10 cada lado",tip:"Sobe e desce o quadril na prancha lateral. Eleva a intensidade."},
-          {name:"Superman com Haltere Leve",sets:3,reps:"12",tip:"Segure um haltere leve nas mãos estendidas. Mesmo movimento controlado."}
-        ]
-      },
-      D:{name:"Costas — Intensificação", warmup:"5 min esteira — 7km/h",
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Remada no Cabo — Barra Reta",sets:4,reps:"10",tip:"Cotovelos colados ao corpo. Contrai escápulas no final. Aumente 5-10% vs Fase 1."},
-            {name:"Remada Máquina — Pegada Fechada (neutra)",sets:4,reps:"10",tip:"Pegada neutra (paralela) — ativa mais o rombóide. Peito no apoio para eliminar trapézio."}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Pulldown — Pegada Supinada",sets:3,reps:"12",tip:"Pegada com palmas para cima. Trabalha mais o bíceps e dorsais baixos. Mais carga que Fase 1."},
-            {name:"Remada Unilateral — Haltere (Serrote)",sets:3,reps:"10-12 cada lado",tip:"Carga maior que Fase 1. Apoie no banco, cotovelo sobe acima do quadril. 1s de contração no topo. Identifica e corrige desequilíbrios entre lados."}
-          ]},
-          {type:"superset",label:"Superset C + Drop Set",restAfter:"45s",exercises:[
-            {name:"Remada Alta — Cabo (barra reta)",sets:3,reps:"15 + drop",tip:"Drop set na última série. Cotovelos sobem alto até o queixo, abrindo para os lados. Mais carga que Fase 1. Trapézio superior e deltóide posterior — cobertura que completa o treino de costas."},
-            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"15 + drop",tip:"Deltóides posteriores e rombóides. Drop set na última série — empurre até a falha."}
-          ]}
-        ],
-        finishers:[
-          {name:"Dead Bug com Bola Medicinal",sets:3,reps:"10 cada lado",tip:"Segure a bola entre a mão e o joelho opostos durante o movimento."}
-        ]
-      },
-      E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
-        groups:[
-          {type:"superset",label:"Superset A",restAfter:"45s",exercises:[
-            {name:"Extensão Lombar 45° com Haltere Leve",sets:3,reps:"12",tip:"Adicione um haltere leve (5-10kg) seguro no peito. Mesmo movimento controlado."},
-            {name:"Abdominal Roda (Ab Wheel)",sets:3,reps:"8-10",tip:"⚠️ Lombar NEUTRA. Se sentir pressão lombar, faça apenas metade da amplitude ou substitua pelo crunch na máquina.",alert:true}
-          ]},
-          {type:"superset",label:"Superset B",restAfter:"45s",exercises:[
-            {name:"Hiperextensão Reversa — Banco",sets:3,reps:"15",tip:"Pernas mais pesadas ou com caneleira leve. Mesmo movimento controlado."},
-            {name:"Russian Twist — Medicine Ball",sets:3,reps:"15 cada lado",tip:"Pés levantados ou apoiados. Rotação vem do tronco, não dos braços."}
-          ]}
-        ],
-        finishers:[
-          {name:"HIIT Esteira — Intensidade Elevada",sets:1,reps:"15 min",tip:"40s corrida rápida (9-11km/h) + 20s caminhada × 15 rodadas. Mais intenso que Fase 1."}
-        ]
-      }
-    }
-  },
-  3:{
-    name:"Fase 3", subtitle:"Definição Peak", color:"#22c55e",
-    period:"Setembro — Novembro 2026", weeks:"12 semanas",
-    goal:"Máxima definição para dezembro. Tri-sets, alto volume, reps altas, menor descanso. O corpo já está adaptado — hora de extrair o máximo.",
-    tips:["TRI-SETS: 3 exercícios sem pausa entre eles","Descanso entre tri-sets: 45-60s APENAS","Reps: 15-20 para máxima densidade e pump","Aumente as corridas para 35-40 min quando possível"],
-    days:{
-      A:{name:"Peito + Bíceps", warmup:"5 min esteira — 7-8km/h",
-        groups:[
-          {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
-            {name:"Supino Inclinado 30° — Smith Machine",sets:4,reps:"15",tip:"Peitoral superior — o compound principal do dia em todas as fases. Volume alto na Fase 3. Foco na queima e contração, não na carga máxima."},
-            {name:"Crossover — Cabo Baixo",sets:4,reps:"15",tip:"Sem pausa entre exercícios do tri-set. Mantém a tensão no peitoral."},
-            {name:"Peck Deck — Crucifixo Máquina",sets:4,reps:"15",tip:"Terceiro exercício do tri-set. Continue sem parar! Squeeze em cada repetição."}
-          ]},
-          {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
-            {name:"Rosca Scott — Barra EZ",sets:3,reps:"20",tip:"Reps altas, peso leve-moderado. Squeeze no pico de cada rep. Sem pausa."},
-            {name:"Rosca Martelo — Cabo",sets:3,reps:"20",tip:"Ritmo constante. Não solte a tensão entre as reps."},
-            {name:"Rosca Inclinada — Haltere",sets:3,reps:"15",tip:"Último exercício — vai queimar. Amplitude máxima — empurre até a falha na última série!"}
-          ]}
-        ],
-        finishers:[
-          {name:"Prancha com Rolo de Espuma",sets:3,reps:"30s",tip:"Antebraços no rolo, deslize para frente e para trás mantendo o core firme."},
-          {name:"Dead Bug + Extensão de Braço",sets:3,reps:"12 cada lado",tip:"Variação mais avançada do Dead Bug clássico."}
-        ]
-      },
-      B:{name:"Pernas Geral", warmup:"5 min bicicleta ergométrica — carga alta",
-        groups:[
-          {type:"superset",label:"Tri-Set A",restAfter:"75s",exercises:[
-            {name:"Leg Press Horizontal / Sled",sets:4,reps:"15",tip:"⚠️ Mantenha a regra do horizontal. Volume alto, técnica perfeita.",alert:true},
-            {name:"Mesa Flexora",sets:4,reps:"15",tip:"Sem pausa entre os exercícios do tri-set."},
-            {name:"Extensão de Pernas — Cadeira",sets:4,reps:"15",tip:"Último do tri-set. Pernas vão estar bombeadas — é isso que queremos!"}
-          ]},
-          {type:"superset",label:"Tri-Set B",restAfter:"60s",exercises:[
-            {name:"Agachamento Sumô — Smith Machine",sets:3,reps:"20",tip:"Reps altas — queima máxima no glúteo máximo e adutores. Sem pausa entre os exercícios do tri-set. Fase 3 é volume puro!"},
-            {name:"Cadeira Abdutora",sets:3,reps:"20",tip:"Rápido, controlado, sem parar."},
-            {name:"Cadeira Adutora",sets:3,reps:"20",tip:"Finalizou o tri-set — DESCANSO de 60s agora."}
-          ]}
-        ],
-        finishers:[
-          {name:"Panturrilha em Pé — Máquina",sets:3,reps:"25",tip:"Fase Peak — amplitude total, descida lenta (3s). Panturrilha definida para dezembro."},
-          {name:"Glute Bridge Isométrico",sets:3,reps:"45s",tip:"Sobe e segura. 45s de contração isométrica de glúteo. Definição máxima."},
-          {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
-        ]
-      },
-      C:{name:"Ombros + Tríceps", warmup:"5 min mobilidade + aquecimento",
-        groups:[
-          {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
-            {name:"Desenvolvimento Máquina",sets:4,reps:"15",tip:"Peso moderado. Ritmo constante durante o tri-set. O press já ativa fortemente o deltóide anterior — não precisa isolá-lo de novo."},
-            {name:"Elevação Lateral — Cabo",sets:4,reps:"15",tip:"Tensão constante no cabo. Deltóide médio em foco. Sem pausa."},
-            {name:"Tríceps Testa — Haltere",sets:4,reps:"15",tip:"Cotovelos apontando para o teto, fixos. Desce o haltere até a testa e sobe. Cabeça longa do tríceps em máximo alongamento — único exercício do dia que a treina. Continue sem parar!"}
-          ]},
-          {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
-            {name:"Tríceps Corda — Cabo",sets:3,reps:"20",tip:"Volume máximo. Tríceps em chamas. Sem pausa entre os exercícios."},
-            {name:"Face Pull — Cabo",sets:3,reps:"20",tip:"Prioridade mantida mesmo na Fase 3. Saúde do ombro em dia."},
-            {name:"Tríceps Coice — Haltere",sets:3,reps:"15",tip:"Finalizou — DESCANSO de 45s. Cotovelo paralelo ao tronco no topo."}
-          ]}
-        ],
-        finishers:[
-          {name:"Prancha Lateral com Rotação",sets:3,reps:"10 cada lado",tip:"Na prancha lateral, rotacione o tronco para baixo e volte. Avançado."},
-          {name:"Superman Pulsado",sets:3,reps:"20",tip:"No topo da extensão, faça pulsos rápidos de 10cm. Intensifica a ativação do erector spinae."}
-        ]
-      },
-      D:{name:"Costas — Peak", warmup:"5 min esteira — 7-8km/h",
-        groups:[
-          {type:"superset",label:"Tri-Set A",restAfter:"60s",exercises:[
-            {name:"Remada Sentada — Cabo",sets:4,reps:"15",tip:"Peso moderado, volume alto. Mantém as costas em tensão constante durante todo o tri-set."},
-            {name:"Pulldown — Polia Aberta",sets:4,reps:"15",tip:"Sem pausa. Cotovelos para baixo e para trás. Expanda o peito."},
-            {name:"Remada Alta — Cabo (barra reta)",sets:4,reps:"15",tip:"Terceiro do tri-set — sem pausa! Puxe até o queixo com cotovelos subindo alto e abrindo. Trapézio superior e deltóide posterior — vetor completamente diferente dos dois anteriores. Continue sem parar!"}
-          ]},
-          {type:"superset",label:"Tri-Set B",restAfter:"45s",exercises:[
-            {name:"Remada Máquina — Apoio no Peito",sets:3,reps:"20",tip:"Reps altas, foco no rombóide e dorsais. Sem pausa entre os exercícios."},
-            {name:"Voador Invertido — Peck Deck Inv.",sets:3,reps:"20",tip:"Deltóides posteriores e rombóides. Ritmo constante."},
-            {name:"Pulldown — Pegada Neutra (Triângulo)",sets:3,reps:"20",tip:"Finalizou o tri-set! Pegada neutra (palmas se olhando) ativa dorsal interna e inferior — ângulo diferente da polia aberta do Tri-Set A. DESCANSO de 45s agora."}
-          ]}
-        ],
-        finishers:[
-          {name:"Bird Dog — Controlado",sets:3,reps:"12 cada lado",tip:"Mais lento que antes. Foco na estabilidade e ativação do core lombar."}
-        ]
-      },
-      E:{name:"Core + Lombar (Opcional)", warmup:"5 min caminhada leve", optional:true,
-        groups:[
-          {type:"superset",label:"Tri-Set A",restAfter:"45s",exercises:[
-            {name:"Extensão Lombar 45° — Cadeira",sets:3,reps:"15",tip:"Mesmo movimento controlado. Lombar está mais forte agora — aproveite."},
-            {name:"Abdominal Máquina",sets:3,reps:"20",tip:"Peso aumentado vs fases anteriores."},
-            {name:"Hiperextensão Reversa",sets:3,reps:"15",tip:"Terceiro do tri-set. Descompressão lombar + fortalecimento."}
-          ]}
-        ],
-        finishers:[
-          {name:"HIIT Esteira — Nível Avançado",sets:1,reps:"20 min",tip:"45s sprint (10-12km/h) + 15s caminhada × 20 rodadas. Pré-dezembro = máxima queima."}
-        ]
-      }
-    }
-  }
-};
-
-const DIET = [
-  {
-    name:"Café da Manhã", time:"07:00 — 08:00", icon:"☀️",
-    options:[
-      {label:"Opção 1 — Clássico",totalCal:620,totalProt:38,items:[
-        {name:"Ovos mexidos (3 unid.)",cal:210,prot:18,prep:"Mexidos com azeite, sem manteiga"},
-        {name:"Pão integral (2 fatias)",cal:160,prot:8},
-        {name:"Iogurte grego zero (170g)",cal:100,prot:17},
-        {name:"Banana média",cal:90,prot:1},
-        {name:"Café com adoçante",cal:5,prot:0}
-      ]},
-      {label:"Opção 2 — Omelete Fitness",totalCal:605,totalProt:45,items:[
-        {name:"Omelete (3 ovos + 3 claras + queijo cottage 60g)",cal:325,prot:38,prep:"Adicione espinafre ou tomate dentro"},
-        {name:"Pão integral (1 fatia)",cal:80,prot:4},
-        {name:"Maçã média",cal:80,prot:0},
-        {name:"Café com leite desnatado (100ml)",cal:40,prot:3}
-      ]},
-      {label:"Opção 3 — Vitamina Proteica",totalCal:575,totalProt:39,items:[
-        {name:"Whey Protein 1 scoop (30g)",cal:120,prot:25,prep:"Bata tudo no liquidificador"},
-        {name:"Leite desnatado (200ml)",cal:70,prot:7},
-        {name:"Aveia em flocos (50g)",cal:185,prot:6},
-        {name:"Banana congelada (1 unid.)",cal:90,prot:1},
-        {name:"Pasta de amendoim (20g)",cal:120,prot:4}
-      ]}
-    ]
-  },
-  {
-    name:"Almoço", time:"12:00 — 13:00", icon:"🍽️",
-    options:[
-      {label:"Opção 1 — Frango + Arroz + Feijão",totalCal:750,totalProt:57,items:[
-        {name:"Frango grelhado (180g)",cal:270,prot:45,prep:"Tempere com limão, alho e ervas"},
-        {name:"Arroz integral cozido (250g)",cal:290,prot:6},
-        {name:"Feijão cozido (130g)",cal:110,prot:8},
-        {name:"Salada verde (alface, rúcula, tomate)",cal:30,prot:2},
-        {name:"Azeite extra virgem (1 fio, 5ml)",cal:45,prot:0}
-      ]},
-      {label:"Opção 2 — Carne Magra + Batata Doce",totalCal:710,totalProt:52,items:[
-        {name:"Patinho / alcatra grelhado (170g)",cal:250,prot:40,prep:"Tempere natural, grelhe na chapa"},
-        {name:"Batata doce cozida (250g)",cal:225,prot:4},
-        {name:"Brócolis + cenoura refogados (150g)",cal:80,prot:4},
-        {name:"Feijão cozido (100g)",cal:85,prot:6},
-        {name:"Azeite (1 fio)",cal:45,prot:0}
-      ]},
-      {label:"Opção 3 — Atum + Massa Integral",totalCal:665,totalProt:55,items:[
-        {name:"Atum em água (2 latas, 240g)",cal:240,prot:52,prep:"Escorra bem a água"},
-        {name:"Macarrão integral cozido (200g)",cal:280,prot:10},
-        {name:"Molho de tomate caseiro (80g)",cal:50,prot:2},
-        {name:"Salada de alface + tomate",cal:30,prot:1}
-      ]}
-    ]
-  },
-  {
-    name:"Café da Tarde", time:"15:30 — 16:30", icon:"💪",
-    note:"Seu combo favorito — mantido fixo!",
-    options:[
-      {label:"Combo Fixo — Whey + Granola + Iogurte",totalCal:380,totalProt:47,items:[
-        {name:"Whey Protein 1 scoop (30g)",cal:120,prot:25,prep:"Misture diretamente no iogurte"},
-        {name:"Granola sem açúcar (30g)",cal:130,prot:3},
-        {name:"Iogurte grego zero (170g)",cal:100,prot:17},
-        {name:"Canela a gosto",cal:5,prot:0}
-      ]},
-      {label:"Opção 2 — Shake Completo",totalCal:400,totalProt:42,items:[
-        {name:"Whey Protein 1 scoop (30g)",cal:120,prot:25},
-        {name:"Leite desnatado (200ml)",cal:70,prot:7},
-        {name:"Pasta de amendoim (20g)",cal:120,prot:4},
-        {name:"Aveia (20g)",cal:75,prot:3}
-      ]}
-    ]
-  },
-  {
-    name:"Janta", time:"19:00 — 20:30", icon:"🌙",
-    options:[
-      {label:"Opção 1 — Salmão + Batata Doce",totalCal:635,totalProt:44,items:[
-        {name:"Salmão grelhado (150g)",cal:280,prot:30,prep:"Azeite, limão e dill. Grelhe 4min cada lado"},
-        {name:"Batata doce assada (200g)",cal:180,prot:4},
-        {name:"Mix de legumes no vapor (200g)",cal:80,prot:6,prep:"Brócolis, vagem, abobrinha"},
-        {name:"Azeite extra virgem (1 fio)",cal:45,prot:0}
-      ]},
-      {label:"Opção 2 — Frango + Arroz + Legumes",totalCal:650,totalProt:52,items:[
-        {name:"Frango grelhado (180g)",cal:270,prot:45},
-        {name:"Arroz integral cozido (180g)",cal:210,prot:4},
-        {name:"Abobrinha + espinafre refogados (150g)",cal:60,prot:4},
-        {name:"Azeite (1 fio)",cal:45,prot:0}
-      ]},
-      {label:"Opção 3 — Omelete Proteico",totalCal:610,totalProt:46,items:[
-        {name:"Omelete (3 ovos + 3 claras + cottage 60g)",cal:320,prot:35,prep:"Adicione espinafre, tomate ou cebola"},
-        {name:"Pão integral (2 fatias)",cal:160,prot:8},
-        {name:"Salada de pepino + tomate + azeite",cal:80,prot:2}
-      ]}
-    ]
-  }
-];
-
-// ==================== STATE ====================
-let state = {
-  currentPhase: 1,
-  currentDay: 'A',
-  weightHistory: [],
-  workoutHistory: [],
-  currentWorkout: null,
-  githubToken: '',
-  gistId: '',
-  selectedMealOptions: {}
-};
-
-let weightChart = null;
-
-// ==================== INIT ====================
-function init() {
-  loadData();
-  renderPhaseTabs();
-  renderDayGrid();
-  renderWorkout();
-  renderDiet();
-  renderProgressStats(); // stats only — no chart (canvas is hidden at init)
-  loadConfig();
-  updateHeader();
-  updateGoalBar();
-}
-
-// ==================== PERSISTENCE ====================
-function saveData() {
-  try {
-    localStorage.setItem('ironfit', JSON.stringify({
-      weightHistory: state.weightHistory,
-      workoutHistory: state.workoutHistory,
-      currentPhase: state.currentPhase,
-      currentDay: state.currentDay,
-      githubToken: state.githubToken,
-      gistId: state.gistId,
-      selectedMealOptions: state.selectedMealOptions
-    }));
-  } catch(e) { console.error('Save error', e); }
-}
-
-function loadData() {
-  try {
-    const s = localStorage.getItem('ironfit');
-    if (s) {
-      const d = JSON.parse(s);
-      Object.assign(state, d);
-    }
-  } catch(e) { console.error('Load error', e); }
-}
-
-// ==================== NAVIGATION ====================
-function showScreen(name, btn) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  (btn || document.querySelector(`[data-screen="${name}"]`)).classList.add('active');
-  if (name === 'progresso') {
-    renderProgressStats();
-    // Defer chart render until screen is visually active (canvas has real dimensions)
-    setTimeout(() => renderWeightChart(), 60);
-  }
-}
-
-// ==================== HEADER ====================
-function updateHeader() {
-  const last = getLastWeight();
-  document.getElementById('header-weight').innerHTML = last + '<span>kg</span>';
-}
-
-function updateGoalBar() {
-  const start = 93, goal = 83;
-  const current = getLastWeight();
-  const lost = start - current;
-  const total = start - goal;
-  const pct = Math.min(100, Math.max(0, (lost / total) * 100));
-  document.getElementById('goal-fill').style.width = pct + '%';
-  document.getElementById('goal-pct').textContent = pct.toFixed(0) + '% concluído';
-}
-
-function getLastWeight() {
-  if (!state.weightHistory.length) return 93;
-  return state.weightHistory[state.weightHistory.length - 1].weight;
-}
-
-// ==================== TREINO ====================
-function renderPhaseTabs() {
-  const c = document.getElementById('phase-tabs');
-  c.innerHTML = [1,2,3].map(p => `
-    <button class="phase-tab ${state.currentPhase==p?'active':''}" onclick="selectPhase(${p})">
-      ${PHASES[p].name}<br><span style="font-size:10px;font-weight:400">${PHASES[p].subtitle}</span>
-    </button>
-  `).join('');
-}
-
-function selectPhase(p) {
-  state.currentPhase = p;
-  state.currentDay = 'A';
-  saveData();
-  renderPhaseTabs();
-  renderPhaseInfo();
-  renderDayGrid();
-  renderWorkout();
-}
-
-function renderPhaseInfo() {
-  const ph = PHASES[state.currentPhase];
-  const box = document.getElementById('phase-info-box');
-  box.innerHTML = `
-    <div class="phase-info-title" style="color:${ph.color}">${ph.name} — ${ph.subtitle}</div>
-    <div class="phase-info-period">${ph.period} · ${ph.weeks}</div>
-    <div class="phase-info-goal">${ph.goal}</div>
-    <div class="tips-list">${ph.tips.map(t=>`<div class="tip-item">${t}</div>`).join('')}</div>
-  `;
-}
-
-function renderDayGrid() {
-  renderPhaseInfo();
-  const ph = PHASES[state.currentPhase];
-  const c = document.getElementById('day-grid');
-  const dayNames = {A:'Peito\nBíceps',B:'Pernas\nGeral',C:'Ombros\nTríceps',D:'Costas',E:'Core\nLombar'};
-  c.innerHTML = Object.keys(ph.days).map(d => {
-    const day = ph.days[d];
-    return `<button class="day-btn ${state.currentDay==d?'active':''} ${day.optional?'optional':''}"
-      onclick="selectDay('${d}')">
-      <span class="day-letter">${d}</span>
-      <span class="day-label">${dayNames[d]||d}</span>
-      ${day.optional?`<span style="font-size:8px;color:var(--purple)">opcional</span>`:''}
-    </button>`;
-  }).join('');
-}
-
-function selectDay(d) {
-  state.currentDay = d;
-  saveData();
-  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  renderWorkout();
-}
-
-function getLastExerciseWeight(exName) {
-  const ph = state.currentPhase, day = state.currentDay;
-  const sessions = state.workoutHistory
-    .filter(w => w.phase == ph && w.day == day)
-    .sort((a,b) => new Date(b.date) - new Date(a.date));
-  if (!sessions.length) return null;
-  const ex = sessions[0].exercises?.find(e => e.name === exName);
-  if (!ex || !ex.sets?.length) return null;
-  const weights = ex.sets.map(s=>s.weight).filter(Boolean);
-  return weights.length ? Math.max(...weights) : null;
-}
-
-function renderWorkout() {
-  const ph = PHASES[state.currentPhase];
-  const day = ph.days[state.currentDay];
-  if (!day) return;
-  const c = document.getElementById('workout-content');
-
-  // Init current workout
-  state.currentWorkout = {
-    phase: state.currentPhase, day: state.currentDay,
-    date: new Date().toISOString(), exercises: {}
-  };
-
-  let html = '';
-
-  // Warmup
-  html += `<div class="warmup-bar">
-    <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    <div class="warmup-text"><strong>Aquecimento:</strong> ${day.warmup}</div>
-  </div>`;
-
-  if (day.isCircuit) {
-    html += renderCircuit(day);
-  } else {
-    // Superset explanation banner
-    const isTri = (day.groups||[]).some(g => g.exercises.length >= 3);
-    html += `<div style="margin:0 16px 14px;padding:12px 14px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);border-radius:10px;border-left:4px solid #3b82f6">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:#3b82f6;margin-bottom:5px">${isTri ? '⚡ O que é Tri-Set?' : '⚡ O que é Superset?'}</div>
-      <div style="font-size:14px;color:var(--txt2);line-height:1.55">${isTri
-        ? 'Execute os <strong style="color:var(--txt)">3 exercícios em sequência</strong>, sem parar entre eles. Descanse só após terminar os 3. Isso aumenta muito o gasto calórico e economiza tempo.'
-        : 'Execute os <strong style="color:var(--txt)">2 exercícios em sequência</strong>, sem parar entre eles. Descanse só após terminar os 2. Isso aumenta o gasto calórico e economiza tempo de treino.'
-      }</div>
-    </div>`;
-    html += '<div class="workout-block">';
-    (day.groups||[]).forEach(g => { html += renderSuperset(g); });
-    if (day.finishers?.length) {
-      html += `<div class="superset-card"><div class="finisher-block" style="padding-top:0">
-        <div style="padding:12px 14px;border-bottom:1px solid var(--border)">
-          <span style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800">🏁 Finalizadores</span>
-        </div>
-        ${day.finishers.map(f => `
-          <div class="finisher-item" style="margin:10px 0 0">
-            <div style="flex:1">
-              <div class="finisher-name">${f.name}</div>
-              <div class="finisher-detail">${f.sets||1}× ${f.reps}</div>
-              ${f.tip?`<div class="finisher-tip ${f.alert?'alert-tip':''}">${f.tip}</div>`:''}
-            </div>
-          </div>`).join('')}
-      </div></div>`;
-    }
-    html += '</div>';
-  }
-
-  html += `<button class="save-workout-btn" id="save-btn" onclick="saveWorkout()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    Finalizar e Salvar Treino
-  </button>`;
-
-  c.innerHTML = html;
-}
-
-function renderSuperset(g) {
-  const isTriset = g.exercises.length >= 3;
-  const n = g.exercises.length;
-  return `<div class="superset-card">
-    <div class="superset-header">
-      <span class="superset-label">${g.label}</span>
-      <span class="superset-tag">${isTriset?`${n} exercícios seguidos`:'2 exercícios seguidos'} · ${g.restAfter} descanso</span>
+<!-- ================= TIMER DE DESCANSO ================= -->
+<div id="restTimer" role="status" aria-live="polite">
+  <div class="rt-top">
+    <div>
+      <div class="rt-lbl" id="rtLabel">Descanso</div>
+      <div class="rt-time" id="rtTime">0:45</div>
     </div>
-    ${g.exercises.map((ex,i) => renderExercise(ex, i+1, n)).join('')}
-  </div>`;
-}
-
-function renderExercise(ex, orderNum, totalInGroup) {
-  const lastW = getLastExerciseWeight(ex.name);
-  const placeholder = lastW ? lastW.toString() : 'kg';
-  const setsArr = Array.from({length: ex.sets}, (_,i) => i);
-  const orderLabel = orderNum && totalInGroup > 1 ? `<span style="font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--bg3);color:var(--txt2);margin-right:4px">${orderNum}°</span>` : '';
-  return `<div class="exercise-block">
-    <div class="exercise-name">
-      ${orderLabel}${ex.name}
-      ${ex.alert ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : ''}
+    <div class="rt-acts">
+      <button class="rt-btn" onclick="restAdd(15)">+15s</button>
+      <button class="rt-btn" onclick="restSkip()">Pular</button>
     </div>
-    <div class="exercise-meta">${ex.sets} séries × ${ex.reps} reps</div>
-    ${lastW ? `<div class="last-weight">↑ Último registro: ${lastW}kg</div>` : ''}
-    ${ex.tip ? `<div class="exercise-tip ${ex.alert?'alert-tip':''}">${ex.tip}</div>` : ''}
-    <div class="sets-table">
-      <div class="set-row" style="margin-bottom:2px">
-        <div style="font-size:10px;color:var(--txt3);text-align:center">#</div>
-        <div style="font-size:10px;color:var(--txt3);text-align:center">Peso (kg)</div>
-        <div style="font-size:10px;color:var(--txt3);text-align:center">Reps feitas</div>
-        <div></div>
-      </div>
-      ${setsArr.map(i => `
-        <div class="set-row" id="set-${slugify(ex.name)}-${i}">
-          <div class="set-num">${i+1}</div>
-          <input class="set-input" type="number" step="0.5" min="0" placeholder="${placeholder}"
-            onchange="updateSet('${escStr(ex.name)}',${i},'weight',this.value)"
-            inputmode="decimal">
-          <input class="set-input" type="number" min="0" placeholder="${ex.reps}"
-            onchange="updateSet('${escStr(ex.name)}',${i},'reps',this.value)"
-            inputmode="numeric">
-          <button class="set-check" onclick="toggleSetDone(this,'${escStr(ex.name)}',${i})">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-        </div>`).join('')}
-    </div>
-  </div>`;
-}
+  </div>
+  <div class="rt-bar"><i id="rtBar" style="width:100%"></i></div>
+</div>
 
-function renderCircuit(day) {
-  return `
-    <div class="circuit-info">
-      <div class="circuit-stat"><div class="val">${day.rounds}</div><div class="lbl">Rounds</div></div>
-      <div class="circuit-stat"><div class="val">${day.workTime}s</div><div class="lbl">Trabalho</div></div>
-      <div class="circuit-stat"><div class="val">${day.restTime}s</div><div class="lbl">Descanso</div></div>
-    </div>
-    <div style="padding:0 16px 4px;font-size:11px;color:var(--txt3)">Descanso entre rounds: ${day.roundRest}s · Execute os exercícios em sequência</div>
-    <div class="workout-block">
-      <div class="superset-card">
-        ${day.exercises.map((ex,i) => `
-          <div class="circuit-exercise">
-            <div class="circuit-num">${i+1}</div>
-            <div>
-              <div class="circuit-name">${ex.name}</div>
-              <div class="circuit-tip">${ex.tip}</div>
-            </div>
-          </div>`).join('')}
-        ${day.finishers?`<div class="finisher-block">
-          ${day.finishers.map(f=>`<div class="finisher-item">
-            <div><div class="finisher-name">${f.name}</div>
-            <div class="finisher-detail">${f.reps}</div>
-            <div class="finisher-tip">${f.tip}</div></div>
-          </div>`).join('')}
-        </div>`:''}
-      </div>
-    </div>`;
-}
+<div id="toast" role="status" aria-live="polite"></div>
 
-function slugify(s) { return s.replace(/[^a-zA-Z0-9]/g,'_'); }
-function escStr(s) { return s.replace(/'/g,"\\'"); }
-
-function updateSet(exName, idx, field, val) {
-  if (!state.currentWorkout.exercises[exName]) {
-    state.currentWorkout.exercises[exName] = {name: exName, sets: []};
-  }
-  while (state.currentWorkout.exercises[exName].sets.length <= idx)
-    state.currentWorkout.exercises[exName].sets.push({});
-  state.currentWorkout.exercises[exName].sets[idx][field] = parseFloat(val) || val;
-}
-
-function toggleSetDone(btn, exName, idx) {
-  btn.classList.toggle('done');
-  updateSet(exName, idx, 'done', btn.classList.contains('done'));
-}
-
-function saveWorkout() {
-  const record = {
-    date: state.currentWorkout.date,
-    phase: state.currentWorkout.phase,
-    day: state.currentWorkout.day,
-    exercises: Object.values(state.currentWorkout.exercises)
-  };
-  state.workoutHistory.push(record);
-  saveData();
-  const btn = document.getElementById('save-btn');
-  btn.classList.add('saved');
-  btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Treino Salvo!`;
-  showToast('Treino salvo com sucesso!', 'success');
-  setTimeout(() => {
-    btn.classList.remove('saved');
-    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Finalizar e Salvar Treino`;
-  }, 3000);
-}
-
-// ==================== DIET ====================
-function renderDiet() {
-  const c = document.getElementById('diet-content');
-  c.innerHTML = `<div class="section"><div class="section-title">Cardápio Diário</div></div>` +
-    DIET.map((meal,mi) => {
-      const selOpt = state.selectedMealOptions[mi] || 0;
-      const opt = meal.options[selOpt];
-      return `<div class="meal-card" style="margin:0 16px 12px">
-        <div class="meal-header" onclick="toggleMeal(${mi})">
-          <div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span style="font-size:18px">${meal.icon}</span>
-              <div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700">${meal.name}</div>
-                <div class="meal-time">${meal.time}</div>
-              </div>
-            </div>
-          </div>
-          <div style="text-align:right">
-            <div class="meal-cal">${opt.totalCal}<span> kcal</span></div>
-            <div class="meal-prot">${opt.totalProt}g proteína</div>
-          </div>
-        </div>
-        ${meal.note?`<div style="padding:0 14px 10px;font-size:11px;color:var(--accent);font-weight:600">${meal.note}</div>`:''}
-        <div class="meal-body" id="meal-body-${mi}">
-          <div class="option-tabs">
-            ${meal.options.map((o,oi)=>`<button class="opt-tab ${selOpt==oi?'active':''}"
-              onclick="selectMealOpt(${mi},${oi})">${o.label}</button>`).join('')}
-          </div>
-          <div id="meal-items-${mi}" class="food-list">
-            ${renderFoodItems(opt)}
-          </div>
-          <div class="meal-total">
-            <span class="meal-total-label">Total ${meal.name}</span>
-            <span class="meal-total-num">${opt.totalCal} kcal · ${opt.totalProt}g prot</span>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-}
-
-function renderFoodItems(opt) {
-  return opt.items.map(item => `
-    <div class="food-item">
-      <div>
-        <div class="food-name">${item.name}</div>
-        ${item.prep?`<div class="food-prep">💡 ${item.prep}</div>`:''}
-      </div>
-      <div class="food-cals">
-        <div class="food-cal-num">${item.cal}</div>
-        <div class="food-prot">${item.prot}g prot</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleMeal(mi) {
-  const b = document.getElementById('meal-body-' + mi);
-  b.classList.toggle('open');
-  const ch = b.previousElementSibling?.querySelector?.('.chevron');
-  if (ch) ch.classList.toggle('open', b.classList.contains('open'));
-}
-
-function selectMealOpt(mi, oi) {
-  state.selectedMealOptions[mi] = oi;
-  saveData();
-  renderDiet();
-  const b = document.getElementById('meal-body-' + mi);
-  if (b) b.classList.add('open');
-}
-
-// ==================== PROGRESS ====================
-function logWeight() {
-  const val = parseFloat(document.getElementById('weight-input-val').value);
-  if (!val || val < 30 || val > 300) { showToast('Peso inválido', 'error'); return; }
-  state.weightHistory.push({ date: new Date().toISOString(), weight: val });
-  saveData();
-  updateHeader();
-  updateGoalBar();
-  renderProgressStats();
-  setTimeout(() => renderWeightChart(), 60);
-  document.getElementById('weight-input-val').value = '';
-  showToast('Peso registrado: ' + val + 'kg', 'success');
-  // Close form
-  const f = document.getElementById('weight-log-form');
-  f.classList.remove('open');
-}
-
-function toggleWeightLog(hdr) {
-  const f = document.getElementById('weight-log-form');
-  f.classList.toggle('open');
-  const ch = hdr.querySelector('.chevron');
-  if (ch) ch.classList.toggle('open', f.classList.contains('open'));
-}
-
-function renderProgressStats() {
-  const current = getLastWeight();
-  const lost = Math.max(0, 93 - current).toFixed(1);
-  const pct = Math.min(100, (lost / 10 * 100)).toFixed(0);
-  const daysLeft = Math.ceil((new Date('2026-12-01') - new Date()) / 86400000);
-
-  document.getElementById('stat-current').textContent = current + 'kg';
-  document.getElementById('stat-lost').textContent = lost + 'kg';
-  document.getElementById('stat-lost-pct').textContent = pct + '% da meta de 10kg';
-  document.getElementById('stat-workouts').textContent = state.workoutHistory.length;
-  document.getElementById('stat-days').textContent = Math.max(0, daysLeft);
-
-  const prev = state.weightHistory.length > 1 ? state.weightHistory[state.weightHistory.length - 2].weight : null;
-  if (prev) {
-    const diff = (current - prev).toFixed(1);
-    const el = document.getElementById('stat-change');
-    el.textContent = (diff > 0 ? '+' : '') + diff + 'kg vs anterior';
-    el.className = 'stat-change' + (diff <= 0 ? '' : ' neg');
-  }
-
-  renderHistoryList();
-}
-
-function renderProgress() {
-  renderProgressStats();
-  renderWeightChart();
-}
-
-function renderWeightChart() {
-  const ctx = document.getElementById('weightChart').getContext('2d');
-  const data = state.weightHistory.slice(-30);
-
-  if (weightChart) weightChart.destroy();
-
-  if (!data.length) {
-    weightChart = new Chart(ctx, {
-      type: 'line',
-      data: { labels: ['Início', 'Meta (dez/2026)'], datasets: [{
-        label: 'Objetivo: 93kg → 83kg',
-        data: [93, 83], borderColor: '#f97316', pointBackgroundColor: '#f97316',
-        fill: true, backgroundColor: 'rgba(249,115,22,.08)', tension: .4, pointRadius: 5
-      }]},
-      options: chartOpts()
-    });
-    return;
-  }
-
-  const labels = data.map(d => {
-    const dt = new Date(d.date);
-    return `${dt.getDate()}/${dt.getMonth()+1}`;
-  });
-
-  weightChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Peso (kg)',
-        data: data.map(d => d.weight),
-        borderColor: '#f97316', pointBackgroundColor: '#f97316',
-        fill: true, backgroundColor: 'rgba(249,115,22,.08)',
-        tension: .4, pointRadius: 4, pointHoverRadius: 6
-      }, {
-        label: 'Meta (83kg)',
-        data: labels.map(() => 83),
-        borderColor: '#22c55e', borderDash: [5,5],
-        pointRadius: 0, fill: false, tension: 0
-      }]
-    },
-    options: chartOpts()
-  });
-}
-
-function chartOpts(subtitle) {
-  return {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: true, labels: { color: '#b8b8b8', font: { family: 'Barlow', size: 12 }, boxWidth: 20, padding: 12 } },
-      tooltip: { backgroundColor: '#161616', borderColor: '#2e2e2e', borderWidth: 1,
-        titleColor: '#fff', bodyColor: '#b8b8b8', titleFont: { family: 'Barlow Condensed', size: 14, weight: 700 },
-        bodyFont: { family: 'Barlow', size: 13 }, padding: 10 }
-    },
-    scales: {
-      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#707070', font: { family: 'Barlow', size: 11 } } },
-      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#707070', font: { family: 'Barlow', size: 11 } },
-        min: 78, max: 96 }
-    }
-  };
-}
-
-function renderHistoryList() {
-  const c = document.getElementById('history-list');
-  if (!state.workoutHistory.length) {
-    c.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <p>Nenhum treino registrado ainda.<br>Complete um treino para ver o histórico.</p>
-    </div>`;
-    return;
-  }
-
-  const recent = [...state.workoutHistory].reverse().slice(0, 20);
-  const dayNames = {A:'Peito + Bíceps',B:'Pernas Geral',C:'Ombros + Tríceps',D:'Costas',E:'Core + Lombar'};
-
-  c.innerHTML = recent.map(w => {
-    const dt = new Date(w.date);
-    const dateStr = `${dt.getDate().toString().padStart(2,'0')}/${(dt.getMonth()+1).toString().padStart(2,'0')}/${dt.getFullYear()}`;
-    const ph = PHASES[w.phase];
-    return `<div class="history-item">
-      <div>
-        <div class="history-date">Dia ${w.day} — ${dayNames[w.day]||w.day}</div>
-        <div class="history-detail">${dateStr} · ${ph?.name||'Fase '+w.phase} ${ph?.subtitle||''}</div>
-      </div>
-      <div class="history-badge" style="background:${ph?.color||'#f97316'}22;color:${ph?.color||'#f97316'}">F${w.phase}-${w.day}</div>
-    </div>`;
-  }).join('');
-}
-
-// ==================== CONFIG ====================
-function loadConfig() {
-  if (state.githubToken) document.getElementById('pat-input').value = state.githubToken;
-  if (state.gistId) document.getElementById('gist-id-input').value = state.gistId;
-}
-
-function saveToken(val) {
-  state.githubToken = val.trim();
-  saveData();
-}
-
-function saveGistId(val) {
-  state.gistId = val.trim();
-  saveData();
-}
-
-async function syncToGist() {
-  if (!state.githubToken) { showSyncStatus('error', 'Token não configurado. Adicione seu GitHub PAT acima.'); return; }
-  showSyncStatus('loading', 'Enviando dados...');
-
-  const payload = JSON.stringify({
-    weightHistory: state.weightHistory,
-    workoutHistory: state.workoutHistory,
-    exportedAt: new Date().toISOString()
-  }, null, 2);
-
-  try {
-    const headers = { 'Authorization': 'token ' + state.githubToken, 'Content-Type': 'application/json' };
-    let res, data;
-
-    if (state.gistId) {
-      res = await fetch('https://api.github.com/gists/' + state.gistId, {
-        method: 'PATCH', headers,
-        body: JSON.stringify({ files: { 'ironfit-data.json': { content: payload } } })
-      });
-    } else {
-      res = await fetch('https://api.github.com/gists', {
-        method: 'POST', headers,
-        body: JSON.stringify({
-          description: 'IronFit — Daniel Campos workout tracker data',
-          public: false,
-          files: { 'ironfit-data.json': { content: payload } }
-        })
-      });
-    }
-
-    data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Erro ' + res.status);
-
-    if (!state.gistId) {
-      state.gistId = data.id;
-      document.getElementById('gist-id-input').value = data.id;
-    }
-    saveData();
-    showSyncStatus('ok', '✓ Dados enviados com sucesso para o Gist!');
-    showToast('Sync concluído!', 'success');
-  } catch(e) {
-    showSyncStatus('error', '✗ Erro: ' + e.message);
-    showToast('Erro no sync', 'error');
-  }
-}
-
-async function loadFromGist() {
-  if (!state.githubToken || !state.gistId) { showSyncStatus('error', 'Token e Gist ID são necessários.'); return; }
-  showSyncStatus('loading', 'Baixando dados...');
-
-  try {
-    const res = await fetch('https://api.github.com/gists/' + state.gistId, {
-      headers: { 'Authorization': 'token ' + state.githubToken }
-    });
-    const gist = await res.json();
-    if (!res.ok) throw new Error(gist.message || 'Erro ' + res.status);
-
-    const content = JSON.parse(gist.files['ironfit-data.json'].content);
-    if (content.weightHistory) state.weightHistory = content.weightHistory;
-    if (content.workoutHistory) state.workoutHistory = content.workoutHistory;
-    saveData();
-    updateHeader();
-    updateGoalBar();
-    showSyncStatus('ok', '✓ Dados carregados do Gist com sucesso!');
-    showToast('Dados sincronizados!', 'success');
-  } catch(e) {
-    showSyncStatus('error', '✗ Erro: ' + e.message);
-  }
-}
-
-function showSyncStatus(type, msg) {
-  const el = document.getElementById('sync-status');
-  el.style.display = 'block';
-  el.className = 'sync-status ' + type;
-  el.textContent = msg;
-}
-
-function exportData() {
-  const data = { weightHistory: state.weightHistory, workoutHistory: state.workoutHistory, exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'ironfit-backup-' + new Date().toISOString().split('T')[0] + '.json';
-  a.click();
-  showToast('Dados exportados!', 'success');
-}
-
-function resetApp() {
-  if (!confirm('Tem certeza? Isso apaga TODO o histórico de treinos e pesos. Esta ação não pode ser desfeita.')) return;
-  state.weightHistory = [];
-  state.workoutHistory = [];
-  saveData();
-  updateHeader();
-  updateGoalBar();
-  renderProgress();
-  showToast('App resetado.', 'success');
-}
-
-// ==================== TOAST ====================
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + (type||'');
-  setTimeout(() => { t.className = 'toast'; }, 3000);
-}
-
-// ==================== START ====================
-init();
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="assets/js/data.js?v=2.0.2"></script>
+<script src="assets/js/app.js?v=2.0.2"></script>
 </body>
 </html>
