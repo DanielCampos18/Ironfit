@@ -39,6 +39,37 @@ function dataCurta(s) {
   return `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}`;
 }
 
+/* ---------- tempo de treino ----------
+   Mesmo princípio dos totais da dieta: o tempo é DERIVADO da prescrição,
+   nunca digitado. Um bloco que ganha uma série mostra o custo na hora. */
+
+/** Segundos de uma série: ~3 s por repetição + entrada e saída do aparelho. */
+function segSerie(ex) {
+  const r = String(ex.reps);
+  const m = r.match(/(\d+)(?:\s*-\s*(\d+))?/);
+  const n = m ? (m[2] ? (+m[1] + +m[2]) / 2 : +m[1]) : 10;
+  if (/\bs\b|segundo/i.test(r)) return n;          // prescrição já é em segundos
+  let s = Math.round(n * 3 + 6);
+  if (/cada lado/i.test(r)) s *= 2;                // unilateral custa o dobro
+  return s;
+}
+
+/** Segundos de um bloco: montagem + (trabalho + descanso) × rodadas. */
+function segBloco(b) {
+  const setup = 30 * b.exercicios.length;
+  const desc = parseInt(String(b.descanso || '60').replace(/\D/g, ''), 10) || 60;
+  if (b.tipo === 'forca' || b.tipo === 'final') {
+    const e = b.exercicios[0];
+    return setup + e.series * (segSerie(e) + desc);
+  }
+  const rodadas = Math.max(...b.exercicios.map(e => e.series));
+  const trabalho = b.exercicios.reduce((a, e) => a + segSerie(e) + 15, 0);
+  return setup + rodadas * (trabalho + desc);
+}
+
+const minBloco = b => Math.round(segBloco(b) / 60);
+const minSessao = w => Math.round(w.aquecimento.min + w.blocos.reduce((a, b) => a + segBloco(b), 0) / 60);
+
 /** Soma os macros de uma lista de itens. Nenhum total é escrito à mão. */
 function somaItens(itens) {
   return itens.reduce((a, i) => ({
@@ -239,7 +270,7 @@ function renderHoje() {
           <svg viewBox="0 0 24 24"><path d="M6.5 8v8M17.5 8v8M3.5 10v4M20.5 10v4M6.5 12h11"/></svg>
           Abrir treino ${w.id}
         </button>` : ''}
-        <button class="btn" onclick="abrirTreino('core')">Rotina de coluna</button>
+        <button class="btn" onclick="abrirTreino('casa')">🏠 Bloco de casa · 15 min</button>
         <button class="btn" onclick="go('dieta')">Dieta de hoje</button>
       </div>
     </div>
@@ -302,7 +333,7 @@ const TREINO_TABS = [
   { id: 'B', label: '⚡ B · Ombro+Tríceps' },
   { id: 'C', label: '🏹 C · Costas' },
   { id: 'D', label: '🦵 D · Pernas' },
-  { id: 'core', label: '🧘 Coluna (diário)' },
+  { id: 'casa', label: '🏠 Casa (15 min)' },
   { id: 'bike', label: '🚴 Bike' },
   { id: 'areia', label: '🏖️ Areia' }
 ];
@@ -320,7 +351,7 @@ function renderTreino() {
   renderTreinoTabs();
   const c = $('#treinoContent');
   const t = state.tabTreino;
-  if (t === 'core')  return void (c.innerHTML = viewCoreDiario());
+  if (t === 'casa')  return void (c.innerHTML = viewCasa());
   if (t === 'bike')  return void (c.innerHTML = viewBike());
   if (t === 'areia') return void (c.innerHTML = viewAreia());
   c.innerHTML = viewSessao(WORKOUTS[t]);
@@ -328,7 +359,8 @@ function renderTreino() {
 }
 
 function viewSessao(w) {
-  const tempoTotal = w.aquecimento.min + w.blocos.reduce((a, b) => a + b.min, 0);
+  const tempoTotal = minSessao(w);
+  const folga = w.teto - tempoTotal;
   let h = `
     <div class="glass-hi card glow-ring" style="padding:16px;margin-bottom:14px">
       <div class="card-row">
@@ -338,13 +370,24 @@ function viewSessao(w) {
         </div>
         <div style="text-align:right">
           <div class="num" style="font-size:26px;color:${w.cor}">${tempoTotal}<span style="font-size:13px;color:var(--txt-3)"> min</span></div>
-          <div class="tiny dim">tempo previsto</div>
+          <div class="tiny dim">de ${w.teto} disponíveis</div>
+        </div>
+      </div>
+      <div style="margin-top:11px">
+        <div class="goal-track" style="height:6px">
+          <div class="goal-fill" style="width:${clamp(tempoTotal / w.teto * 100, 0, 100)}%;background:${folga >= 0 ? 'var(--grad)' : 'var(--danger)'}"></div>
+        </div>
+        <div class="tiny dim" style="margin-top:5px">
+          ${folga >= 0
+            ? `Sobram <b style="color:var(--ok)">${folga} min</b> de margem para esperar aparelho. O tempo é calculado a partir das séries, do descanso e da montagem — não é estimativa no olho.`
+            : `<b style="color:var(--danger)">${-folga} min acima do teto.</b> Corte uma série do último bloco.`}
         </div>
       </div>
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px">
         <button class="btn btn-primary btn-sm" onclick="iniciarSessao()">
           <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg> Iniciar cronômetro
         </button>
+        <button class="btn btn-sm" onclick="setTabTreino('casa')">+ Bloco de casa</button>
         <span class="session-clock" id="sessionClock" style="display:none"><i></i><span id="sessionClockTxt">0:00</span></span>
       </div>
     </div>
@@ -364,7 +407,7 @@ function viewSessao(w) {
         <span class="block-title">${esc(b.nome)}</span>
         <span style="display:flex;gap:6px;align-items:center">
           ${b.descanso ? `<span class="chip v">${esc(b.descanso)} descanso</span>` : ''}
-          <span class="chip t">${b.min} min</span>
+          <span class="chip t">${minBloco(b)} min</span>
         </span>
       </div>
       ${b.formato ? `<div class="block-note"><b>${esc(b.formato)}</b></div>` : ''}
@@ -514,31 +557,48 @@ function salvarSessao() {
 }
 
 /* ---------- vistas auxiliares do treino ---------- */
-function viewCoreDiario() {
-  const d = DAILY_CORE;
+function viewCasa() {
+  const H = HOME;
   return `
     <div class="glass-hi card glow-ring" style="padding:16px">
-      <div class="h-lg">🧘 ${esc(d.nome)}</div>
-      <div class="chip t" style="margin-top:8px">${d.min} min · todo dia</div>
-      <p class="small muted" style="margin-top:11px">${esc(d.quando)}</p>
+      <div class="card-row">
+        <div>
+          <div class="tiny" style="color:var(--violet-lt);text-transform:uppercase;letter-spacing:.12em;font-weight:700">Fora da academia</div>
+          <div class="h-lg" style="margin-top:3px">🏠 ${esc(H.nome)}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="num" style="font-size:26px;color:var(--violet-lt)">${H.min}<span style="font-size:13px;color:var(--txt-3)"> min</span></div>
+          <div class="tiny dim">${esc(H.quando.split('.')[0])}</div>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:11px">${esc(H.nota)}</p>
     </div>
+
     <div class="note w">
-      <div class="note-t">⏰ Por que não pode ser logo ao acordar</div>
-      ${esc(d.porque)}
+      <div class="note-t">🌙 Por que à noite, e não junto com a bike</div>
+      ${esc(H.porqueNoite)}
     </div>
-    <div class="note">
-      <div class="note-t">📐 Como progredir — pirâmide de McGill</div>
-      ${esc(d.metodo)}
+
+    <div class="note t">
+      <div class="note-t">🎒 O que você precisa</div>
+      ${esc(H.material)}
     </div>
-    <div class="glass block">
-      <div class="block-head"><span class="block-title">Os exercícios</span><span class="chip t">${d.min} min</span></div>
-      ${d.exercicios.map((e, i) => `
-        <div class="ex">
-          <div class="ex-head"><div class="ex-order">${i + 1}</div><div class="ex-name">${esc(e.nome)}</div></div>
-          <div class="ex-meta"><span class="ex-prescr">${esc(e.prescr)}</span></div>
-          <div class="ex-tip">${esc(e.tip)}</div>
-        </div>`).join('')}
-    </div>
+
+    ${H.partes.map(p => `
+      <div class="glass block">
+        <div class="block-head" style="background:linear-gradient(135deg,${p.cor}22,transparent)">
+          <span class="block-title">${esc(p.nome)}</span>
+          <span class="chip t">${p.min} min</span>
+        </div>
+        <div class="block-note">${esc(p.metodo)}</div>
+        ${p.exercicios.map((e, i) => `
+          <div class="ex">
+            <div class="ex-head"><div class="ex-order">${i + 1}</div><div class="ex-name">${esc(e.nome)}</div></div>
+            <div class="ex-meta"><span class="ex-prescr">${esc(e.prescr)}</span></div>
+            <div class="ex-tip">${esc(e.tip)}</div>
+          </div>`).join('')}
+      </div>`).join('')}
+
     <div class="note d">
       <div class="note-t">🩺 ${esc(RED_FLAGS.titulo)}</div>
       <ul class="bullets cross" style="margin-top:7px">${RED_FLAGS.itens.map(i => `<li>${esc(i)}</li>`).join('')}</ul>

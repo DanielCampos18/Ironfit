@@ -96,6 +96,20 @@
 - Navegador: 21 combinações de tela/aba sem erro de console; registro de peso, séries, timer de descanso, troca de opção de refeição, marcação de refeição e persistência após recarregar — todos funcionando.
 - Layout: sem estouro horizontal em 375px nem em 1280px; tabelas rolam no próprio contêiner; 26 links externos todos com `rel="noopener"`.
 
+### Correção posterior: o tempo de treino estava errado (v2.1)
+Daniel avisou que tem 45 min, não 40, e perguntou se dava tempo de fazer tudo. Ao calcular o tempo real (execução + descanso + montagem de aparelho) em vez de confiar nos minutos que eu tinha **digitado por bloco**, os treinos davam **53, 60, 63 e 69 min**. Não cabiam nem em 45.
+
+Foi o mesmo erro da dieta, repetido: número derivado escrito à mão. O bloco de core, marcado como "5 min", custava 10 a 15 min reais — três séries de Pallof press de cada lado com descanso não cabem em 5 minutos.
+
+**Solução (sugerida pelo próprio Daniel): separar academia e casa.**
+- **Academia (45 min):** só força. O que precisa de carga externa progressiva.
+- **Casa (15 min, à noite):** McGill Big 3 + Pallof com elástico, e o bloco de agilidade (pogo hops, skater hops, split-step, tibial, propriocepção). Só precisa de um elástico e 2 × 2 m.
+- **Obrigatoriamente à noite**, nunca junto com a bike da manhã: a rigidez de flexão do disco é ~300% maior na primeira hora após acordar, e é o horário que McGill contraindica.
+
+**Tempos agora calculados pelo app, não digitados** (`segSerie`/`segBloco` em `app.js`): A 41 · B 41 · C 40 · D 39 min, todos com 4-6 min de folga dentro dos 45. A tela do treino mostra a barra de ocupação e a margem restante.
+
+Ajustes de exercício para fechar a conta: mesa flexora do dia D passou a bilateral (a unilateral custava 7 min a mais), panturrilha saiu do dia D e entrou no dia A como gastrocnêmio, e o dia B ganhou rotação externa de manguito. Volume semanal por grupo permaneceu nos alvos.
+
 ### Decisões que divergem do pedido original (e por quê)
 - **Meta de peso no torneio: 89 kg (−5 kg), não 88.** Acima de 0,7% do peso por semana a massa magra estagna e a força cai (Garthe 2011) — e força cair é perder justamente a explosão que o torneio exige. Os 11 kg até 83 kg têm 13 semanas de folga depois.
 - **A balança vai subir ~1 kg na semana do torneio.** É a recarga de carboidrato. A pesagem que vale é 20/09.

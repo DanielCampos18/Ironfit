@@ -104,287 +104,199 @@ const WARMUP_PADRAO = [
 
 const WORKOUTS = {
   A: {
-    id: 'A',
-    nome: 'Peito + Bíceps',
-    foco: 'Potência horizontal',
-    icone: '🔥',
-    cor: '#a78bfa',
-    minutos: 40,
-    aquecimento: { min: 4, itens: WARMUP_PADRAO },
-    blocos: [
-      {
-        tipo: 'potencia', nome: 'Bloco de Potência', min: 5,
-        formato: 'EMOM 5 min — a cada minuto cheio, alterne o exercício',
-        nota: 'A areia devolve pouca energia elástica: você precisa GERAR força a cada passo. Este bloco treina exatamente isso. Vem no início porque potência exige sistema nervoso descansado.',
-        exercicios: [
-          { nome:'Arremesso de Peito na Parede — Medicine Ball 4-6 kg', series:3, reps:'5 arremessos',
-            tip:'Fique a 2 m da parede. Empurre com força máxima, pegue o rebote e repita. Tronco firme, sem torcer a lombar.' },
-          { nome:'Pogo Hops — saltinhos no lugar', series:2, reps:'12 saltos',
-            tip:'Saltos baixos e rápidos, só do tornozelo, joelho quase reto. Treina a rigidez do tornozelo — o que mais falta na areia.' }
-        ]
-      },
-      {
-        tipo: 'forca', nome: 'Força Principal', min: 11, descanso: '150s',
-        nota: 'Carga alta é o que protege sua massa magra em déficit. Não troque peso por repetição aqui.',
-        exercicios: [
-          { nome:'Supino Inclinado 30° — Smith Machine', series:4, reps:'6-8', rir:'2', descanso:'150s',
-            tip:'A primeira série é de aproximação (leve). Inclinação 30° pega o peitoral superior. Descida controlada em 3s, subida forte. Escápulas presas no banco.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset A', min: 8, descanso: '75s',
-        nota: 'Peito e bíceps não competem entre si — enquanto um trabalha, o outro descansa de verdade. Você economiza 37% do tempo sem perder carga.',
-        exercicios: [
+    id:'A', nome:'Peito + Bíceps', foco:'Empurrar horizontal', icone:'🔥', cor:'#a78bfa', teto:45,
+    aquecimento:{ min:3, itens:[
+      'Esteira ou bike leve — 90 s',
+      'Band pull-apart — 2 × 15',
+      'Rotação torácica deitado de lado — 8 cada lado',
+      '1 série de aproximação leve no supino'
+    ]},
+    blocos:[
+      { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        nota:'Carga alta é o que protege sua massa magra em déficit. Suba explosivo — a intenção de acelerar na fase concêntrica gera estímulo de potência sem custar um minuto a mais.',
+        exercicios:[
+          { nome:'Supino Inclinado 30° — Smith Machine', series:4, reps:'6-8', rir:'2',
+            tip:'Primeira série é de aproximação, leve. Inclinação 30° pega o peitoral superior. Descida controlada em 3 s, subida o mais rápido que a carga permitir. Escápulas presas no banco, sem ponte lombar.' }
+        ]},
+      { tipo:'superset', nome:'Superset A', descanso:'75s',
+        nota:'Peito e bíceps não competem entre si: enquanto um trabalha, o outro descansa de verdade. Cada músculo recebe quase 3 minutos de pausa real enquanto o relógio anda pela metade.',
+        exercicios:[
           { nome:'Supino Reto — Máquina ou Halteres', series:3, reps:'8-10', rir:'2',
-            tip:'Se usar halteres, não deixe os cotovelos passarem muito da linha do tronco no fundo — protege o ombro.' },
+            tip:'Com halteres, não deixe os cotovelos descerem muito abaixo da linha do tronco — protege o ombro.' },
           { nome:'Rosca Scott — Banco Scott ou Máquina', series:3, reps:'10-12', rir:'1',
-            tip:'Cotovelos travados no apoio. Não solte a tensão no fundo. O banco Scott elimina o balanço de tronco que castiga a lombar.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset B', min: 7, descanso: '60s',
-        exercicios: [
+            tip:'Cotovelos travados no apoio. Não solte a tensão no fundo. O banco elimina o balanço de tronco que castiga a lombar.' }
+        ]},
+      { tipo:'superset', nome:'Superset B', descanso:'60s',
+        exercicios:[
           { nome:'Crossover — Cabo Baixo (ou Peck Deck)', series:3, reps:'12-15', rir:'1',
-            tip:'Braços cruzam na altura do peito. Segure 1s no fechamento. Aqui pode chegar perto da falha — é máquina, risco zero para a coluna.' },
+            tip:'Braços cruzam na altura do peito, 1 s de aperto no fechamento. Aqui pode chegar perto da falha: é máquina, risco zero para a coluna.' },
           { nome:'Rosca Martelo — Cabo com corda', series:3, reps:'12-15', rir:'1',
-            tip:'Polegar para cima. Trabalha braquial e braquiorradial — a parte do braço que aparece de lado. Em pé, mas com o core firme e sem jogar o tronco.' }
-        ]
-      },
-      {
-        tipo: 'core', nome: 'Core — Anti-rotação', min: 5,
-        nota: 'Sua lombar dói DEPOIS dos jogos porque os estabilizadores fadigam, não porque são fracos. O treino é de resistência, não de força máxima.',
-        exercicios: [
-          { nome:'Pallof Press — Cabo na altura do peito', series:3, reps:'10 cada lado',
-            tip:'De lado para a polia. Empurre o cabo à frente e segure 3s resistindo à rotação. O tronco NÃO gira. É o exercício mais específico que existe para o seu caso.' },
-          { nome:'Prancha Lateral', series:3, reps:'25-30s cada lado',
-            tip:'Corpo em linha reta. Joelhos flexionados se ficar difícil demais. Quadril não pode cair.' }
-        ]
-      }
+            tip:'Polegar para cima. Trabalha braquial e braquiorradial, a parte do braço que aparece de lado. Core firme, sem jogar o tronco.' }
+        ]},
+      { tipo:'final', nome:'Finalizador', descanso:'45s',
+        nota:'A panturrilha entra aqui de propósito: o tornozelo é o gargalo de quem corre na areia, e este é o dia com tempo sobrando.',
+        exercicios:[
+          { nome:'Panturrilha em Pé — Máquina ou Leg Press', series:3, reps:'15-20', rir:'0-1',
+            tip:'Joelho estendido isola o gastrocnêmio. Desça devagar até alongar por completo, segure 1 s em cima. Se usar máquina em pé, tronco ereto — nada de curvar para alcançar.' }
+        ]}
     ]
   },
 
   B: {
-    id: 'B',
-    nome: 'Ombro + Tríceps',
-    foco: 'Potência rotacional',
-    icone: '⚡',
-    cor: '#22d3ee',
-    minutos: 40,
-    aquecimento: { min: 4, itens: [
-      'Cat-camel — 6 ciclos',
-      'Rotação externa com miniband — 2 × 15',
+    id:'B', nome:'Ombro + Tríceps', foco:'Empurrar vertical', icone:'⚡', cor:'#22d3ee', teto:45,
+    aquecimento:{ min:3, itens:[
+      'Bike leve — 90 s',
+      'Rotação externa com elástico — 2 × 15 cada lado',
       'Band pull-apart — 2 × 15',
-      'Dead bug — 2 × 8 cada lado',
-      '1 série de aproximação leve do desenvolvimento'
+      'Elevação lateral com 2 kg — 1 × 15'
     ]},
-    blocos: [
-      {
-        tipo: 'potencia', nome: 'Bloco de Potência', min: 5,
-        formato: 'EMOM 5 min — alterne a cada minuto',
-        nota: 'O arremesso rotacional é o gesto do beach tennis em versão de academia: força sai do chão, passa pelo quadril, chega no braço. A coluna trabalha como um bloco rígido — quem gira é o quadril.',
-        exercicios: [
-          { nome:'Arremesso Rotacional na Parede — Medicine Ball 4 kg', series:3, reps:'5 cada lado',
-            tip:'De lado para a parede, pés paralelos. Gire pelo QUADRIL e pelos pés, não pela lombar. O tronco acompanha em bloco.' },
-          { nome:'Skater Hop — salto lateral', series:2, reps:'8 (4 cada lado)',
-            tip:'Salto lateral baixo de uma perna para a outra, aterrissando suave e estável. Baixo e controlado — não é salto de altura.' }
-        ]
-      },
-      {
-        tipo: 'forca', nome: 'Força Principal', min: 11, descanso: '150s',
-        exercicios: [
-          { nome:'Desenvolvimento Sentado — Máquina ou Halteres (com encosto)', series:4, reps:'6-8', rir:'2', descanso:'150s',
-            alert:true,
-            tip:'SEMPRE sentado com encosto. Em pé com barra você compensa arqueando a lombar — hiperlordose sob carga é justamente o que a sua hérnia não tolera. Primeira série de aproximação.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset A', min: 8, descanso: '75s',
-        nota: 'Elevação lateral (deltoide médio) e tríceps não se sobrepõem — por isso são pareados. O desenvolvimento já usou o tríceps, então ele vem depois, nunca junto.',
-        exercicios: [
-          { nome:'Elevação Lateral — Cabo unilateral', series:3, reps:'12-15', rir:'1',
-            tip:'O cabo mantém tensão no arco inteiro, o halter só no topo. Cotovelo levemente dobrado, sobe até a altura do ombro.' },
+    blocos:[
+      { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        exercicios:[
+          { nome:'Desenvolvimento Sentado — Máquina ou Halteres, com encosto', series:4, reps:'6-8', rir:'2', alert:true,
+            tip:'SEMPRE sentado com encosto, glúteo e lombar colados nele. Em pé com barra você compensa arqueando a lombar, e hiperlordose sob carga é o que a sua hérnia não tolera. Se a lombar descolar do encosto, o peso está alto demais.' }
+        ]},
+      { tipo:'superset', nome:'Superset A', descanso:'75s',
+        nota:'Elevação lateral e tríceps não se sobrepõem — por isso são pareados. O desenvolvimento já usou o tríceps, então ele vem depois, nunca junto.',
+        exercicios:[
+          { nome:'Elevação Lateral — Cabo ou Halteres', series:3, reps:'12-15', rir:'1',
+            tip:'O cabo mantém tensão no arco inteiro; o halter só no topo. Sobe até a altura do ombro, sem impulso de tronco.' },
           { nome:'Tríceps Testa — Banco com halteres ou barra EZ', series:3, reps:'8-10', rir:'2',
-            tip:'Deitado no banco, cotovelos apontando para o teto e fixos. Alonga a cabeça longa do tríceps — a maior parte do músculo.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset B', min: 7, descanso: '60s',
-        exercicios: [
+            tip:'Deitado, cotovelos apontando para o teto e fixos. Alonga a cabeça longa do tríceps, que é a maior parte do músculo.' }
+        ]},
+      { tipo:'superset', nome:'Superset B', descanso:'60s',
+        exercicios:[
           { nome:'Face Pull — Cabo com corda', series:3, reps:'15', rir:'1',
-            tip:'Cotovelos ALTOS, puxe até a altura das orelhas com rotação externa no final. Saúde do manguito — inegociável para quem saca e dá smash.' },
+            tip:'Cotovelos ALTOS, puxe até a altura das orelhas com rotação externa no final. Saúde do manguito é inegociável para quem saca e dá smash.' },
           { nome:'Tríceps Corda — Cabo', series:3, reps:'12-15', rir:'0-1',
-            tip:'Cotovelos colados ao corpo. Abra as pontas da corda no final. Pode ir até a falha — é polia, coluna descarregada.' }
-        ]
-      },
-      {
-        tipo: 'core', nome: 'Core — Anti-extensão e rotação', min: 5,
-        exercicios: [
-          { nome:'Cable Lift — Cabo de baixo para cima', series:3, reps:'10 cada lado',
-            tip:'Puxe o cabo na diagonal, do quadril até acima do ombro oposto. A rotação vem do quadril e dos pés; a coluna fica neutra e em bloco. É o padrão do backhand.' },
-          { nome:'Dead Bug', series:3, reps:'8 cada lado',
-            tip:'Lombar COLADA no chão o tempo todo — se descolar, reduza a amplitude. Solte o ar durante o movimento.' }
-        ]
-      }
+            tip:'Cotovelos colados ao corpo, abra as pontas no final. Pode ir até a falha: é polia, coluna descarregada.' }
+        ]},
+      { tipo:'final', nome:'Finalizador', descanso:'45s',
+        nota:'Ombro responde por 14% das lesões no beach tennis. Dois minutos de manguito por semana custam muito menos que um mês parado.',
+        exercicios:[
+          { nome:'Rotação Externa — Cabo ou elástico', series:2, reps:'15 cada lado', rir:'2',
+            tip:'Cotovelo colado ao corpo formando 90°, gire o antebraço para fora sem mexer o ombro. Carga leve — aqui a qualidade importa mais que o peso.' }
+        ]}
     ]
   },
 
   C: {
-    id: 'C',
-    nome: 'Costas + Cadeia Posterior',
-    foco: 'Potência lateral',
-    icone: '🏹',
-    cor: '#5eead4',
-    minutos: 40,
-    aquecimento: { min: 4, itens: [
-      'Cat-camel — 6 ciclos',
-      'Bird dog — 2 × 5 cada lado',
-      'Ponte de glúteo — 2 × 12 com 3s de sustentação',
-      'Monster walk com miniband — 2 × 15 passos',
-      '1 série leve de puxada'
+    id:'C', nome:'Costas + Cadeia Posterior', foco:'Puxar', icone:'🏹', cor:'#5eead4', teto:45,
+    aquecimento:{ min:3, itens:[
+      'Esteira ou bike leve — 90 s',
+      'Band pull-apart — 2 × 15',
+      'Ponte de glúteo — 1 × 15',
+      '1 série de aproximação leve na puxada'
     ]},
-    blocos: [
-      {
-        tipo: 'potencia', nome: 'Bloco de Potência', min: 5,
-        formato: 'EMOM 5 min — alterne a cada minuto',
-        nota: 'Deslocamento lateral é o movimento nº1 do beach tennis e o que mais falta em quem "se sente lento na areia".',
-        exercicios: [
-          { nome:'Shuffle Lateral — 5 m ida e volta', series:3, reps:'3 idas e voltas',
-            tip:'Posição baixa, pés nunca se cruzam, empurre o chão para o lado. Se não houver espaço, faça no lugar com miniband nos tornozelos.' },
-          { nome:'Remada Explosiva — Cabo', series:2, reps:'6 puxadas rápidas',
-            tip:'Peso moderado, puxada o mais rápido possível, volta controlada em 2s. Treina a velocidade de produção de força das costas.' }
-        ]
-      },
-      {
-        tipo: 'forca', nome: 'Força Principal', min: 9, descanso: '150s',
-        exercicios: [
-          { nome:'Puxada Frente — Polia, pegada aberta', series:3, reps:'6-8', rir:'2', descanso:'150s',
-            tip:'Puxe pelos cotovelos, levando-os para baixo e para trás. Peito alto, sem jogar o tronco para trás. Primeira série de aproximação.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset A', min: 10, descanso: '75s',
-        nota: 'A mesa flexora entra no dia de costas de propósito: assim o posterior de coxa recebe estímulo 2× na semana em vez de 1× — é o gargalo de quem corre na areia, e é o músculo que mais estira em arranque. Ela tem 4 séries contra 3 da remada: faça 3 rodadas em par e a 4ª série de flexora sozinha no fim.',
-        exercicios: [
-          { nome:'Remada Baixa Sentada — Cabo, peito apoiado se houver', series:3, reps:'8-10', rir:'2',
-            alert:true,
-            tip:'Tronco ERETO o tempo todo. Não deixe a lombar arredondar ao ir para a frente — se acontecer, reduza a carga. Prefira a versão com apoio de peito se a academia tiver.' },
+    blocos:[
+      { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        exercicios:[
+          { nome:'Puxada Frente — Polia, pegada aberta', series:3, reps:'6-8', rir:'2',
+            tip:'Puxe pelos cotovelos, levando-os para baixo e para trás. Peito alto, sem jogar o tronco para trás para roubar. Primeira série de aproximação.' }
+        ]},
+      { tipo:'superset', nome:'Superset A', descanso:'75s',
+        nota:'A mesa flexora entra no dia de costas de propósito: assim o posterior de coxa recebe estímulo 2× na semana em vez de 1×. É o músculo que produz o arranque e o que mais estira na areia. Ela tem 4 séries contra 3 da remada — faça 3 rodadas em par e a 4ª de flexora sozinha.',
+        exercicios:[
+          { nome:'Remada Baixa Sentada — Cabo, peito apoiado se houver', series:3, reps:'8-10', rir:'2', alert:true,
+            tip:'Tronco ERETO o tempo todo. Não deixe a lombar arredondar ao ir para a frente — se acontecer, reduza a carga. Deixe o peso puxar a escápula, nunca a coluna.' },
           { nome:'Mesa Flexora (deitada)', series:4, reps:'10-12', rir:'1',
             tip:'Amplitude completa, sem levantar o quadril do apoio. Substitui o stiff com segurança total para o disco.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Tri-Set B', min: 8, descanso: '60s',
-        exercicios: [
+        ]},
+      { tipo:'superset', nome:'Tri-Set B', descanso:'60s',
+        exercicios:[
           { nome:'Remada Unilateral — Halter apoiado no banco', series:3, reps:'10 cada lado', rir:'1',
-            tip:'Uma mão e um joelho no banco, coluna paralela ao chão e NEUTRA. Cotovelo sobe rente ao corpo até acima da linha das costas.' },
-          { nome:'Elevação Pélvica (Hip Thrust) — Smith ou máquina', series:3, reps:'10-12', rir:'1',
-            tip:'É o seu substituto do levantamento terra: extensão de quadril forte com compressão quase nula na coluna. Queixo para o peito, costelas para baixo, segure 1s no topo.' },
+            tip:'Uma mão e um joelho no banco, coluna paralela ao chão e NEUTRA. Cotovelo sobe rente ao corpo até passar da linha das costas.' },
+          { nome:'Elevação Pélvica (Hip Thrust) — Smith ou máquina', series:3, reps:'10-12', rir:'1', alert:true,
+            tip:'Seu substituto do levantamento terra: extensão de quadril forte com compressão quase nula na coluna. Queixo colado ao peito, costelas para baixo, e PARE quando o quadril chegar em linha reta — não hiperestenda a lombar no topo.' },
           { nome:'Panturrilha Sentada', series:3, reps:'15-20', rir:'0-1',
-            tip:'Sentada treina o SÓLEO, que é o motor de quem corre na areia. Zero carga axial. Desça devagar até alongar, segure 1s em cima.' }
-        ]
-      },
-      {
-        tipo: 'core', nome: 'Core — Anti-lateroflexão', min: 4,
-        exercicios: [
-          { nome:'Suitcase Carry — halter pesado em uma mão só', series:3, reps:'30 m cada lado',
-            tip:'Halter de 24-28 kg em uma mão. Caminhe ereto sem inclinar para nenhum lado. O melhor treino de resistência lateral em pé que existe — e o mais parecido com a areia.' },
-          { nome:'Bird Dog', series:3, reps:'8 cada lado com 8s de sustentação',
-            tip:'Quatro apoios, coluna neutra. Empurre o punho e o calcanhar para paredes opostas. O quadril não pode rodar.' }
-        ]
-      }
+            tip:'Joelho dobrado isola o SÓLEO, que é o motor de quem corre na areia. Zero carga axial. Desça devagar até alongar, segure 1 s em cima.' }
+        ]}
     ]
   },
 
   D: {
-    id: 'D',
-    nome: 'Pernas',
-    foco: 'Potência vertical',
-    icone: '🦵',
-    cor: '#e879f9',
-    minutos: 40,
-    aquecimento: { min: 4, itens: [
-      'Bike leve — 2 min',
-      'Cat-camel — 6 ciclos',
+    id:'D', nome:'Pernas', foco:'Agachar e empurrar', icone:'🦵', cor:'#e879f9', teto:45,
+    aquecimento:{ min:3, itens:[
+      'Bike leve — 90 s',
       'Ponte de glúteo — 2 × 12',
       'Monster walk com miniband — 2 × 15 passos',
       '1 série de aproximação no leg press'
     ]},
-    blocos: [
-      {
-        tipo: 'potencia', nome: 'Bloco de Potência', min: 5,
-        formato: 'EMOM 5 min — alterne a cada minuto',
-        nota: 'Saltos e step-ups explosivos são seguros para o disco: a carga axial é dinâmica e leve. O que hernia é flexão carregada, não salto.',
-        exercicios: [
-          { nome:'Salto Vertical (CMJ) — aterrissagem suave', series:3, reps:'4 saltos',
-            tip:'Desça rápido até meio agachamento e salte o mais alto possível. ATERRISSE SUAVE, absorvendo com joelho e quadril. Qualidade sobre quantidade — se a altura cair, pare.' },
-          { nome:'Step-up Explosivo — banco na altura do joelho', series:2, reps:'5 cada lado',
-            tip:'Suba explosivo empurrando com a perna de cima, desça controlado. Tronco ereto. Sem peso nas primeiras semanas.' }
-        ]
-      },
-      {
-        tipo: 'forca', nome: 'Força Principal', min: 9, descanso: '150s',
-        exercicios: [
-          { nome:'Leg Press Horizontal — amplitude controlada', series:3, reps:'8-10', rir:'2', descanso:'150s',
-            alert:true,
-            tip:'PARE a descida ANTES do quadril começar a enrolar (retroversão pélvica). O momento em que o cóccix descola do apoio é flexão lombar com centenas de quilos em cima — é o mecanismo clássico de piora de hérnia. Nunca use o leg press 45° profundo.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Superset A', min: 10, descanso: '75s',
-        nota: 'A flexora tem 4 séries contra 3 da extensora — o posterior de coxa precisa de mais volume que o quadríceps aqui, porque é ele que protege o joelho e produz o arranque. Faça 3 rodadas em par e a 4ª de flexora sozinha.',
-        exercicios: [
+    blocos:[
+      { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        exercicios:[
+          { nome:'Leg Press Horizontal — amplitude controlada', series:3, reps:'8-10', rir:'2', alert:true,
+            tip:'PARE a descida ANTES do quadril começar a enrolar. O instante em que o cóccix descola do apoio é flexão lombar com centenas de quilos em cima — é o mecanismo clássico de piora de hérnia. Nunca use o leg press 45° profundo.' }
+        ]},
+      { tipo:'superset', nome:'Superset A', descanso:'75s',
+        nota:'A flexora tem 4 séries contra 3 da extensora: o posterior precisa de mais volume que o quadríceps aqui, porque é ele que protege o joelho e produz o arranque. Faça 3 rodadas em par e a 4ª de flexora sozinha.',
+        exercicios:[
           { nome:'Cadeira Extensora', series:3, reps:'12-15', rir:'1',
-            tip:'Segure 1s no topo. Volta controlada em 3s. Pode chegar perto da falha com segurança.' },
-          { nome:'Flexora em Pé ou Mesa Flexora Unilateral', series:4, reps:'12-15 cada lado', rir:'1',
-            tip:'Unilateral revela e corrige diferença entre as pernas — comum em quem joga esporte de raquete.' }
-        ]
-      },
-      {
-        tipo: 'superset', nome: 'Tri-Set B', min: 8, descanso: '60s',
-        exercicios: [
-          { nome:'Agachamento Búlgaro — Halteres', series:3, reps:'10 cada lado', rir:'1',
-            alert:true,
-            tip:'Pé de trás apoiado no banco, halteres ao lado do corpo. Tronco ERETO — não incline para a frente. Se a lombar reclamar, reduza a amplitude ou troque por afundo apoiado no Smith.' },
+            tip:'Segure 1 s no topo, volta controlada em 3 s. Quadril fixo no encosto — não empurre a lombar contra ele no final.' },
+          { nome:'Mesa Flexora', series:4, reps:'12-15', rir:'1',
+            tip:'Se quiser corrigir diferença entre as pernas, faça uma das quatro séries unilateral. Amplitude completa.' }
+        ]},
+      { tipo:'superset', nome:'Superset B', descanso:'60s',
+        exercicios:[
+          { nome:'Agachamento Búlgaro — Halteres', series:3, reps:'10 cada lado', rir:'1', alert:true,
+            tip:'Pé de trás no banco, halteres ao lado do corpo, tronco ERETO — não incline para a frente. Se a lombar reclamar, reduza a amplitude ou troque por afundo apoiado no Smith.' },
           { nome:'Cadeira Abdutora', series:3, reps:'15-20', rir:'1',
-            tip:'Glúteo médio é quem freia o corpo nas mudanças de direção laterais. Postura ereta, abra controlado.' },
-          { nome:'Panturrilha no Leg Press — joelho estendido', series:3, reps:'12-15', rir:'0-1',
-            tip:'Joelho estendido pega o gastrocnêmio (a panturrilha sentada do dia C pega o sóleo). Amplitude total, sem carga na coluna.' }
-        ]
-      },
-      {
-        tipo: 'core', nome: 'Core — Carga assimétrica', min: 4,
-        exercicios: [
-          { nome:'Farmer Walk — halteres nas duas mãos', series:3, reps:'40 m',
-            tip:'Carga total de 50-70% do seu peso (aprox. 24-32 kg em cada mão). Ombros para trás, core firme, passos curtos e rápidos.' },
-          { nome:'Prancha com Deslize de Braço', series:3, reps:'8 cada lado',
-            tip:'Na prancha, deslize um braço à frente sem deixar o quadril girar nem cair. Anti-extensão puro.' }
-        ]
-      }
+            tip:'O glúteo médio é quem freia o corpo nas mudanças de direção laterais — o movimento mais repetido do beach tennis. Postura ereta, abra controlado.' }
+        ]}
     ]
   }
 };
 
-/* ---------- ROTINA DIÁRIA DE COLUNA (casa, 8 min, TODO dia) ---------- */
-const DAILY_CORE = {
-  nome: 'Rotina Diária de Coluna',
-  min: 8,
-  quando: 'Todo dia, inclusive nos dias sem academia. NUNCA na primeira hora após acordar.',
-  porque: 'Na primeira hora depois de acordar o disco está no auge da hidratação e as tensões de flexão chegam a ser 300% maiores (Adams & Dolan, Spine 1987). Espere 45-60 min e caminhe um pouco antes.',
-  metodo: 'Pirâmide descendente de McGill: 5 repetições → descanso 20-30s → 3 repetições → descanso → 1 repetição. Cada repetição é uma sustentação de 8 segundos, respirando normalmente. Progride-se aumentando REPETIÇÕES (6-4-2, depois 8-6-4), nunca o tempo da sustentação.',
-  exercicios: [
-    { nome:'Cat-camel', prescr:'6 ciclos lentos',
-      tip:'Mobilidade, não alongamento. Não force a amplitude — é para lubrificar, não para esticar.' },
-    { nome:'Curl-up de McGill', prescr:'5-3-1 · 8s cada',
-      tip:'Deitado, UMA perna dobrada e a outra estendida, mãos sob a lombar para manter a curva natural. Levante só cabeça e ombros poucos centímetros, como um bloco rígido. A lombar NÃO se move — é isso que diferencia do abdominal comum.' },
-    { nome:'Prancha Lateral', prescr:'5-3-1 · 8s cada lado',
-      tip:'Nível 1: joelhos dobrados. Nível 2: pés empilhados. Complete a pirâmide inteira de um lado antes de trocar.' },
-    { nome:'Bird Dog', prescr:'5-3-1 · 8s cada lado',
-      tip:'Braço e perna opostos. Punho e calcanhar "empurrando" paredes opostas. Ao voltar, varra o chão desenhando um quadrado com mão e joelho.' },
-    { nome:'Ponte de Glúteo', prescr:'2 × 10 com 3s de sustentação',
-      tip:'Aperte o glúteo, não a lombar. Costelas para baixo.' },
-    { nome:'Caminhada', prescr:'5-10 min',
-      tip:'McGill considera a caminhada o melhor exercício isolado para lombar — funciona como bomba de nutrição do disco.' }
-  ]
+/* ============================================================
+   TREINO DE CASA — 15 min, à noite
+   Saiu da academia para os 45 min fecharem: core de McGill e
+   agilidade. Nenhum dos dois precisa de carga externa.
+   ============================================================ */
+const HOME = {
+  nome: 'Bloco de Casa',
+  min: 15,
+  quando: 'À noite, 4 a 6 vezes por semana. A parte de coluna pode ser feita todos os dias.',
+  material: 'Um elástico (miniband ou tubo com alça) e um espaço de 2 × 2 metros. Só isso.',
+  porqueNoite: 'NUNCA de manhã. A rigidez de flexão do disco é cerca de 300% maior na primeira hora depois de acordar (Adams & Dolan, Spine 1987), e o próprio McGill orienta não fazer a rotina cedo. Como você já pedala de manhã, a noite é o horário livre — e é também o mais seguro.',
+  partes: [
+    {
+      id:'coluna', nome:'Coluna — McGill Big 3', min:8, cor:'#a78bfa',
+      metodo:'Pirâmide descendente: 5 repetições → descanso de 20-30 s → 3 repetições → descanso → 1 repetição. Cada repetição é uma sustentação de 8 segundos, respirando normal. Progride-se aumentando REPETIÇÕES (6-4-2, depois 8-6-4), nunca o tempo de sustentação.',
+      exercicios:[
+        { nome:'Cat-camel', prescr:'6 ciclos lentos',
+          tip:'Mobilidade, não alongamento. Não force a amplitude — é para lubrificar a coluna, não para esticar.' },
+        { nome:'Curl-up de McGill', prescr:'5-3-1 · 8 s cada',
+          tip:'Deitado, UMA perna dobrada e a outra estendida, mãos sob a lombar para manter a curva natural. Levante só cabeça e ombros poucos centímetros, como um bloco rígido. A lombar NÃO se move — é isso que separa este do abdominal comum.' },
+        { nome:'Prancha Lateral', prescr:'5-3-1 · 8 s cada lado',
+          tip:'Nível 1: joelhos dobrados. Nível 2: pés empilhados. Complete a pirâmide inteira de um lado antes de trocar.' },
+        { nome:'Bird Dog', prescr:'5-3-1 · 8 s cada lado',
+          tip:'Braço e perna opostos, punho e calcanhar empurrando paredes opostas. O quadril não pode rodar.' },
+        { nome:'Pallof Press com elástico', prescr:'2 × 10 cada lado, 3 s de sustentação',
+          tip:'Prenda o elástico numa maçaneta na altura do peito, fique de lado e empurre à frente resistindo à rotação. O tronco NÃO gira. É o exercício mais específico que existe para a sua lombar no beach tennis.' },
+        { nome:'Ponte de Glúteo', prescr:'2 × 12 com 3 s de sustentação',
+          tip:'Aperte o glúteo, não a lombar. Costelas para baixo. Glúteo forte é o que impede a lombar de fazer o trabalho dele.' }
+      ]
+    },
+    {
+      id:'agilidade', nome:'Agilidade e pé-tornozelo', min:7, cor:'#22d3ee',
+      metodo:'Circuito: os exercícios em sequência com 30 s de pausa entre eles, 2 voltas. Qualidade acima de quantidade — quando a execução piorar, encerre.',
+      exercicios:[
+        { nome:'Pogo Hops', prescr:'2 × 15 saltos',
+          tip:'Saltos baixos e rápidos só do tornozelo, joelho quase reto, contato mínimo com o chão. Treina a rigidez do tornozelo, que é justamente o que a areia rouba de você.' },
+        { nome:'Skater Hop lateral', prescr:'2 × 8 cada lado',
+          tip:'Salto lateral baixo de uma perna para a outra, aterrissando suave e estável. Segure 1 s em cima da perna antes de saltar de volta.' },
+        { nome:'Line Hops — frente/trás e lateral', prescr:'2 × 20 s de cada',
+          tip:'Uma fita ou linha imaginária no chão. Pés juntos, saltinhos rápidos por cima. Puro tempo de contato.' },
+        { nome:'Split-step + arranque de 3 m', prescr:'2 × 5',
+          tip:'O saltinho de preparação que você dá antes da bola, seguido de uma arrancada curta. É literalmente o gesto do jogo. Se faltar espaço, faça o split-step parado e arranque 2 passos.' },
+        { nome:'Elevação de ponta do pé (tibial anterior)', prescr:'2 × 20',
+          tip:'Calcanhares no chão, levante as pontas dos pés. O tibial é o que mais fadiga na areia e quase ninguém treina — é ele que segura o pé quando você freia.' },
+        { nome:'Apoio em uma perna, olhos fechados', prescr:'2 × 30 s cada perna',
+          tip:'Treina o tornozelo a se corrigir sozinho, que é exatamente o que a areia instável exige a cada passo.' }
+      ]
+    }
+  ],
+  nota: 'Este bloco não é "o resto do treino". É onde mora quase todo o trabalho que ataca as suas duas queixas: a dor lombar depois dos jogos e a lentidão na areia. A academia constrói o motor; aqui o motor aprende a funcionar no terreno.'
 };
 
 /* ---------- BICICLETA ERGOMÉTRICA ---------- */
@@ -454,13 +366,13 @@ const SAND = {
 
 /* ---------- SEMANA-TIPO ---------- */
 const WEEK_PLAN = [
-  { dia:'Seg', idx:1, manha:'Bike Zona 2',      almoco:'A — Peito + Bíceps',   noite:'—',            tipo:'treino', treino:'A' },
-  { dia:'Ter', idx:2, manha:'Bike HIIT',        almoco:'B — Ombro + Tríceps',  noite:'Areia 20 min', tipo:'treino', treino:'B' },
-  { dia:'Qua', idx:3, manha:'Bike Zona 2',      almoco:'C — Costas + Posterior',noite:'—',           tipo:'treino', treino:'C' },
-  { dia:'Qui', idx:4, manha:'Bike leve',        almoco:'—',                    noite:'Beach tennis', tipo:'jogo',   treino:null },
-  { dia:'Sex', idx:5, manha:'Bike Zona 2',      almoco:'D — Pernas',           noite:'Refeição livre',tipo:'treino',treino:'D' },
-  { dia:'Sáb', idx:6, manha:'Areia 25 min',     almoco:'—',                    noite:'Beach tennis + refeição livre', tipo:'jogo', treino:null },
-  { dia:'Dom', idx:0, manha:'Caminhada',        almoco:'—',                    noite:'—',            tipo:'off',    treino:null }
+  { dia:'Seg', idx:1, manha:'Bike Zona 2',  almoco:'A — Peito + Bíceps',     noite:'Casa · coluna + agilidade',      tipo:'treino', treino:'A', casa:'completo' },
+  { dia:'Ter', idx:2, manha:'Bike HIIT',    almoco:'B — Ombro + Tríceps',    noite:'Areia 20 min + casa · coluna',   tipo:'treino', treino:'B', casa:'coluna' },
+  { dia:'Qua', idx:3, manha:'Bike Zona 2',  almoco:'C — Costas + Posterior', noite:'Casa · coluna + agilidade',      tipo:'treino', treino:'C', casa:'completo' },
+  { dia:'Qui', idx:4, manha:'Bike leve',    almoco:'—',                      noite:'Beach tennis',                   tipo:'jogo',   treino:null, casa:null },
+  { dia:'Sex', idx:5, manha:'Bike Zona 2',  almoco:'D — Pernas',             noite:'Refeição livre + casa · coluna', tipo:'treino', treino:'D', casa:'coluna' },
+  { dia:'Sáb', idx:6, manha:'Areia 25 min', almoco:'—',                      noite:'Beach tennis + refeição livre',  tipo:'jogo',   treino:null, casa:null },
+  { dia:'Dom', idx:0, manha:'Caminhada',    almoco:'—',                      noite:'Casa · coluna',                  tipo:'off',    treino:null, casa:'coluna' }
 ];
 
 /* ---------- PERIODIZAÇÃO: 7 SEMANAS ---------- */
