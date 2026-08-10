@@ -110,6 +110,19 @@ Foi o mesmo erro da dieta, repetido: número derivado escrito à mão. O bloco d
 
 Ajustes de exercício para fechar a conta: mesa flexora do dia D passou a bilateral (a unilateral custava 7 min a mais), panturrilha saiu do dia D e entrou no dia A como gastrocnêmio, e o dia B ganhou rotação externa de manguito. Volume semanal por grupo permaneceu nos alvos.
 
+### v3: renovação dos exercícios, calorias revistas e fim do treino de areia
+Três correções pedidas pelo Daniel.
+
+**1. Calorias estavam baixas.** Eu tinha usado multiplicador **1,2** para o gasto fora do treino — "sedentário puro, escritório e quase não anda". Para quem trabalha e se desloca, **1,3** é mais fiel. O gasto num dia de treino subiu de 2.985 para **3.181 kcal**, e a meta de 2.050 passou para **2.200**. TDEE médio semanal: 3.002 kcal. Déficit de 4.816/semana = 0,63 kg/semana (23% do gasto). Adicionada uma **regra de ajuste** no app: pesar 3× por semana e comparar médias semanais; menos de 0,4 kg/sem → tirar 150 kcal/dia; mais de 0,9 → somar 200.
+
+**2. Dieta remontada na rotina real dele.** Café da manhã às 09:30 pós-bike (pão + frango ou ovo), almoço de 900 kcal de marmita/restaurante, café da tarde com whey + iogurte + granola, e janta de marmita fit de 350 g. O almoço virou uma "regra do prato" com valores marcados como **estimativa de restaurante (±15%)**, já que precisão grama a grama ali é ilusória. As marmitas fit trazem 25-35 g de proteína, abaixo dos 40 g que a refeição precisa — por isso quase toda opção de janta leva um complemento proteico.
+
+**3. Exercícios renovados.** Ele apontou repetição com o programa antigo. Pesquisa em 6 frentes (Nippard, Israetel/RP, Henselmans, Schoenfeld, Milo Wolf, Maeo, Fenwick/McGill) trocou a maioria por opções com melhor evidência, principalmente por **treino em posição alongada** e **curva de resistência**: crucifixo unilateral no cabo deitado, rosca Bayesian, mergulho em máquina assistida, extensão overhead no cabo (Maeo: crescimento bem superior ao pushdown), elevação lateral com a polia **por trás** do corpo, remada cavalinho com apoio de peito, puxada unilateral meio-ajoelhado, pullover no cabo, Y-raise, flexora **sentada** (Maeo 2021: mais hipertrofia que a deitada), extensora com encosto reclinado, belt squat, step-up lateral. Mantidos os pedidos: elevação lateral na polia e peito na polia. **6 a 7 exercícios por treino**, todos entre 41 e 45 min.
+
+**4. Treino de areia removido.** Ele não consegue treinar em areia. Isso não é neutro: a areia tem **menor** força de reação ao solo, era o lugar mais seguro para saltar. Em piso firme a regra passa a ser cortar amplitude e altura, nunca a intenção — salto baixo e rápido tem pico de força bem menor. Teto de **250 contatos por semana** e nunca com colete ou carga externa (Fowler: 50 saltos com 8,5 kg comprimem 3,5× mais que sem).
+
+**5. Bloco de casa virou 3 sessões rotativas** de 15-20 min, para ele treinar todo dia sem acumular impacto: A potência (~70 contatos), B agilidade e mudança de direção (~40 reativos), C pé/tornozelo/tendão (zero impacto), mais o bloco de coluna diário de 10 min. Base: Lee Taft (mudança de direção), Damian Harper (frenagem), Keith Baar (isometria de tendão), Ian Jeffreys (RAMP), JB Morin (força horizontal).
+
 ### Decisões que divergem do pedido original (e por quê)
 - **Meta de peso no torneio: 89 kg (−5 kg), não 88.** Acima de 0,7% do peso por semana a massa magra estagna e a força cai (Garthe 2011) — e força cair é perder justamente a explosão que o torneio exige. Os 11 kg até 83 kg têm 13 semanas de folga depois.
 - **A balança vai subir ~1 kg na semana do torneio.** É a recarga de carboidrato. A pesagem que vale é 20/09.

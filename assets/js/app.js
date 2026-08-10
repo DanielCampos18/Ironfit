@@ -334,8 +334,7 @@ const TREINO_TABS = [
   { id: 'C', label: '🏹 C · Costas' },
   { id: 'D', label: '🦵 D · Pernas' },
   { id: 'casa', label: '🏠 Casa (15 min)' },
-  { id: 'bike', label: '🚴 Bike' },
-  { id: 'areia', label: '🏖️ Areia' }
+  { id: 'bike', label: '🚴 Bike' }
 ];
 
 function abrirTreino(id) { state.tabTreino = id; save(); go('treino'); renderTreino(); }
@@ -353,7 +352,6 @@ function renderTreino() {
   const t = state.tabTreino;
   if (t === 'casa')  return void (c.innerHTML = viewCasa());
   if (t === 'bike')  return void (c.innerHTML = viewBike());
-  if (t === 'areia') return void (c.innerHTML = viewAreia());
   c.innerHTML = viewSessao(WORKOUTS[t]);
   restaurarLogs(t);
 }
@@ -568,7 +566,7 @@ function viewCasa() {
         </div>
         <div style="text-align:right">
           <div class="num" style="font-size:26px;color:var(--violet-lt)">${H.min}<span style="font-size:13px;color:var(--txt-3)"> min</span></div>
-          <div class="tiny dim">${esc(H.quando.split('.')[0])}</div>
+          <div class="tiny dim">todo dia</div>
         </div>
       </div>
       <p class="small muted" style="margin-top:11px">${esc(H.nota)}</p>
@@ -584,20 +582,56 @@ function viewCasa() {
       ${esc(H.material)}
     </div>
 
-    ${H.partes.map(p => `
+    <div class="note d">
+      <div class="note-t">🏟️ Sem areia: o que muda</div>
+      ${esc(H.avisoPisoFirme)}
+    </div>
+
+    <div class="sec">
+      <div class="sec-head"><h2 class="sec-title">A rotação da semana</h2><span class="sec-action">algo todo dia</span></div>
+      <div class="glass tbl-wrap"><table class="tbl">
+        <thead><tr><th>Dia</th><th>Sessão</th><th>Contatos</th><th>Intensidade</th></tr></thead>
+        <tbody>${H.rotacao.map(r => `<tr${r.dia === ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][new Date().getDay()] ? ' class="is-now"' : ''}>
+          <td><b>${esc(r.dia)}</b></td><td>${esc(r.sessao)}</td>
+          <td class="n">${esc(r.contatos)}</td><td class="dim">${esc(r.intensidade)}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+      <p class="tiny dim" style="margin-top:9px">${esc(H.notaRotacao)}</p>
+    </div>
+
+    ${H.sessoes.map(sx => `
       <div class="glass block">
-        <div class="block-head" style="background:linear-gradient(135deg,${p.cor}22,transparent)">
-          <span class="block-title">${esc(p.nome)}</span>
-          <span class="chip t">${p.min} min</span>
+        <div class="block-head" style="background:linear-gradient(135deg,${sx.cor}22,transparent)">
+          <span class="block-title">${esc(sx.nome)}</span>
+          <span style="display:flex;gap:6px"><span class="chip">${esc(sx.quando)}</span><span class="chip t">${sx.min} min</span></span>
         </div>
-        <div class="block-note">${esc(p.metodo)}</div>
-        ${p.exercicios.map((e, i) => `
-          <div class="ex">
-            <div class="ex-head"><div class="ex-order">${i + 1}</div><div class="ex-name">${esc(e.nome)}</div></div>
-            <div class="ex-meta"><span class="ex-prescr">${esc(e.prescr)}</span></div>
-            <div class="ex-tip">${esc(e.tip)}</div>
-          </div>`).join('')}
+        <div class="block-note">${esc(sx.contatos)}</div>
+        ${sx.passos.map(x => `<div class="ex" style="padding:11px 14px">
+          <div style="display:flex;gap:11px;align-items:flex-start">
+            <span class="chip v" style="min-width:76px;justify-content:center;flex-shrink:0">${esc(x.t)}</span>
+            <span style="font-size:13px;line-height:1.6">${esc(x.o)}</span>
+          </div>
+        </div>`).join('')}
       </div>`).join('')}
+
+    <div class="glass block">
+      <div class="block-head" style="background:linear-gradient(135deg,#a78bfa22,transparent)">
+        <span class="block-title">${esc(H.coluna.nome)}</span>
+        <span class="chip t">todo dia</span>
+      </div>
+      <div class="block-note">${esc(H.coluna.metodo)}</div>
+      ${H.coluna.exercicios.map((e, i) => `
+        <div class="ex">
+          <div class="ex-head"><div class="ex-order">${i + 1}</div><div class="ex-name">${esc(e.nome)}</div></div>
+          <div class="ex-meta"><span class="ex-prescr">${esc(e.prescr)}</span></div>
+          <div class="ex-tip">${esc(e.tip)}</div>
+        </div>`).join('')}
+    </div>
+
+    <div class="note d">
+      <div class="note-t">🚫 Nunca</div>
+      <ul class="bullets cross" style="margin-top:7px">${H.nunca.map(n => `<li>${esc(n)}</li>`).join('')}</ul>
+    </div>
 
     <div class="note d">
       <div class="note-t">🩺 ${esc(RED_FLAGS.titulo)}</div>
@@ -653,27 +687,6 @@ function viewBike() {
     <div class="note d"><div class="note-t">🛑 Sinais para parar</div>${esc(BIKE.alerta)}</div>`;
 }
 
-function viewAreia() {
-  return `
-    <div class="glass-hi card glow-ring" style="padding:16px">
-      <div class="h-lg">🏖️ ${esc(SAND.nome)}</div>
-      <div class="chip f" style="margin-top:8px">${esc(SAND.frequencia)}</div>
-      <p class="small muted" style="margin-top:11px">${esc(SAND.porque)}</p>
-    </div>
-    <div class="note t"><div class="note-t">💡 Por que isto é o que mais vai mudar sua velocidade</div>${esc(SAND.nota)}</div>
-    <div class="glass block">
-      <div class="block-head"><span class="block-title">Estrutura da sessão</span><span class="chip t">20-25 min</span></div>
-      ${SAND.blocos.map((b, i) => `<div class="ex">
-        <div class="ex-head"><div class="ex-order">${i + 1}</div><div class="ex-name">${esc(b.nome)}</div></div>
-        <div class="ex-tip">${esc(b.desc)}</div>
-      </div>`).join('')}
-    </div>
-    <div class="note w"><div class="note-t">⚠️ Regra de ouro da pliometria com hérnia</div>
-      Nunca nas primeiras 2-3 horas após acordar — o disco está hiperidratado e mais vulnerável.
-      Evite saltos de caixa alta (drop jumps) e qualquer salto com peso nas costas ou colete.
-      Saltos baixos e reativos na areia são <b>seguros e são exatamente o que você precisa</b>.
-    </div>`;
-}
 
 /* ============================================================
    CRONÔMETRO DE SESSÃO
@@ -1078,7 +1091,7 @@ function viewPeriodizacao() {
   const atual = semanaAtual();
   return `
     <div class="glass-hi card glow-ring" style="padding:16px">
-      <div class="h-lg">📅 Sete semanas até a areia</div>
+      <div class="h-lg">📅 Sete semanas até o torneio</div>
       <p class="small muted" style="margin-top:8px">
         Cinco semanas de carga real, depois duas de taper. A meta-análise de Bosquet mostra que o taper ideal
         corta <b>40-60% do volume mantendo a intensidade</b> — cortar peso destrói o efeito. Esse é o erro nº1 de amador.
@@ -1105,7 +1118,7 @@ function viewPeriodizacao() {
         <p class="small muted" style="margin-bottom:10px">${esc(p.foco)}</p>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:10px">
           ${miniStat('Carga', p.carga)}${miniStat('Volume', p.volume)}
-          ${miniStat('Bike', p.cardio)}${miniStat('Areia', p.areia)}
+          ${miniStat('Bike', p.cardio)}${miniStat('Casa', p.casa)}
         </div>
         <div class="note ${p.destaque ? 'w' : 't'}" style="margin:0">${esc(p.nota)}</div>
       </div>`;

@@ -36,16 +36,15 @@ const ENERGY = {
     usado: 1961,
     nota: 'Mifflin-St Jeor é a mais validada (±10% em 82% dos não-obesos). As três convergem numa faixa de 116 kcal.'
   },
-  fatorBase: 1.2,
-  base: 2353,        // 1961 × 1,2 — TMB + efeito térmico + NEAT de escritório
-  // gasto LÍQUIDO (já descontado o metabolismo de repouso do período)
+  fatorBase: 1.3,
+  base: 2550,        // 1961 × 1,3 — TMB + efeito térmico + deslocamento do dia a dia
+  notaBase: 'O multiplicador 1,2 seria "sedentário puro": escritório e quase nenhum deslocamento. Para quem trabalha e anda no dia a dia, 1,3 é mais fiel — e faz diferença de quase 200 kcal por dia. Se em 3 semanas o peso cair mais rápido que o previsto, o seu número real é maior; se cair menos, é menor. A balança é o instrumento; a conta é só o ponto de partida.',
   atividades: [
-    { id: 'muscu',  nome: 'Musculação 40 min',      met: 6.0, min: 40, liquido: 339, desc: 'Supersets/densidade alta' },
-    { id: 'bikeZ2', nome: 'Bike Zona 2 · 30 min',   met: 6.8, min: 30, liquido: 294, desc: '85-95 RPM, FC 123-142' },
-    { id: 'bikeHI', nome: 'Bike HIIT · 30 min',     met: 8.8, min: 30, liquido: 391, desc: '4 × 3 min forte' },
-    { id: 'bikeLv', nome: 'Bike leve · 30 min',     met: 4.0, min: 30, liquido: 148, desc: 'Recuperação, RPE 3' },
-    { id: 'areia',  nome: 'Treino de areia 25 min', met: 8.0, min: 25, liquido: 288, desc: 'Velocidade e mudança de direção' },
-    { id: 'jogo',   nome: 'Beach tennis 60 min',    met: 7.5, min: 60, liquido: 657, desc: 'Duplas, ritmo de treino' }
+    { id: 'muscu',  nome: 'Musculação 42 min',      met: 6.0, min: 42, liquido: 345, desc: 'Supersets, descanso curto' },
+    { id: 'bikeZ2', nome: 'Bike Zona 2 · 30 min',   met: 6.8, min: 30, liquido: 286, desc: '85-95 RPM, FC 123-142' },
+    { id: 'bikeHI', nome: 'Bike HIIT · 30 min',     met: 8.8, min: 30, liquido: 383, desc: '4 × 3 min forte' },
+    { id: 'casa',   nome: 'Bloco de casa · 18 min', met: 5.5, min: 18, liquido: 133, desc: 'Potência e agilidade' },
+    { id: 'jogo',   nome: 'Beach tennis 60 min',    met: 7.5, min: 60, liquido: 642, desc: 'Duplas, ritmo de treino' }
   ],
   formula: 'kcal/min = MET × 3,5 × peso(kg) ÷ 200 · líquido = bruto − metabolismo de repouso do período'
 };
@@ -54,38 +53,39 @@ const ENERGY = {
    Calorias cicladas: carboidrato vai para onde rende performance.
    Proteína e gordura ficam fixas todo dia. */
 const DAYTYPES = {
-  treino: { id:'treino', nome:'Dia de treino',  kcal:2050, prot:200, gord:62, carb:173, tdee:2986, cor:'#a78bfa',
-            desc:'Bike de manhã + musculação no almoço' },
-  jogo:   { id:'jogo',   nome:'Dia de jogo',    kcal:2400, prot:200, gord:62, carb:260, tdee:3304, cor:'#22d3ee',
+  treino: { id:'treino', nome:'Dia de treino', kcal:2200, prot:195, gord:62, carb:216, tdee:3181, cor:'#a78bfa',
+            desc:'Bike de manhã + academia no almoço' },
+  jogo:   { id:'jogo',   nome:'Dia de jogo',   kcal:2500, prot:195, gord:62, carb:291, tdee:3192, cor:'#22d3ee',
             desc:'Beach tennis — carbo mais alto para sustentar o jogo' },
-  leve:   { id:'leve',   nome:'Dia leve',       kcal:1950, prot:200, gord:62, carb:148, tdee:2647, cor:'#5eead4',
-            desc:'Só bike, sem musculação' },
-  off:    { id:'off',    nome:'Descanso',       kcal:1800, prot:200, gord:62, carb:110, tdee:2353, cor:'#7d769b',
-            desc:'Sem treino — o menor dia da semana' }
+  leve:   { id:'leve',   nome:'Dia leve',      kcal:2050, prot:195, gord:62, carb:178, tdee:2836, cor:'#5eead4',
+            desc:'Só bike, sem academia' },
+  off:    { id:'off',    nome:'Descanso',      kcal:1850, prot:195, gord:62, carb:128, tdee:2550, cor:'#7d769b',
+            desc:'Sem treino — só o bloco de casa' }
 };
 
 /* ---------- BALANÇO SEMANAL ----------
-   Todos estes números saem da soma dos 7 dias da semana-tipo.
-   Conferidos por script — ver tasks/todo.md. */
+   Derivado da soma dos 7 dias da semana-tipo. Conferido por script. */
 const WEEKLY = {
-  tdee: 20905,        // 4 dias de treino + 2 de jogo + 1 off
-  ingestao: 15880,    // 14.800 do plano + 1.080 de excesso das 2 refeições livres
-  deficit: 5025,
-  kgSemana: 0.65,     // 5025 ÷ 7700
-  pctPeso: 0.69,      // % do peso corporal por semana — bem no alvo de Garthe (0,7%)
-  nota: 'Garthe et al. 2011: perder 0,7%/semana aumentou massa magra em 2,1% em atletas de elite; 1,4%/semana estagnou a massa magra e derrubou a força. Você está exatamente na faixa que constrói músculo enquanto perde gordura.'
+  tdee: 21016,       // 4 dias de treino + 1 de jogo + 2 off
+  ingestao: 16200,   // 15.000 do plano + 1.200 de excesso das 2 refeições livres
+  deficit: 4816,
+  kgSemana: 0.63,
+  pctPeso: 0.67,
+  pctDeficit: 23,
+  nota: 'Garthe et al. 2011: perder 0,7% do peso por semana aumentou massa magra em 2,1% em atletas de elite; 1,4%/semana estagnou a massa magra e derrubou a força. Você está em 0,67% — exatamente na faixa que constrói músculo enquanto perde gordura.'
 };
 
-/* ---------- PROJEÇÃO HONESTA ---------- */
+/* ---------- PROJEÇÃO ---------- */
 const PROJECTION = {
-  semanasDeficit: 6,          // semana 7 é manutenção
-  gorduraPerdida: 3.9,        // 6 × 0,65
-  aguaGlicogenio: 1.0,        // queda inicial de água ligada ao glicogênio
-  totalBalanca: 4.9,
-  pesoEm2009: 89.1,           // fim da semana 6 — a pesagem que vale
-  pesoNoTorneio: 90.0,        // após a recarga de carboidrato: +1 kg de glicogênio e água
-  recado: 'A pesagem que conta é 20/09, no fim da semana 6: ~89 kg, quase 5 kg abaixo do início. Na manhã do torneio a balança vai marcar cerca de 1 kg a mais por causa da recarga de carboidrato — isso é combustível dentro do músculo, não gordura. Sua gordura corporal terá caído ~4 kg.',
-  metaOriginal: 'Você pediu 5-6 kg. A literatura é clara: acima de 0,7% do peso por semana a massa magra estagna e a força cai (Garthe 2011) — e força cair é perder exatamente a explosão que você quer ganhar. O plano entrega ~5 kg com a potência intacta. Os outros 6 kg até os 83 kg têm 13 semanas de sobra depois do torneio, a um ritmo confortável de 0,4 kg/semana.'
+  semanasDeficit: 6,
+  gorduraPerdida: 3.8,
+  aguaGlicogenio: 1.0,
+  totalBalanca: 4.8,
+  pesoEm2009: 89.2,
+  pesoNoTorneio: 90.2,
+  recado: 'A pesagem que conta é 20/09, no fim da semana 6: cerca de 89 kg, quase 5 kg abaixo do início. Na manhã do torneio a balança marca ~1 kg a mais por causa da recarga de carboidrato — isso é combustível dentro do músculo, não gordura. Sua gordura corporal terá caído perto de 4 kg.',
+  metaOriginal: 'Você pediu 5-6 kg. Acima de 0,7% do peso por semana a massa magra estagna e a força cai (Garthe 2011) — e força cair é perder a explosão que o torneio exige. O plano entrega ~5 kg com a potência intacta. Os outros 6 kg até os 83 kg têm 13 semanas de sobra depois do torneio, a 0,4 kg/semana.',
+  ajuste: 'REGRA DE AJUSTE: pese-se 3× por semana, sempre de manhã em jejum, e compare a MÉDIA de cada semana. Se em 3 semanas você perdeu menos de 0,4 kg/semana, tire 150 kcal/dia. Se perdeu mais de 0,9 kg/semana, some 200 kcal/dia — perder rápido demais custa músculo e velocidade.'
 };
 
 /* ============================================================
@@ -106,38 +106,39 @@ const WORKOUTS = {
   A: {
     id:'A', nome:'Peito + Bíceps', foco:'Empurrar horizontal', icone:'🔥', cor:'#a78bfa', teto:45,
     aquecimento:{ min:3, itens:[
-      'Esteira ou bike leve — 90 s',
+      'Bike ou elíptico leve — 90 s',
       'Band pull-apart — 2 × 15',
       'Rotação torácica deitado de lado — 8 cada lado',
       '1 série de aproximação leve no supino'
     ]},
     blocos:[
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
-        nota:'Carga alta é o que protege sua massa magra em déficit. Suba explosivo — a intenção de acelerar na fase concêntrica gera estímulo de potência sem custar um minuto a mais.',
+        nota:'A máquina convergente permite carga pesada com a coluna totalmente apoiada e o caminho da barra fechando no topo, o que o Smith não faz. Suba explosivo: a intenção de acelerar gera estímulo de potência sem custar tempo.',
         exercicios:[
-          { nome:'Supino Inclinado 30° — Smith Machine', series:4, reps:'6-8', rir:'2',
-            tip:'Primeira série é de aproximação, leve. Inclinação 30° pega o peitoral superior. Descida controlada em 3 s, subida o mais rápido que a carga permitir. Escápulas presas no banco, sem ponte lombar.' }
+          { nome:'Supino Inclinado 30° — Máquina Convergente', series:4, reps:'6-8', rir:'2',
+            tip:'Sentado, costas coladas no encosto. 30° é o ângulo que Henselmans aponta como o melhor meio-termo: pega a porção clavicular sem transferir tudo para o ombro. Primeira série de aproximação.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
-        nota:'Peito e bíceps não competem entre si: enquanto um trabalha, o outro descansa de verdade. Cada músculo recebe quase 3 minutos de pausa real enquanto o relógio anda pela metade.',
+        nota:'Peito e bíceps não competem: enquanto um trabalha, o outro descansa de verdade. O crucifixo unilateral deitado é o exercício de peito com maior alongamento sob carga — e é no alongamento que o músculo mais cresce.',
         exercicios:[
-          { nome:'Supino Reto — Máquina ou Halteres', series:3, reps:'8-10', rir:'2',
-            tip:'Com halteres, não deixe os cotovelos descerem muito abaixo da linha do tronco — protege o ombro.' },
-          { nome:'Rosca Scott — Banco Scott ou Máquina', series:3, reps:'10-12', rir:'1',
-            tip:'Cotovelos travados no apoio. Não solte a tensão no fundo. O banco elimina o balanço de tronco que castiga a lombar.' }
+          { nome:'Crucifixo Unilateral no Cabo — deitado no banco', series:3, reps:'10-12 cada lado', rir:'1',
+            tip:'Banco reto entre duas polias baixas, um braço por vez. O cabo mantém tensão no ponto de maior alongamento, coisa que o halter perde. Cotovelo levemente dobrado e fixo — é um arco, não um empurrão.' },
+          { nome:'Rosca Scott Unilateral no Cabo', series:3, reps:'10-12 cada lado', rir:'1',
+            tip:'Banco Scott na frente da polia baixa. Cabeça curta do bíceps, tensão constante no fundo. Unilateral corrige o desequilíbrio entre os lados, comum em quem joga raquete.' }
         ]},
       { tipo:'superset', nome:'Superset B', descanso:'60s',
+        nota:'A rosca Bayesian coloca o cotovelo ATRÁS do tronco, que é a única forma de alongar a cabeça longa do bíceps sob carga. É a peça que faltava no programa antigo.',
         exercicios:[
-          { nome:'Crossover — Cabo Baixo (ou Peck Deck)', series:3, reps:'12-15', rir:'1',
-            tip:'Braços cruzam na altura do peito, 1 s de aperto no fechamento. Aqui pode chegar perto da falha: é máquina, risco zero para a coluna.' },
-          { nome:'Rosca Martelo — Cabo com corda', series:3, reps:'12-15', rir:'1',
-            tip:'Polegar para cima. Trabalha braquial e braquiorradial, a parte do braço que aparece de lado. Core firme, sem jogar o tronco.' }
+          { nome:'Mergulho em Máquina Assistida — tronco inclinado', series:3, reps:'8-12', rir:'1',
+            tip:'Incline o tronco à frente uns 20-30° para jogar o trabalho no peitoral em vez do tríceps. Máquina assistida controla a carga e protege o ombro no fundo.' },
+          { nome:'Rosca Bayesian no Cabo', series:3, reps:'10-12', rir:'1',
+            tip:'De costas para a polia baixa, dê um passo à frente até o cabo puxar o braço para trás. Cotovelo fica atrás da linha do corpo o movimento inteiro. Sem balançar o tronco.' }
         ]},
       { tipo:'final', nome:'Finalizador', descanso:'45s',
-        nota:'A panturrilha entra aqui de propósito: o tornozelo é o gargalo de quem corre na areia, e este é o dia com tempo sobrando.',
+        nota:'Pegada pronada recruta braquial e braquiorradial — a parte do braço que aparece de lado e que transfere para a pegada da raquete.',
         exercicios:[
-          { nome:'Panturrilha em Pé — Máquina ou Leg Press', series:3, reps:'15-20', rir:'0-1',
-            tip:'Joelho estendido isola o gastrocnêmio. Desça devagar até alongar por completo, segure 1 s em cima. Se usar máquina em pé, tronco ereto — nada de curvar para alcançar.' }
+          { nome:'Rosca Inversa na Polia', series:2, reps:'12-15', rir:'0-1',
+            tip:'Pegada pronada (palmas para baixo) na barra reta da polia baixa. Carga leve, punhos firmes e neutros. Pode ir até a falha.' }
         ]}
     ]
   },
@@ -146,70 +147,78 @@ const WORKOUTS = {
     id:'B', nome:'Ombro + Tríceps', foco:'Empurrar vertical', icone:'⚡', cor:'#22d3ee', teto:45,
     aquecimento:{ min:3, itens:[
       'Bike leve — 90 s',
-      'Rotação externa com elástico — 2 × 15 cada lado',
+      'Rotação externa no cabo a 90° de abdução — 2 × 15 leve (posição de arremesso)',
       'Band pull-apart — 2 × 15',
-      'Elevação lateral com 2 kg — 1 × 15'
+      '1 série de aproximação no desenvolvimento'
     ]},
     blocos:[
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
         exercicios:[
-          { nome:'Desenvolvimento Sentado — Máquina ou Halteres, com encosto', series:4, reps:'6-8', rir:'2', alert:true,
-            tip:'SEMPRE sentado com encosto, glúteo e lombar colados nele. Em pé com barra você compensa arqueando a lombar, e hiperlordose sob carga é o que a sua hérnia não tolera. Se a lombar descolar do encosto, o peso está alto demais.' }
+          { nome:'Desenvolvimento Sentado — Máquina Convergente', series:3, reps:'8-12', rir:'2', alert:true,
+            tip:'Encosto a 80-85°, glúteo e lombar colados nele. É a única forma de carregar pesado em flexão de ombro com a coluna apoiada — em pé com barra você compensa arqueando a lombar. Não trave o cotovelo no topo.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
-        nota:'Elevação lateral e tríceps não se sobrepõem — por isso são pareados. O desenvolvimento já usou o tríceps, então ele vem depois, nunca junto.',
+        nota:'A polia por TRÁS do corpo mantém tensão desde o início do movimento; o halter só carrega de verdade nos últimos 30° e a polia da frente perde tensão embaixo. É a versão superior da elevação lateral que você já fazia.',
         exercicios:[
-          { nome:'Elevação Lateral — Cabo ou Halteres', series:3, reps:'12-15', rir:'1',
-            tip:'O cabo mantém tensão no arco inteiro; o halter só no topo. Sobe até a altura do ombro, sem impulso de tronco.' },
-          { nome:'Tríceps Testa — Banco com halteres ou barra EZ', series:3, reps:'8-10', rir:'2',
-            tip:'Deitado, cotovelos apontando para o teto e fixos. Alonga a cabeça longa do tríceps, que é a maior parte do músculo.' }
+          { nome:'Elevação Lateral Unilateral no Cabo — polia baixa por trás do corpo', series:3, reps:'12-15 cada lado', rir:'1',
+            tip:'O cabo passa por trás das costas. Pegada neutra, polegar à frente, sem rodar o ombro para dentro. Pare na altura do ombro. Mão livre apoiada na torre para não jogar o tronco.' },
+          { nome:'Extensão Overhead no Cabo com Corda — sentado de costas para a polia', series:3, reps:'10-12', rir:'1',
+            tip:'A cabeça longa do tríceps só alonga com o braço ACIMA da cabeça — e é a maior das três. Maeo mostrou crescimento bem superior ao pushdown. Sentado no banco com encosto, cotovelos apontando para a frente.' }
         ]},
       { tipo:'superset', nome:'Superset B', descanso:'60s',
+        nota:'O deltoide posterior é o freio do braço no smash. Treinar a fase excêntrica dele é prevenção direta: ombro responde por 14% das lesões no beach tennis.',
         exercicios:[
-          { nome:'Face Pull — Cabo com corda', series:3, reps:'15', rir:'1',
-            tip:'Cotovelos ALTOS, puxe até a altura das orelhas com rotação externa no final. Saúde do manguito é inegociável para quem saca e dá smash.' },
-          { nome:'Tríceps Corda — Cabo', series:3, reps:'12-15', rir:'0-1',
-            tip:'Cotovelos colados ao corpo, abra as pontas no final. Pode ir até a falha: é polia, coluna descarregada.' }
+          { nome:'Crucifixo Inverso no Cabo Cruzado', series:3, reps:'12-15', rir:'1',
+            tip:'Em pé entre as polias, cabos cruzados na frente do corpo, cotovelos quase estendidos. Abertura pura na altura do ombro, com 2 s de excêntrica — é essa fase que treina a desaceleração.' },
+          { nome:'Tríceps Testa em Banco Inclinado 30° — Halteres', series:3, reps:'10-12', rir:'2',
+            tip:'Banco inclinado deixa os braços apontados para trás, aumentando o alongamento em relação ao banco reto. Halteres permitem punho neutro, mais confortável para o cotovelo.' }
         ]},
       { tipo:'final', nome:'Finalizador', descanso:'45s',
-        nota:'Ombro responde por 14% das lesões no beach tennis. Dois minutos de manguito por semana custam muito menos que um mês parado.',
         exercicios:[
-          { nome:'Rotação Externa — Cabo ou elástico', series:2, reps:'15 cada lado', rir:'2',
-            tip:'Cotovelo colado ao corpo formando 90°, gire o antebraço para fora sem mexer o ombro. Carga leve — aqui a qualidade importa mais que o peso.' }
+          { nome:'Tríceps Unilateral no Cabo — pegada supinada', series:2, reps:'12-15 cada lado', rir:'0-1',
+            tip:'Palma para cima, cotovelo colado ao tronco. Foca as cabeças lateral e medial e fecha o braço. Pode chegar à falha, é polia.' }
         ]}
     ]
   },
 
   C: {
-    id:'C', nome:'Costas + Cadeia Posterior', foco:'Puxar', icone:'🏹', cor:'#5eead4', teto:45,
+    id:'C', nome:'Costas + Posterior', foco:'Puxar', icone:'🏹', cor:'#5eead4', teto:45,
     aquecimento:{ min:3, itens:[
-      'Esteira ou bike leve — 90 s',
+      'Bike leve — 90 s',
       'Band pull-apart — 2 × 15',
       'Ponte de glúteo — 1 × 15',
-      '1 série de aproximação leve na puxada'
+      '1 série de aproximação na remada'
     ]},
     blocos:[
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        nota:'A remada cavalinho com apoio de peito é a única remada que permite carga pesada com momento lombar praticamente zero — Fenwick e McGill mediram isso. Para a sua hérnia, ela é insubstituível.',
         exercicios:[
-          { nome:'Puxada Frente — Polia, pegada aberta', series:3, reps:'6-8', rir:'2',
-            tip:'Puxe pelos cotovelos, levando-os para baixo e para trás. Peito alto, sem jogar o tronco para trás para roubar. Primeira série de aproximação.' }
+          { nome:'Remada Cavalinho com Apoio de Peito (T-Bar apoiada ou máquina)', series:3, reps:'8-12', rir:'2',
+            tip:'Peito firme no apoio o tempo todo. Puxe pelos cotovelos, aperte as escápulas 1 s no final. Se a academia não tiver, use a remada máquina com apoio de peito.' }
         ]},
-      { tipo:'superset', nome:'Superset A', descanso:'75s',
-        nota:'A mesa flexora entra no dia de costas de propósito: assim o posterior de coxa recebe estímulo 2× na semana em vez de 1×. É o músculo que produz o arranque e o que mais estira na areia. Ela tem 4 séries contra 3 da remada — faça 3 rodadas em par e a 4ª de flexora sozinha.',
+      { tipo:'superset', nome:'Superset A', descanso:'65s',
+        nota:'A puxada unilateral tem amplitude maior que a bilateral e corrige a assimetria que todo jogador de raquete desenvolve. O pullover isola o latíssimo em extensão pura de ombro, sem o bíceps limitar a carga.',
         exercicios:[
-          { nome:'Remada Baixa Sentada — Cabo, peito apoiado se houver', series:3, reps:'8-10', rir:'2', alert:true,
-            tip:'Tronco ERETO o tempo todo. Não deixe a lombar arredondar ao ir para a frente — se acontecer, reduza a carga. Deixe o peso puxar a escápula, nunca a coluna.' },
-          { nome:'Mesa Flexora (deitada)', series:4, reps:'10-12', rir:'1',
-            tip:'Amplitude completa, sem levantar o quadril do apoio. Substitui o stiff com segurança total para o disco.' }
+          { nome:'Puxada Unilateral no Cabo Alto — meio-ajoelhado', series:3, reps:'10-12 cada lado', rir:'2',
+            tip:'Ajoelhado de um joelho, de frente para a polia alta. Puxe o cotovelo para baixo e para trás, deixando a escápula subir no alongamento. Tronco firme — quem gira é nada.' },
+          { nome:'Pullover no Cabo Alto', series:3, reps:'12-15', rir:'1',
+            tip:'Em pé, braços quase estendidos, puxe a barra num arco até a coxa sem dobrar o cotovelo. Latíssimo puro. Incline o tronco só uns 15° e mantenha-o parado.' }
         ]},
-      { tipo:'superset', nome:'Tri-Set B', descanso:'60s',
+      { tipo:'superset', nome:'Superset B', descanso:'45s',
+        nota:'Trapézio médio, romboides, deltoide posterior e rotadores externos num movimento só — é exatamente o pacote que sustenta o smash. E o Y-raise ataca o trapézio inferior, o elo mais fraco de quem joga acima da cabeça.',
         exercicios:[
-          { nome:'Remada Unilateral — Halter apoiado no banco', series:3, reps:'10 cada lado', rir:'1',
-            tip:'Uma mão e um joelho no banco, coluna paralela ao chão e NEUTRA. Cotovelo sobe rente ao corpo até passar da linha das costas.' },
-          { nome:'Elevação Pélvica (Hip Thrust) — Smith ou máquina', series:3, reps:'10-12', rir:'1', alert:true,
-            tip:'Seu substituto do levantamento terra: extensão de quadril forte com compressão quase nula na coluna. Queixo colado ao peito, costelas para baixo, e PARE quando o quadril chegar em linha reta — não hiperestenda a lombar no topo.' },
+          { nome:'Remada Baixa no Cabo com Corda até o Pescoço', series:3, reps:'12-15', rir:'1',
+            tip:'Sentado, puxe a corda na altura do pescoço com os cotovelos ABERTOS e altos, terminando com rotação externa. Tronco ereto — não deixe a lombar arredondar ao ir para a frente.' },
+          { nome:'Y-Raise no Banco Inclinado 30° — Halteres leves', series:3, reps:'12-15', rir:'1',
+            tip:'De bruços no banco inclinado, braços formando um Y acima da cabeça, polegares para cima. Empurre os halteres para longe da cabeça. Carga leve — 4 a 8 kg já é muito.' }
+        ]},
+      { tipo:'superset', nome:'Superset C', descanso:'45s',
+        nota:'Fecha a cadeia posterior no dia de puxada. O posterior de coxa é o músculo que produz o arranque e o que mais estira em mudança de direção — por isso recebe estímulo em dois dias da semana, não em um.',
+        exercicios:[
+          { nome:'Flexora Deitada', series:3, reps:'12-15', rir:'1',
+            tip:'Complementa a flexora sentada do treino D: a sentada alonga mais o biarticular, a deitada trabalha num ângulo de quadril diferente. Amplitude completa, sem levantar o quadril do apoio. É o substituto seguro do stiff.' },
           { nome:'Panturrilha Sentada', series:3, reps:'15-20', rir:'0-1',
-            tip:'Joelho dobrado isola o SÓLEO, que é o motor de quem corre na areia. Zero carga axial. Desça devagar até alongar, segure 1 s em cima.' }
+            tip:'Joelho dobrado isola o SÓLEO, que é o motor da corrida em areia e o que mais fadiga. Zero carga axial. Dois segundos de alongamento no fundo, 1 s de aperto em cima.' }
         ]}
     ]
   },
@@ -220,83 +229,127 @@ const WORKOUTS = {
       'Bike leve — 90 s',
       'Ponte de glúteo — 2 × 12',
       'Monster walk com miniband — 2 × 15 passos',
-      '1 série de aproximação no leg press'
+      '1 série de aproximação no agachamento'
     ]},
     blocos:[
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
+        nota:'O belt squat carrega o quadril por um cinto, sem NADA de carga passando pela coluna. Se a sua academia tiver, é de longe o melhor agachamento possível para uma hérnia lombar. Sem ele, o hack machine com parada aos 90° é a alternativa.',
         exercicios:[
-          { nome:'Leg Press Horizontal — amplitude controlada', series:3, reps:'8-10', rir:'2', alert:true,
-            tip:'PARE a descida ANTES do quadril começar a enrolar. O instante em que o cóccix descola do apoio é flexão lombar com centenas de quilos em cima — é o mecanismo clássico de piora de hérnia. Nunca use o leg press 45° profundo.' }
+          { nome:'Belt Squat (ou Hack Machine parando a 90°)', series:3, reps:'8-12', rir:'2', alert:true,
+            tip:'PARE a descida no instante em que a pelve começar a rodar para trás — esse é o ponto em que a lombar passa a flexionar sob carga. Se não houver belt squat nem hack, use o leg press horizontal com amplitude curta.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
-        nota:'A flexora tem 4 séries contra 3 da extensora: o posterior precisa de mais volume que o quadríceps aqui, porque é ele que protege o joelho e produz o arranque. Faça 3 rodadas em par e a 4ª de flexora sozinha.',
+        nota:'A flexora SENTADA gera mais hipertrofia que a deitada (Maeo 2021) porque o quadril fletido alonga o posterior biarticular. E a extensora com encosto reclinado é a única forma de treinar bem o reto femoral, que cruza o quadril.',
         exercicios:[
-          { nome:'Cadeira Extensora', series:3, reps:'12-15', rir:'1',
-            tip:'Segure 1 s no topo, volta controlada em 3 s. Quadril fixo no encosto — não empurre a lombar contra ele no final.' },
-          { nome:'Mesa Flexora', series:4, reps:'12-15', rir:'1',
-            tip:'Se quiser corrigir diferença entre as pernas, faça uma das quatro séries unilateral. Amplitude completa.' }
+          { nome:'Flexora Sentada', series:4, reps:'8-12', rir:'1',
+            tip:'Encosto quase a 90°, cinto pélvico bem firme. Pausa de 1 s no ponto de maior alongamento. Se a academia só tiver a deitada, use-a — mas a sentada é melhor.' },
+          { nome:'Cadeira Extensora — encosto reclinado', series:3, reps:'10-15', rir:'1',
+            tip:'Recline o encosto ao máximo que a máquina permitir. O quadril mais aberto alonga o reto femoral e é o que faz esse exercício render. Quadril não sai do banco, descida em 3 s.' }
         ]},
-      { tipo:'superset', nome:'Superset B', descanso:'60s',
+      { tipo:'superset', nome:'Superset B', descanso:'50s',
+        nota:'O step-up lateral treina o mesmo padrão de subir e frear que o deslocamento lateral exige, sem a instabilidade do búlgaro. A abdução em pé no cabo carrega o glúteo médio em pé, que é como ele trabalha no jogo.',
         exercicios:[
-          { nome:'Agachamento Búlgaro — Halteres', series:3, reps:'10 cada lado', rir:'1', alert:true,
-            tip:'Pé de trás no banco, halteres ao lado do corpo, tronco ERETO — não incline para a frente. Se a lombar reclamar, reduza a amplitude ou troque por afundo apoiado no Smith.' },
-          { nome:'Cadeira Abdutora', series:3, reps:'15-20', rir:'1',
-            tip:'O glúteo médio é quem freia o corpo nas mudanças de direção laterais — o movimento mais repetido do beach tennis. Postura ereta, abra controlado.' }
+          { nome:'Step-up Lateral no Caixote — Halteres', series:3, reps:'8-10 cada lado', rir:'1',
+            tip:'Caixote na altura do joelho, de lado para ele. Suba SEM impulso da perna de baixo e desça em 3 s. Joelho alinhado com o segundo dedo do pé. Tronco ereto.' },
+          { nome:'Abdução de Quadril no Cabo — em pé', series:3, reps:'12-15 cada lado', rir:'1',
+            tip:'Tornozeleira na polia baixa, apoie a mão na torre. Abra a perna sem inclinar o tronco para o lado — se o tronco balança, a carga está alta demais. Glúteo médio é quem freia você na mudança de direção.' }
+        ]},
+      { tipo:'final', nome:'Finalizador', descanso:'45s',
+        exercicios:[
+          { nome:'Panturrilha em Pé no Hack Machine (ou máquina em pé)', series:3, reps:'10-15', rir:'0-1',
+            tip:'Joelho estendido isola o gastrocnêmio — o complemento da panturrilha sentada do treino C. Dois segundos de alongamento no fundo, amplitude total.' }
         ]}
     ]
   }
 };
 
 /* ============================================================
-   TREINO DE CASA — 15 min, à noite
-   Saiu da academia para os 45 min fecharem: core de McGill e
-   agilidade. Nenhum dos dois precisa de carga externa.
+   BLOCO DE CASA — 15 a 20 min, PISO FIRME, todo dia
+   Sem areia. Três sessões que rotacionam a intensidade, para ele
+   treinar diariamente sem acumular impacto.
    ============================================================ */
 const HOME = {
   nome: 'Bloco de Casa',
-  min: 15,
-  quando: 'À noite, 4 a 6 vezes por semana. A parte de coluna pode ser feita todos os dias.',
-  material: 'Um elástico (miniband ou tubo com alça) e um espaço de 2 × 2 metros. Só isso.',
-  porqueNoite: 'NUNCA de manhã. A rigidez de flexão do disco é cerca de 300% maior na primeira hora depois de acordar (Adams & Dolan, Spine 1987), e o próprio McGill orienta não fazer a rotina cedo. Como você já pedala de manhã, a noite é o horário livre — e é também o mais seguro.',
-  partes: [
+  min: 18,
+  quando: 'Todo dia — de manhã depois da bicicleta ou no fim da tarde.',
+  material: 'Um elástico (miniband ou tubo com alça), um caixote ou degrau, e um espaço de 2 × 3 metros.',
+  porqueNoite: 'Se for de manhã, faça DEPOIS da bicicleta e nunca na primeira hora após acordar: a rigidez de flexão do disco é cerca de 300% maior nesse período (Adams & Dolan, Spine 1987). Fim de tarde é o horário mais seguro de todos.',
+  avisoPisoFirme: 'Você não vai treinar na areia, e isso muda o desenho. A areia dissipa energia e tem MENOR força de reação ao solo — era o lugar mais seguro para saltar. Em piso firme o impacto é maior, então a regra passa a ser: cortar AMPLITUDE e ALTURA, nunca a intenção. Salto baixo e rápido tem pico de força bem menor que salto alto com aterrissagem profunda. Teto de 250 contatos por semana, e NUNCA com colete, halteres ou bola acima da cabeça — Fowler mostrou que 50 saltos com 8,5 kg de colete comprimem a coluna 3,5× mais que os mesmos 50 saltos sem carga.',
+  rotacao: [
+    { dia:'Seg', sessao:'A', contatos:'~70', intensidade:'Alta' },
+    { dia:'Ter', sessao:'B', contatos:'~40', intensidade:'Média-alta' },
+    { dia:'Qua', sessao:'C', contatos:'0',   intensidade:'Baixa' },
+    { dia:'Qui', sessao:'A', contatos:'~50', intensidade:'Alta (volume −25%)' },
+    { dia:'Sex', sessao:'B', contatos:'~40', intensidade:'Média' },
+    { dia:'Sáb', sessao:'jogo ou C', contatos:'—', intensidade:'Baixa' },
+    { dia:'Dom', sessao:'C + caminhada 25 min', contatos:'0', intensidade:'Regenerativa' }
+  ],
+  notaRotacao: 'A regra de 48-72h entre sessões vale para ALTA intensidade. Trabalho de baixa intensidade — pogos curtos, isometria, pé e tornozelo, mecânica sem carga — é treinável todo dia. Por isso a rotação: você faz algo diariamente sem repetir o mesmo estresse. A caminhada rápida de domingo não é enfeite: Belavý mostrou que acelerações nessa faixa são justamente as que hidratam o disco.',
+  sessoes: [
     {
-      id:'coluna', nome:'Coluna — McGill Big 3', min:8, cor:'#a78bfa',
-      metodo:'Pirâmide descendente: 5 repetições → descanso de 20-30 s → 3 repetições → descanso → 1 repetição. Cada repetição é uma sustentação de 8 segundos, respirando normal. Progride-se aumentando REPETIÇÕES (6-4-2, depois 8-6-4), nunca o tempo de sustentação.',
-      exercicios:[
-        { nome:'Cat-camel', prescr:'6 ciclos lentos',
-          tip:'Mobilidade, não alongamento. Não force a amplitude — é para lubrificar a coluna, não para esticar.' },
-        { nome:'Curl-up de McGill', prescr:'5-3-1 · 8 s cada',
-          tip:'Deitado, UMA perna dobrada e a outra estendida, mãos sob a lombar para manter a curva natural. Levante só cabeça e ombros poucos centímetros, como um bloco rígido. A lombar NÃO se move — é isso que separa este do abdominal comum.' },
-        { nome:'Prancha Lateral', prescr:'5-3-1 · 8 s cada lado',
-          tip:'Nível 1: joelhos dobrados. Nível 2: pés empilhados. Complete a pirâmide inteira de um lado antes de trocar.' },
-        { nome:'Bird Dog', prescr:'5-3-1 · 8 s cada lado',
-          tip:'Braço e perna opostos, punho e calcanhar empurrando paredes opostas. O quadril não pode rodar.' },
-        { nome:'Pallof Press com elástico', prescr:'2 × 10 cada lado, 3 s de sustentação',
-          tip:'Prenda o elástico numa maçaneta na altura do peito, fique de lado e empurre à frente resistindo à rotação. O tronco NÃO gira. É o exercício mais específico que existe para a sua lombar no beach tennis.' },
-        { nome:'Ponte de Glúteo', prescr:'2 × 12 com 3 s de sustentação',
-          tip:'Aperte o glúteo, não a lombar. Costelas para baixo. Glúteo forte é o que impede a lombar de fazer o trabalho dele.' }
+      id:'A', nome:'Sessão A — Potência', min:18, cor:'#a78bfa', contatos:'~70 contatos',
+      quando:'Segunda e quinta',
+      passos:[
+        { t:'0-3 min',  o:'RAMP: 90/90 respiração 6 ciclos · cat-camel 6 · bird dog 4 cada lado · ponte de glúteo 12 · monster walk 15 passos' },
+        { t:'3-7 min',  o:'Pogo hops bipodais — 4 × 12. Só tornozelo, joelho quase reto, contato mínimo com o chão. É o exercício-chave da rigidez de tornozelo.' },
+        { t:'7-11 min', o:'Salto vertical com contramovimento — 4 × 4, pausa de 40 s. Máxima intenção na subida, aterrissagem SILENCIOSA. Se ouvir o baque, você desceu demais.' },
+        { t:'11-15 min',o:'Skater hop lateral com parada — 3 × 6 cada lado. Salte de lado, aterrisse numa perna e SEGURE 1 s antes de voltar. A parada é o exercício.' },
+        { t:'15-18 min',o:'Descompressão: suspensão passiva na barra ou no batente 2 × 20 s · flexor de quadril meio-ajoelhado 45 s cada lado · pernas no sofá com 8 respirações.' }
       ]
     },
     {
-      id:'agilidade', nome:'Agilidade e pé-tornozelo', min:7, cor:'#22d3ee',
-      metodo:'Circuito: os exercícios em sequência com 30 s de pausa entre eles, 2 voltas. Qualidade acima de quantidade — quando a execução piorar, encerre.',
-      exercicios:[
-        { nome:'Pogo Hops', prescr:'2 × 15 saltos',
-          tip:'Saltos baixos e rápidos só do tornozelo, joelho quase reto, contato mínimo com o chão. Treina a rigidez do tornozelo, que é justamente o que a areia rouba de você.' },
-        { nome:'Skater Hop lateral', prescr:'2 × 8 cada lado',
-          tip:'Salto lateral baixo de uma perna para a outra, aterrissando suave e estável. Segure 1 s em cima da perna antes de saltar de volta.' },
-        { nome:'Line Hops — frente/trás e lateral', prescr:'2 × 20 s de cada',
-          tip:'Uma fita ou linha imaginária no chão. Pés juntos, saltinhos rápidos por cima. Puro tempo de contato.' },
-        { nome:'Split-step + arranque de 3 m', prescr:'2 × 5',
-          tip:'O saltinho de preparação que você dá antes da bola, seguido de uma arrancada curta. É literalmente o gesto do jogo. Se faltar espaço, faça o split-step parado e arranque 2 passos.' },
-        { nome:'Elevação de ponta do pé (tibial anterior)', prescr:'2 × 20',
-          tip:'Calcanhares no chão, levante as pontas dos pés. O tibial é o que mais fadiga na areia e quase ninguém treina — é ele que segura o pé quando você freia.' },
-        { nome:'Apoio em uma perna, olhos fechados', prescr:'2 × 30 s cada perna',
-          tip:'Treina o tornozelo a se corrigir sozinho, que é exatamente o que a areia instável exige a cada passo.' }
+      id:'B', nome:'Sessão B — Agilidade', min:18, cor:'#22d3ee', contatos:'~40 contatos reativos',
+      quando:'Terça e sexta',
+      passos:[
+        { t:'0-3 min',  o:'RAMP igual ao da sessão A.' },
+        { t:'3-7 min',  o:'Split-step + arranque de 3 m — 6 × 4. Dispare ao som de um timer aleatório no celular. Aterrisse o split com o pé INTEIRO no chão, não na ponta.' },
+        { t:'7-11 min', o:'Plyo step e hip turn (Lee Taft) — 3 × 5 cada lado. O primeiro passo de uma mudança de direção: pé de fora plantado fora da base, tronco inclinado na direção nova.' },
+        { t:'11-15 min',o:'Shuffle lateral 3 m ida e volta — 4 × 3. Posição baixa, pés nunca se cruzam, tornozelo travado. Empurre o chão para o lado.' },
+        { t:'15-18 min',o:'Descompressão igual à da sessão A.' }
+      ]
+    },
+    {
+      id:'C', nome:'Sessão C — Pé, tornozelo e tendão', min:16, cor:'#5eead4', contatos:'zero impacto',
+      quando:'Quarta, domingo e nos dias de jogo',
+      passos:[
+        { t:'0-3 min',  o:'RAMP reduzido: respiração 90/90 · cat-camel 6 · ponte de glúteo 12.' },
+        { t:'3-6 min',  o:'Short foot — 3 × 15 com 5 s de sustentação cada. Encurte o arco do pé puxando a base do dedão em direção ao calcanhar SEM dobrar os dedos. É o exercício com mais evidência para o pé.' },
+        { t:'6-9 min',  o:'Preensão dos dedos com toalha — 3 × 15 cada pé. Puxe uma toalha no chão só com os dedos. Em atletas de areia, força de preensão dos dedos previu equilíbrio dinâmico.' },
+        { t:'9-12 min', o:'Isometria de panturrilha sentado, joelho a 30° — 4 × 30 s (rampa de 4 s, segura 30 s, solta 4 s). Protocolo de Keith Baar para rigidez de tendão. Seguro todo dia.' },
+        { t:'12-14 min',o:'Tibial anterior — 3 × 20. Calcanhares no chão, encostado na parede, levante as pontas dos pés. É o músculo que segura o pé quando você freia e o que mais fadiga na areia.' },
+        { t:'14-16 min',o:'Apoio em uma perna com olhos fechados — 2 × 30 s cada perna · eversão com elástico 2 × 15 cada lado (fibulares).' }
       ]
     }
   ],
-  nota: 'Este bloco não é "o resto do treino". É onde mora quase todo o trabalho que ataca as suas duas queixas: a dor lombar depois dos jogos e a lentidão na areia. A academia constrói o motor; aqui o motor aprende a funcionar no terreno.'
+  coluna: {
+    nome:'Coluna — todo dia, 10 min',
+    metodo:'Pirâmide descendente de McGill: 5 repetições → descanso de 20-30 s → 3 repetições → descanso → 1 repetição. Cada repetição é uma sustentação de 8 segundos, respirando normal. Progride-se aumentando REPETIÇÕES (6-4-2, depois 8-6-4), nunca o tempo de sustentação.',
+    exercicios:[
+      { nome:'Respiração 90/90', prescr:'8 ciclos · 4 s inspira, 6 s expira',
+        tip:'Deitado, pernas apoiadas a 90° numa cadeira. Reposiciona as costelas e ensina o core a estabilizar com o diafragma, não prendendo o ar.' },
+      { nome:'Cat-camel', prescr:'6 ciclos lentos',
+        tip:'Mobilidade, não alongamento. Amplitude média, sem forçar o fim do movimento.' },
+      { nome:'Curl-up de McGill', prescr:'5-3-1 · 8 s cada',
+        tip:'UMA perna dobrada, mãos sob a lombar para manter a curva. Levante só cabeça e ombros poucos centímetros, como um bloco. A lombar NÃO se move — é o que separa este do abdominal comum.' },
+      { nome:'Prancha Lateral', prescr:'5-3-1 · 8 s cada lado',
+        tip:'Joelhos dobrados no início, pés empilhados quando ficar fácil. Pirâmide inteira de um lado antes de trocar.' },
+      { nome:'Bird Dog', prescr:'5-3-1 · 8 s cada lado',
+        tip:'Braço e perna opostos, punho e calcanhar empurrando paredes opostas. O quadril não roda.' },
+      { nome:'Pallof Press meio-ajoelhado com elástico', prescr:'2 × 25 s cada lado',
+        tip:'Elástico preso numa maçaneta na altura do peito. Empurre à frente e resista à rotação. O tronco não gira. É o exercício mais específico que existe para a sua lombar no beach tennis.' },
+      { nome:'Flexor de quadril meio-ajoelhado', prescr:'40 s cada lado',
+        tip:'Você passa 30 min por dia sentado na bike, com o psoas encurtado. Psoas curto puxa a pelve e sobrecarrega a lombar. Aperte o glúteo do lado de trás enquanto alonga.' }
+    ]
+  },
+  nunca: [
+    'Pliometria com colete, halteres, barra ou bola acima da cabeça — a carga externa é o que multiplica a compressão do disco, não o salto.',
+    'Drop jump ou salto de caixa alta em piso firme.',
+    'Qualquer salto na primeira hora depois de acordar.',
+    'Passar de 250 contatos por semana.',
+    'Aterrissar na ponta do pé em mudança de direção — o pé inteiro no chão, tornozelo travado.',
+    'Fazer a sessão A no mesmo dia do treino de perna sem separar por várias horas. Se coincidir, casa de manhã e perna no almoço — nunca o contrário.'
+  ],
+  nota: 'Este bloco não é o resto do treino. É onde mora quase todo o trabalho que ataca as suas duas queixas: a dor lombar depois dos jogos e a lentidão na areia. A academia constrói o motor; aqui o motor aprende a arrancar, frear e mudar de direção.'
 };
 
 /* ---------- BICICLETA ERGOMÉTRICA ---------- */
@@ -351,52 +404,39 @@ const BIKE = {
   alerta: 'PARE se aparecer: dor irradiando abaixo do joelho, formigamento ou dormência no pé, fraqueza para levantar a ponta do pé, ou dor que persiste mais de 1 hora após a sessão. Dor local que some em 20 min é aceitável.'
 };
 
-/* ---------- TREINO DE AREIA ---------- */
-const SAND = {
-  nome: 'Treino de Areia',
-  porque: 'Correr na areia custa 1,6× mais energia que em piso firme, porque o pé afunda e o tendão devolve muito menos energia elástica (a eficiência do ciclo alongamento-encurtamento cai de ~0,55 para ~0,40). Nenhuma máquina de academia reproduz isso. E a boa notícia: o impacto axial na areia é MENOR — é o melhor lugar do mundo para você fazer pliometria com hérnia.',
-  frequencia: '2 sessões por semana, 20-25 min, separadas por 48-72h. Sempre ANTES do jogo, nunca cansado.',
-  blocos: [
-    { nome:'Bloco A — Potência pura', desc:'8-12 arranques de 5-10 m, pausa de 60-90s entre eles. Qualidade acima de quantidade: quando o tempo cair ~3%, encerre o bloco.' },
-    { nome:'Bloco B — Mudança de direção reativa', desc:'6-8 repetições de 6-8s: split-step seguido de 2 mudanças de direção ao comando visual de um parceiro. Pausa de 45-60s.' },
-    { nome:'Pliometria', desc:'80-120 contatos por sessão (comece com 60). Pogo hops, line hops laterais, skater hops baixos, A-skip. Um salto com os dois pés conta 2 contatos.' }
-  ],
-  nota: 'Esta é a resposta para "me sinto lento na areia". Musculação constrói o motor; a areia ensina o motor a funcionar naquele terreno.'
-};
-
 /* ---------- SEMANA-TIPO ---------- */
 const WEEK_PLAN = [
-  { dia:'Seg', idx:1, manha:'Bike Zona 2',  almoco:'A — Peito + Bíceps',     noite:'Casa · coluna + agilidade',      tipo:'treino', treino:'A', casa:'completo' },
-  { dia:'Ter', idx:2, manha:'Bike HIIT',    almoco:'B — Ombro + Tríceps',    noite:'Areia 20 min + casa · coluna',   tipo:'treino', treino:'B', casa:'coluna' },
-  { dia:'Qua', idx:3, manha:'Bike Zona 2',  almoco:'C — Costas + Posterior', noite:'Casa · coluna + agilidade',      tipo:'treino', treino:'C', casa:'completo' },
-  { dia:'Qui', idx:4, manha:'Bike leve',    almoco:'—',                      noite:'Beach tennis',                   tipo:'jogo',   treino:null, casa:null },
-  { dia:'Sex', idx:5, manha:'Bike Zona 2',  almoco:'D — Pernas',             noite:'Refeição livre + casa · coluna', tipo:'treino', treino:'D', casa:'coluna' },
-  { dia:'Sáb', idx:6, manha:'Areia 25 min', almoco:'—',                      noite:'Beach tennis + refeição livre',  tipo:'jogo',   treino:null, casa:null },
-  { dia:'Dom', idx:0, manha:'Caminhada',    almoco:'—',                      noite:'Casa · coluna',                  tipo:'off',    treino:null, casa:'coluna' }
+  { dia:'Seg', idx:1, manha:'Bike Zona 2',  almoco:'A — Peito + Bíceps',  noite:'Casa A · potência',    tipo:'treino', treino:'A', casa:'A' },
+  { dia:'Ter', idx:2, manha:'Bike HIIT',    almoco:'B — Ombro + Tríceps', noite:'Casa B · agilidade',   tipo:'treino', treino:'B', casa:'B' },
+  { dia:'Qua', idx:3, manha:'Bike Zona 2',  almoco:'C — Costas',          noite:'Casa C · pé e tendão', tipo:'treino', treino:'C', casa:'C' },
+  { dia:'Qui', idx:4, manha:'Casa A',       almoco:'—',                   noite:'—',                    tipo:'off',    treino:null, casa:'A' },
+  { dia:'Sex', idx:5, manha:'Bike Zona 2',  almoco:'D — Pernas',          noite:'Casa B + refeição livre', tipo:'treino', treino:'D', casa:'B' },
+  { dia:'Sáb', idx:6, manha:'—',            almoco:'—',                   noite:'Beach tennis + livre', tipo:'jogo',   treino:null, casa:null },
+  { dia:'Dom', idx:0, manha:'Caminhada 25 min', almoco:'—',               noite:'Casa C · pé e tendão', tipo:'off',    treino:null, casa:'C' }
 ];
 
 /* ---------- PERIODIZAÇÃO: 7 SEMANAS ---------- */
 const PERIODIZATION = [
   { s:1, ini:'2026-08-10', fim:'2026-08-16', bloco:'Acumulação', foco:'Aprender os padrões novos e fixar a rotina de coluna',
-    carga:'75-80% · RIR 3', volume:'8-10 séries/músculo', cardio:'3× Z2 + 1× HIIT', areia:'2× (60 contatos)', peso:92.7,
+    carga:'75-80% · RIR 3', volume:'8-10 séries/músculo', cardio:'3× Z2 + 1× HIIT', casa:'A/B/C · 150 contatos/sem', peso:92.8,
     nota:'Semana de calibragem: anote as cargas de tudo. Faça os 3 testes de resistência de core.' },
   { s:2, ini:'2026-08-17', fim:'2026-08-23', bloco:'Acumulação', foco:'Sobrecarga progressiva nos compostos',
-    carga:'75-80% · RIR 3', volume:'8-10 séries/músculo', cardio:'3× Z2 + 1× HIIT + 1× SIT', areia:'2× (80 contatos)', peso:91.7,
+    carga:'75-80% · RIR 3', volume:'8-10 séries/músculo', cardio:'3× Z2 + 1× HIIT + 1× SIT', casa:'A/B/C · 180 contatos/sem', peso:91.7,
     nota:'Suba 2,5 kg em qualquer exercício que você completou todas as reps com RIR 3.' },
   { s:3, ini:'2026-08-24', fim:'2026-08-30', bloco:'Intensificação', foco:'Mais carga, mesmo volume',
-    carga:'80-85% · RIR 2', volume:'8-9 séries/músculo', cardio:'3× Z2 + 1× HIIT + 1× SIT', areia:'2× (100 contatos)', peso:91.0,
+    carga:'80-85% · RIR 2', volume:'8-9 séries/músculo', cardio:'3× Z2 + 1× HIIT + 1× SIT', casa:'A/B/C · 210 contatos/sem', peso:91.1,
     nota:'Última semana com a sessão de sprint na bike. A partir de 31/08 ela vira treino de areia.' },
   { s:4, ini:'2026-08-31', fim:'2026-09-06', bloco:'Intensificação', foco:'Potência e velocidade viram prioridade',
-    carga:'80-85% · RIR 2', volume:'8-9 séries/músculo', cardio:'3× Z2 + 1× HIIT', areia:'2× (120 contatos)', peso:90.4,
+    carga:'80-85% · RIR 2', volume:'8-9 séries/músculo', cardio:'3× Z2 + 1× HIIT', casa:'A/B/C · 240 contatos/sem', peso:90.5,
     nota:'Troque a sessão C da bike por 25 min de areia. Reteste o salto vertical e compare com a semana 1.' },
   { s:5, ini:'2026-09-07', fim:'2026-09-13', bloco:'Pico de força', foco:'Cargas mais altas do ciclo',
-    carga:'85-88% · RIR 1-2', volume:'6-8 séries/músculo', cardio:'3× Z2 + 1× HIIT', areia:'2× (120 contatos)', peso:89.7,
+    carga:'85-88% · RIR 1-2', volume:'6-8 séries/músculo', cardio:'3× Z2 + 1× HIIT', casa:'A/B/C · 240 contatos/sem (pico)', peso:89.9,
     nota:'Converta a refeição livre de sexta em recarga de carboidrato (sushi, massa, arroz — gordura baixa).' },
   { s:6, ini:'2026-09-14', fim:'2026-09-20', bloco:'Taper leve', foco:'Volume −40%, MESMA carga',
-    carga:'85% · RIR 2-3', volume:'2 séries por exercício', cardio:'3× Z2 + HIIT reduzido (3×3 min)', areia:'2× leve', peso:89.1,
+    carga:'85% · RIR 2-3', volume:'2 séries por exercício', cardio:'3× Z2 + HIIT reduzido (3×3 min)', casa:'B/C · 120 contatos, só qualidade', peso:89.2,
     nota:'Corte séries, nunca peso. Zero falha, zero exercício novo. Último jogo-treino duro: domingo 20/09.' },
   { s:7, ini:'2026-09-21', fim:'2026-09-27', bloco:'TAPER + TORNEIO', foco:'Volume −60%, chegar leve e explosivo',
-    carga:'85% · RIR 3-4', volume:'2 sessões de 25 min (seg e qua)', cardio:'Bike 20 min fácil', areia:'Só técnica', peso:90.0,
+    carga:'85% · RIR 3-4', volume:'2 sessões de 25 min (seg e qua)', cardio:'Bike 20 min fácil', casa:'C · só mobilidade e pé', peso:90.2,
     nota:'DÉFICIT ENCERRADO — vá para manutenção. Recarga de carboidrato 24-25/09. Última musculação: quarta 23/09.',
     destaque:true }
 ];
@@ -509,214 +549,188 @@ const LUMBAR = {
 
 const DIET = [
   {
-    id:'prebike', nome:'Pré-bike', hora:'06:00 — 06:30', icone:'🚴', alvo:70,
-    nota:'Opcional. A bike em Zona 2 pode ser feita em jejum sem prejuízo — não existe vantagem comprovada do jejum na perda de gordura em 24h (Schoenfeld 2014). Coma se render mais. Em dia de HIIT ou SIT, coma sempre.',
+    id:'prebike', nome:'Pré-bike', hora:'06:00 — 06:30', icone:'🚴', alvo:0,
+    nota:'Opcional e fora da conta. A bike em Zona 2 pode ser feita em jejum sem prejuízo — Schoenfeld 2014 não achou diferença na perda de gordura em 24 h. Em dia de HIIT, coma alguma coisa.',
     opcoes:[
-      { label:'Café puro', itens:[
+      { label:'Só café', itens:[
         { n:'Café preto sem açúcar', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
       ]},
       { label:'Banana', itens:[
         { n:'Banana prata', q:'1 un (70 g)', kcal:69, p:0.9, c:18.2, g:0.1 },
         { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
       ]},
-      { label:'Pão + pasta', itens:[
-        { n:'Pão de forma integral', q:'1 fatia (25 g)', kcal:63, p:2.4, c:12.5, g:0.9 },
-        { n:'Pasta de amendoim integral', q:'1 c. chá (7 g)', kcal:44, p:1.5, c:1.7, g:3.5 },
-        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
-      ]},
-      { label:'Whey na água', itens:[
+      { label:'Whey na água (dia de HIIT)', itens:[
         { n:'Whey isolado', q:'15 g', kcal:55, p:13, c:0.5, g:0.2 },
-        { n:'Água', q:'300 ml', kcal:0, p:0, c:0, g:0 }
+        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
       ]}
     ]
   },
   {
-    id:'cafe', nome:'Café da Manhã', hora:'07:30 — 08:30', icone:'☀️', alvo:420,
-    nota:'Primeira das quatro doses de proteína do dia. Mire 35-40 g aqui — dose alta pela manhã melhora a retenção de massa magra em déficit.',
+    id:'cafe', nome:'Café da Manhã', hora:'09:30 — pós-bike', icone:'🍞', alvo:520,
+    nota:'Sua primeira refeição de verdade, já depois da bicicleta. É aqui que o corpo repõe o que a bike gastou. Mire 40 g de proteína: dose alta pela manhã é o que mais protege massa magra em déficit.',
     opcoes:[
-      { label:'Ovos & pão', itens:[
-        { n:'Ovos inteiros mexidos', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6, prep:'Na frigideira antiaderente com azeite em spray' },
-        { n:'Claras', q:'3 un (100 g)', kcal:57, p:13.2, c:0, g:0.1 },
-        { n:'Pão de forma integral', q:'2 fatias (50 g)', kcal:126, p:4.8, c:25, g:1.8 },
-        { n:'Tomate', q:'80 g', kcal:12, p:0.9, c:2.5, g:0.2 },
-        { n:'Banana prata', q:'1 un (70 g)', kcal:69, p:0.9, c:18.2, g:0.1 },
-        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
+      { label:'Pão com frango', itens:[
+        { n:'Pão de forma integral', q:'3 fatias (75 g)', kcal:189, p:7.2, c:37.5, g:2.7 },
+        { n:'Frango desfiado', q:'120 g', kcal:196, p:37.8, c:0, g:3.8, prep:'Cozido e desfiado; tempere com páprica, alho e limão' },
+        { n:'Requeijão light', q:'1 c. sopa (15 g)', kcal:25, p:1.5, c:0.8, g:1.8 },
+        { n:'Tomate e alface', q:'60 g', kcal:8, p:0.7, c:1.4, g:0.1 },
+        { n:'Café com leite desnatado', q:'150 ml', kcal:53, p:5.4, c:7.4, g:0.2 },
+        { n:'Banana prata', q:'1 un (70 g)', kcal:69, p:0.9, c:18.2, g:0.1 }
       ]},
-      { label:'Grego & aveia', itens:[
-        { n:'Iogurte grego zero', q:'200 g', kcal:120, p:20, c:8, g:0.8 },
-        { n:'Aveia em flocos', q:'30 g', kcal:118, p:4.2, c:20, g:2.6 },
-        { n:'Morangos', q:'100 g', kcal:30, p:0.9, c:6.8, g:0.3 },
-        { n:'Chia', q:'10 g', kcal:49, p:1.7, c:4.2, g:3.1 },
-        { n:'Pasta de amendoim integral', q:'1 c. sopa (15 g)', kcal:95, p:3.3, c:3.6, g:7.4 },
-        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
+      { label:'Pão com ovos', itens:[
+        { n:'Pão de forma integral', q:'3 fatias (75 g)', kcal:189, p:7.2, c:37.5, g:2.7 },
+        { n:'Ovos inteiros mexidos', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6, prep:'Frigideira antiaderente, azeite em spray' },
+        { n:'Claras', q:'3 un (100 g)', kcal:57, p:13.2, c:0, g:0.1 },
+        { n:'Tomate', q:'60 g', kcal:9, p:0.7, c:1.9, g:0.1 },
+        { n:'Café com leite desnatado', q:'150 ml', kcal:53, p:5.4, c:7.4, g:0.2 },
+        { n:'Mamão formosa', q:'120 g', kcal:54, p:1, c:13.9, g:0.1 }
+      ]},
+      { label:'Pão com ovo e frango', itens:[
+        { n:'Pão de forma integral', q:'3 fatias (75 g)', kcal:189, p:7.2, c:37.5, g:2.7 },
+        { n:'Ovo inteiro', q:'1 un (50 g)', kcal:73, p:6.6, c:0.3, g:4.8 },
+        { n:'Frango desfiado', q:'90 g', kcal:147, p:28.4, c:0, g:2.9 },
+        { n:'Abacate', q:'30 g', kcal:29, p:0.4, c:1.8, g:2.5 },
+        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 },
+        { n:'Laranja pera', q:'150 g', kcal:56, p:1.5, c:13.4, g:0.2 }
       ]},
       { label:'Tapioca proteica', itens:[
-        { n:'Goma de tapioca hidratada', q:'40 g', kcal:96, p:0.1, c:23.6, g:0 },
-        { n:'Frango desfiado', q:'100 g', kcal:163, p:31.5, c:0, g:3.2, prep:'Cozido e desfiado; tempere com páprica e alho' },
+        { n:'Goma de tapioca hidratada', q:'50 g', kcal:120, p:0.2, c:29.5, g:0.1 },
+        { n:'Ovo inteiro', q:'1 un (50 g)', kcal:73, p:6.6, c:0.3, g:4.8, prep:'Misture na goma para virar crepioca' },
+        { n:'Frango desfiado', q:'110 g', kcal:179, p:34.7, c:0, g:3.5 },
         { n:'Queijo cottage', q:'40 g', kcal:36, p:4.8, c:1.2, g:1.4 },
-        { n:'Leite desnatado', q:'200 ml', kcal:70, p:7.2, c:9.8, g:0.2, prep:'Com café' },
-        { n:'Mamão formosa', q:'100 g', kcal:45, p:0.8, c:11.6, g:0.1 }
+        { n:'Café com leite desnatado', q:'150 ml', kcal:53, p:5.4, c:7.4, g:0.2 },
+        { n:'Mamão formosa', q:'120 g', kcal:54, p:1, c:13.9, g:0.1 }
       ]},
-      { label:'Omelete', itens:[
-        { n:'Ovos inteiros', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6 },
-        { n:'Claras', q:'3 un (100 g)', kcal:57, p:13.2, c:0, g:0.1 },
-        { n:'Queijo cottage', q:'50 g', kcal:45, p:6, c:1.5, g:1.8 },
-        { n:'Espinafre e tomate', q:'100 g', kcal:19, p:1.9, c:3, g:0.3, prep:'Refogados dentro da omelete' },
-        { n:'Pão de forma integral', q:'1 fatia (25 g)', kcal:63, p:2.4, c:12.5, g:0.9 },
-        { n:'Mamão formosa', q:'150 g', kcal:68, p:1.2, c:17.4, g:0.2 }
-      ]},
-      { label:'Shake corrido', itens:[
-        { n:'Whey concentrado', q:'30 g', kcal:120, p:24, c:3, g:1.5, prep:'Bata tudo no liquidificador' },
+      { label:'Corrido (shake + pão)', itens:[
+        { n:'Whey concentrado', q:'30 g', kcal:120, p:24, c:3, g:1.5, prep:'Bata com o leite e a banana' },
         { n:'Leite desnatado', q:'200 ml', kcal:70, p:7.2, c:9.8, g:0.2 },
-        { n:'Banana nanica congelada', q:'100 g', kcal:92, p:1.4, c:23.8, g:0.1 },
-        { n:'Aveia em flocos', q:'25 g', kcal:99, p:3.5, c:16.7, g:2.1 },
-        { n:'Pasta de amendoim', q:'1 c. chá (7 g)', kcal:44, p:1.5, c:1.7, g:3.5 }
+        { n:'Banana nanica', q:'100 g', kcal:92, p:1.4, c:23.8, g:0.1 },
+        { n:'Pão de forma integral', q:'2 fatias (50 g)', kcal:126, p:4.8, c:25, g:1.8 },
+        { n:'Pasta de amendoim integral', q:'1 c. sopa (15 g)', kcal:95, p:3.3, c:3.6, g:7.4 }
       ]}
     ]
   },
   {
-    id:'almoco', nome:'Almoço', hora:'12:30 — 13:30', icone:'🍽️', alvo:610,
-    nota:'É a sua refeição pós-treino. Mire 60 g de proteína e o maior aporte de carboidrato do dia — o músculo está mais receptivo agora.',
+    id:'almoco', nome:'Almoço', hora:'13:00 — pós-treino', icone:'🍽️', alvo:900, estimado:true,
+    nota:'É a sua maior refeição e cai logo depois da academia — o melhor momento possível. Marmita ou self-service: monte o prato pela regra abaixo. Os valores aqui são ESTIMATIVAS de restaurante, com margem de ±15%. O que mais faz o número subir sem você perceber: fritura, molho cremoso, farofa e o azeite despejado por cima.',
+    regra:'REGRA DO PRATO: metade de salada e legumes · um quarto de proteína grelhada (180-200 g) · um quarto de arroz e feijão. Peça grelhado em vez de frito, molho à parte, e não repita o arroz.',
     opcoes:[
-      { label:'Clássico brasileiro', itens:[
-        { n:'Patinho grelhado', q:'140 g', kcal:307, p:50.3, c:0, g:10.2, prep:'Grelhe na chapa; tempere com alho e ervas' },
-        { n:'Arroz integral cozido', q:'120 g', kcal:149, p:3.1, c:31, g:1.2 },
-        { n:'Feijão carioca cozido', q:'130 g', kcal:99, p:6.2, c:17.7, g:0.7 },
-        { n:'Salada de alface, tomate e pepino', q:'150 g', kcal:18, p:1.7, c:3.4, g:0.2 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 }
+      { label:'Self-service clássico', itens:[
+        { n:'Frango grelhado (peito ou sassami)', q:'200 g', kcal:318, p:64, c:0, g:5 },
+        { n:'Arroz branco', q:'180 g', kcal:230, p:4.5, c:50.6, g:0.4 },
+        { n:'Feijão carioca', q:'140 g', kcal:106, p:6.7, c:19, g:0.7 },
+        { n:'Legumes refogados (abobrinha, cenoura, vagem)', q:'150 g', kcal:68, p:3, c:12, g:1.5 },
+        { n:'Salada crua à vontade', q:'150 g', kcal:18, p:1.7, c:3.4, g:0.2 },
+        { n:'Azeite na salada', q:'1 c. sopa (8 g)', kcal:72, p:0, c:0, g:8 },
+        { n:'Mamão de sobremesa', q:'120 g', kcal:54, p:1, c:13.9, g:0.1 }
       ]},
-      { label:'Frango & batata doce', itens:[
-        { n:'Frango grelhado, peito', q:'180 g', kcal:286, p:57.6, c:0, g:4.5, prep:'Marinado em limão, alho e páprica' },
-        { n:'Batata doce cozida', q:'250 g', kcal:193, p:1.5, c:46, g:0.3 },
-        { n:'Brócolis cozido', q:'150 g', kcal:38, p:3.2, c:6.6, g:0.5 },
-        { n:'Cenoura crua ralada', q:'80 g', kcal:27, p:1, c:6.2, g:0.2 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 },
-        { n:'Laranja pera', q:'100 g', kcal:37, p:1, c:8.9, g:0.1 }
+      { label:'Carne vermelha magra', itens:[
+        { n:'Patinho ou alcatra grelhada', q:'180 g', kcal:394, p:64.6, c:0, g:13.1, prep:'Peça sem a capa de gordura' },
+        { n:'Arroz branco', q:'150 g', kcal:192, p:3.8, c:42.2, g:0.3 },
+        { n:'Feijão preto', q:'130 g', kcal:100, p:5.9, c:18.2, g:0.7 },
+        { n:'Salada crua com tomate e beterraba', q:'180 g', kcal:35, p:2, c:6.5, g:0.3 },
+        { n:'Azeite', q:'1 c. sopa (8 g)', kcal:72, p:0, c:0, g:8 },
+        { n:'Abacaxi', q:'100 g', kcal:48, p:0.9, c:12.3, g:0.1 }
       ]},
-      { label:'Peixe branco', itens:[
-        { n:'Tilápia grelhada', q:'200 g', kcal:258, p:52.4, c:0, g:4, prep:'No forno ou airfryer com limão e ervas' },
-        { n:'Arroz integral cozido', q:'180 g', kcal:223, p:4.7, c:46.4, g:1.8 },
-        { n:'Vagem e cenoura no vapor', q:'150 g', kcal:44, p:2.3, c:9.8, g:0.3 },
-        { n:'Feijão preto cozido', q:'80 g', kcal:62, p:3.6, c:11.2, g:0.4 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 }
+      { label:'Peixe grelhado', itens:[
+        { n:'Tilápia ou merluza grelhada', q:'220 g', kcal:284, p:57.6, c:0, g:4.4 },
+        { n:'Arroz integral', q:'180 g', kcal:223, p:4.7, c:46.4, g:1.8 },
+        { n:'Feijão carioca', q:'130 g', kcal:99, p:6.2, c:17.7, g:0.7 },
+        { n:'Purê de batata', q:'100 g', kcal:88, p:2, c:16, g:2 },
+        { n:'Salada verde', q:'150 g', kcal:18, p:1.7, c:3.4, g:0.2 },
+        { n:'Azeite', q:'1 c. sopa (8 g)', kcal:72, p:0, c:0, g:8 },
+        { n:'Laranja', q:'150 g', kcal:56, p:1.5, c:13.4, g:0.2 }
       ]},
-      { label:'Macarrão à bolonhesa', itens:[
-        { n:'Macarrão integral cozido', q:'180 g', kcal:223, p:9.5, c:47.7, g:0.9 },
-        { n:'Patinho moído', q:'140 g', kcal:307, p:50.3, c:0, g:10.2, prep:'Refogue sem óleo; escorra a gordura' },
-        { n:'Molho de tomate caseiro', q:'120 g', kcal:46, p:1.6, c:8.4, g:0.8 },
-        { n:'Salada verde grande', q:'150 g', kcal:18, p:1.7, c:3.4, g:0.2 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 }
+      { label:'Marmita caseira', itens:[
+        { n:'Frango desfiado ou em cubos', q:'180 g', kcal:293, p:56.7, c:0, g:5.8 },
+        { n:'Arroz integral', q:'170 g', kcal:211, p:4.4, c:43.9, g:1.7 },
+        { n:'Feijão', q:'140 g', kcal:106, p:6.7, c:19, g:0.7 },
+        { n:'Brócolis e cenoura no vapor', q:'180 g', kcal:52, p:3.9, c:9.3, g:0.6 },
+        { n:'Batata doce', q:'120 g', kcal:92, p:0.7, c:22.1, g:0.1 },
+        { n:'Azeite', q:'1 c. sopa (8 g)', kcal:72, p:0, c:0, g:8 },
+        { n:'Maçã', q:'130 g', kcal:73, p:0.4, c:19.8, g:0 }
       ]},
-      { label:'Bowl mexicano', itens:[
-        { n:'Frango desfiado', q:'170 g', kcal:277, p:53.6, c:0, g:5.4, prep:'Cozido e desfiado com cominho e páprica defumada' },
-        { n:'Feijão preto cozido', q:'130 g', kcal:100, p:5.9, c:18.2, g:0.7 },
-        { n:'Arroz integral cozido', q:'120 g', kcal:149, p:3.1, c:31, g:1.2 },
-        { n:'Abacate', q:'50 g', kcal:48, p:0.6, c:3, g:4.2 },
-        { n:'Pico de gallo (tomate, cebola, coentro, limão)', q:'100 g', kcal:22, p:1, c:4.5, g:0.2 }
+      { label:'Massa (dia de jogo)', itens:[
+        { n:'Macarrão ao molho de tomate', q:'250 g cozido', kcal:310, p:13.3, c:66.3, g:1.3 },
+        { n:'Patinho moído refogado', q:'150 g', kcal:329, p:53.9, c:0, g:11, prep:'Escorra a gordura depois de refogar' },
+        { n:'Molho de tomate', q:'100 g', kcal:38, p:1.3, c:7, g:0.7 },
+        { n:'Salada verde grande', q:'180 g', kcal:22, p:2.1, c:4.1, g:0.3 },
+        { n:'Azeite', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 },
+        { n:'Melancia', q:'200 g', kcal:66, p:1.8, c:16.2, g:0 }
       ]}
     ]
   },
   {
-    id:'tarde', nome:'Café da Tarde', hora:'16:00 — 17:00', icone:'💪', alvo:310,
-    nota:'O seu combo favorito continua aqui — só ajustei as quantidades. Terceira dose de proteína.',
+    id:'tarde', nome:'Café da Tarde', hora:'16:30', icone:'💪', alvo:400,
+    nota:'Seu combo de sempre, só com as quantidades acertadas. Terceira dose de proteína do dia — pese a granola, ela é a armadilha calórica silenciosa (100 g são 450 kcal).',
     opcoes:[
-      { label:'Combo favorito', itens:[
+      { label:'Combo de sempre', itens:[
+        { n:'Whey concentrado', q:'30 g', kcal:120, p:24, c:3, g:1.5, prep:'Misture direto no iogurte' },
         { n:'Iogurte grego zero', q:'170 g', kcal:102, p:17, c:6.8, g:0.7 },
-        { n:'Whey concentrado', q:'25 g', kcal:100, p:20, c:2.5, g:1.3, prep:'Misture direto no iogurte' },
-        { n:'Granola sem açúcar', q:'25 g', kcal:113, p:2.8, c:15, g:4.3, prep:'Pese! 100 g de granola são 450 kcal' },
+        { n:'Granola sem açúcar', q:'30 g', kcal:135, p:3.3, c:18, g:5.1, prep:'PESE. Um punhado generoso vira 200 kcal sem você notar' },
+        { n:'Banana prata', q:'1 un (70 g)', kcal:69, p:0.9, c:18.2, g:0.1 }
+      ]},
+      { label:'Combo + fruta vermelha', itens:[
+        { n:'Whey concentrado', q:'30 g', kcal:120, p:24, c:3, g:1.5 },
+        { n:'Iogurte grego zero', q:'200 g', kcal:120, p:20, c:8, g:0.8 },
+        { n:'Granola sem açúcar', q:'25 g', kcal:113, p:2.8, c:15, g:4.3 },
+        { n:'Morangos', q:'120 g', kcal:36, p:1.1, c:8.2, g:0.4 },
         { n:'Canela', q:'a gosto', kcal:3, p:0.1, c:0.8, g:0 }
       ]},
       { label:'Pão com atum', itens:[
-        { n:'Pão de forma integral', q:'2 fatias (50 g)', kcal:126, p:4.8, c:25, g:1.8 },
-        { n:'Atum light em água, drenado', q:'100 g', kcal:100, p:23, c:0, g:0.8 },
-        { n:'Queijo cottage', q:'40 g', kcal:36, p:4.8, c:1.2, g:1.4 },
-        { n:'Alface e tomate', q:'60 g', kcal:8, p:0.7, c:1.4, g:0.1 },
-        { n:'Mostarda', q:'1 c. sopa (15 g)', kcal:10, p:0.6, c:0.9, g:0.5 }
-      ]},
-      { label:'Shake & fruta', itens:[
-        { n:'Whey isolado', q:'30 g', kcal:110, p:26, c:1, g:0.3 },
-        { n:'Leite desnatado', q:'200 ml', kcal:70, p:7.2, c:9.8, g:0.2 },
-        { n:'Cacau 100%', q:'5 g', kcal:20, p:1, c:2.4, g:1.1 },
-        { n:'Maçã com casca', q:'150 g', kcal:84, p:0.5, c:22.8, g:0 }
-      ]},
-      { label:'Crepioca', itens:[
-        { n:'Ovo inteiro', q:'1 un (50 g)', kcal:73, p:6.6, c:0.3, g:4.8 },
-        { n:'Clara', q:'1 un (33 g)', kcal:19, p:4.4, c:0, g:0 },
-        { n:'Goma de tapioca', q:'20 g', kcal:48, p:0.1, c:11.8, g:0 },
-        { n:'Frango desfiado', q:'90 g', kcal:147, p:28.4, c:0, g:2.9 },
-        { n:'Queijo cottage', q:'30 g', kcal:27, p:3.6, c:0.9, g:1.1 }
-      ]},
-      { label:'Ovos & vegetais', itens:[
-        { n:'Ovos cozidos', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6 },
+        { n:'Pão de forma integral', q:'3 fatias (75 g)', kcal:189, p:7.2, c:37.5, g:2.7 },
+        { n:'Atum light em água, drenado', q:'120 g', kcal:120, p:27.6, c:0, g:1 },
         { n:'Queijo cottage', q:'50 g', kcal:45, p:6, c:1.5, g:1.8 },
-        { n:'Cenoura e pepino em palitos', q:'150 g', kcal:33, p:1.6, c:7.3, g:0.2 },
-        { n:'Pão de forma integral', q:'1 fatia (25 g)', kcal:63, p:2.4, c:12.5, g:0.9 },
-        { n:'Whey isolado', q:'10 g', kcal:37, p:8.7, c:0.3, g:0.1 }
+        { n:'Alface e tomate', q:'60 g', kcal:8, p:0.7, c:1.4, g:0.1 },
+        { n:'Mostarda', q:'1 c. sopa (15 g)', kcal:10, p:0.6, c:0.9, g:0.5 },
+        { n:'Maçã', q:'130 g', kcal:73, p:0.4, c:19.8, g:0 }
+      ]},
+      { label:'Crepioca de frango', itens:[
+        { n:'Ovo inteiro', q:'1 un (50 g)', kcal:73, p:6.6, c:0.3, g:4.8 },
+        { n:'Clara', q:'2 un (66 g)', kcal:38, p:8.8, c:0, g:0.1 },
+        { n:'Goma de tapioca', q:'30 g', kcal:72, p:0.1, c:17.7, g:0 },
+        { n:'Frango desfiado', q:'100 g', kcal:163, p:31.5, c:0, g:3.2 },
+        { n:'Queijo cottage', q:'40 g', kcal:36, p:4.8, c:1.2, g:1.4 },
+        { n:'Café preto', q:'200 ml', kcal:3, p:0.2, c:0.5, g:0 }
+      ]},
+      { label:'Shake e fruta (corrido)', itens:[
+        { n:'Whey isolado', q:'35 g', kcal:128, p:30.3, c:1.2, g:0.4 },
+        { n:'Leite desnatado', q:'250 ml', kcal:88, p:9, c:12.3, g:0.3 },
+        { n:'Aveia em flocos', q:'25 g', kcal:99, p:3.5, c:16.7, g:2.1 },
+        { n:'Banana prata', q:'1 un (70 g)', kcal:69, p:0.9, c:18.2, g:0.1 }
       ]}
     ]
   },
   {
-    id:'janta', nome:'Janta', hora:'19:30 — 20:30', icone:'🌙', alvo:510,
-    nota:'Carboidrato mais baixo, proteína alta. Última dose grande do dia.',
+    id:'janta', nome:'Janta', hora:'19:30 — 20:30', icone:'🌙', alvo:380,
+    nota:'A sua marmita fit de 350 g. A maioria delas fica entre 350 e 490 kcal e traz 25-35 g de proteína — abaixo dos 40 g que esta refeição precisa. Por isso quase toda opção aqui leva um complemento proteico simples. LEIA O RÓTULO da sua marca: os valores variam bastante.',
     opcoes:[
-      { label:'Salmão & legumes', itens:[
-        { n:'Salmão grelhado', q:'150 g', kcal:344, p:35.9, c:0, g:21, prep:'Azeite, limão e dill; 4 min de cada lado' },
-        { n:'Brócolis e abobrinha no vapor', q:'200 g', kcal:40, p:3.2, c:7.4, g:0.5 },
-        { n:'Batata doce assada', q:'150 g', kcal:116, p:0.9, c:27.6, g:0.2 },
+      { label:'Marmita fit + iogurte', itens:[
+        { n:'Marmita fit (frango, arroz integral, legumes)', q:'350 g', kcal:380, p:32, c:38, g:9, prep:'Confira o rótulo — este é o perfil médio das marcas fit' },
+        { n:'Iogurte grego zero de sobremesa', q:'100 g', kcal:60, p:10, c:4, g:0.4 }
+      ]},
+      { label:'Marmita leve + reforço', itens:[
+        { n:'Marmita fit leve (350 kcal)', q:'350 g', kcal:350, p:28, c:35, g:8 },
+        { n:'Claras cozidas ou omelete de claras', q:'4 un (132 g)', kcal:76, p:17.6, c:0, g:0.1 },
         { n:'Salada de folhas', q:'100 g', kcal:11, p:1.3, c:1.7, g:0.2 }
       ]},
-      { label:'Omelete reforçada', itens:[
+      { label:'Marmita low carb + fruta', itens:[
+        { n:'Marmita fit low carb (carne e legumes)', q:'350 g', kcal:320, p:38, c:14, g:13 },
+        { n:'Mamão formosa', q:'150 g', kcal:68, p:1.2, c:17.4, g:0.2 }
+      ]},
+      { label:'Sem marmita — omelete', itens:[
         { n:'Ovos inteiros', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6 },
-        { n:'Claras', q:'4 un (132 g)', kcal:76, p:17.6, c:0, g:0.1 },
+        { n:'Claras', q:'3 un (100 g)', kcal:57, p:13.2, c:0, g:0.1 },
         { n:'Queijo cottage', q:'60 g', kcal:54, p:7.2, c:1.8, g:2.1 },
         { n:'Espinafre, cebola e tomate', q:'150 g', kcal:28, p:2.8, c:4.5, g:0.5 },
-        { n:'Pão de forma integral', q:'2 fatias (50 g)', kcal:126, p:4.8, c:25, g:1.8 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 },
-        { n:'Iogurte grego zero', q:'100 g', kcal:60, p:10, c:4, g:0.4, prep:'De sobremesa, com canela' }
+        { n:'Pão de forma integral', q:'1 fatia (25 g)', kcal:63, p:2.4, c:12.5, g:0.9 },
+        { n:'Iogurte grego zero', q:'60 g', kcal:36, p:6, c:2.4, g:0.2 }
       ]},
-      { label:'Frango & purê', itens:[
-        { n:'Frango grelhado, peito', q:'180 g', kcal:286, p:57.6, c:0, g:4.5 },
-        { n:'Purê de abóbora e chuchu', q:'250 g', kcal:60, p:1.8, c:13, g:0.5, prep:'Cozido e amassado, sem manteiga' },
-        { n:'Salada grande com azeite', q:'150 g', kcal:18, p:1.7, c:3.4, g:0.2 },
-        { n:'Azeite de oliva', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 },
-        { n:'Abacate', q:'40 g', kcal:38, p:0.5, c:2.4, g:3.4 },
-        { n:'Arroz integral cozido', q:'80 g', kcal:99, p:2.1, c:20.6, g:0.8 }
-      ]},
-      { label:'Sopa proteica', itens:[
-        { n:'Patinho em cubos', q:'140 g', kcal:307, p:50.3, c:0, g:10.2 },
-        { n:'Legumes variados (abobrinha, chuchu, cenoura, vagem)', q:'300 g', kcal:66, p:3.6, c:14.4, g:0.5 },
-        { n:'Batata inglesa', q:'120 g', kcal:62, p:1.4, c:14.3, g:0 },
-        { n:'Azeite de oliva', q:'1 c. sopa (8 g)', kcal:72, p:0, c:0, g:8 }
-      ]},
-      { label:'Wrap de frango', itens:[
-        { n:'Tortilla integral', q:'1 un (40 g)', kcal:120, p:4, c:20, g:2.5 },
-        { n:'Frango desfiado', q:'150 g', kcal:245, p:47.3, c:0, g:4.8 },
-        { n:'Queijo cottage', q:'50 g', kcal:45, p:6, c:1.5, g:1.8 },
-        { n:'Folhas, tomate e cebola roxa', q:'100 g', kcal:14, p:1.2, c:2.6, g:0.2 },
-        { n:'Iogurte grego zero', q:'100 g', kcal:60, p:10, c:4, g:0.4, prep:'De sobremesa' },
-        { n:'Morangos', q:'100 g', kcal:30, p:0.9, c:6.8, g:0.3 }
-      ]}
-    ]
-  },
-  {
-    id:'ceia', nome:'Ceia', hora:'22:00', icone:'🌜', alvo:130,
-    nota:'Opcional. Proteína de digestão lenta antes de dormir ajuda a recuperação — e mata a fome que faz a dieta desandar.',
-    opcoes:[
-      { label:'Grego & morango', itens:[
-        { n:'Iogurte grego zero', q:'170 g', kcal:102, p:17, c:6.8, g:0.7 },
-        { n:'Morangos', q:'80 g', kcal:24, p:0.7, c:5.4, g:0.2 },
-        { n:'Canela', q:'a gosto', kcal:3, p:0.1, c:0.8, g:0 }
-      ]},
-      { label:'Cottage', itens:[
-        { n:'Queijo cottage', q:'150 g', kcal:135, p:18, c:4.5, g:5.3 },
-        { n:'Canela e adoçante', q:'a gosto', kcal:3, p:0.1, c:0.8, g:0 }
-      ]},
-      { label:'Caseína', itens:[
-        { n:'Caseína ou albumina', q:'30 g', kcal:110, p:24, c:3, g:0.5, prep:'Batida na água' },
-        { n:'Castanha-do-pará', q:'1 un (4 g)', kcal:27, p:0.6, c:0.6, g:2.7 }
-      ]},
-      { label:'Ovos', itens:[
-        { n:'Ovos cozidos', q:'2 un (100 g)', kcal:146, p:13.2, c:0.6, g:9.6 }
+      { label:'Sem marmita — frango e legumes', itens:[
+        { n:'Frango grelhado, peito', q:'160 g', kcal:254, p:51.2, c:0, g:4 },
+        { n:'Legumes no vapor (brócolis, abobrinha, chuchu)', q:'250 g', kcal:55, p:3, c:12, g:0.5 },
+        { n:'Batata doce', q:'80 g', kcal:62, p:0.5, c:14.7, g:0.1 },
+        { n:'Azeite', q:'1 c. chá (4 g)', kcal:36, p:0, c:0, g:4 }
       ]}
     ]
   }
@@ -726,7 +740,7 @@ const DIET = [
 const FREE_MEALS = {
   quando: 'Sexta e sábado à noite',
   teto: 1100,
-  regra: 'Teto de 1.100 kcal por refeição livre. Ela SUBSTITUI a janta planejada (~560 kcal), então o excesso real é de ~540 kcal cada. Duas por semana = ~1.080 kcal, que já estão orçados no balanço semanal.',
+  regra: 'Teto de 1.100 kcal por refeição livre. Ela SUBSTITUI a janta planejada (~500 kcal), então o excesso real é de ~600 kcal cada. Duas por semana = 1.200 kcal, que já estão orçados no balanço semanal — não há nada a compensar se você respeitar o teto.',
   matematica: [
     { cenario:'Livre de 1.100 kcal', excesso:'+1.080/semana', resultado:'0,64 kg/semana', veredito:'ok', nota:'É o plano. Chega a ~89 kg no torneio.' },
     { cenario:'Livre de 1.500 kcal', excesso:'+1.880/semana', resultado:'0,49 kg/semana', veredito:'med', nota:'Ainda funciona, mas você chega a ~90 kg.' },
