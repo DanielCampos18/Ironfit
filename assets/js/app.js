@@ -333,6 +333,7 @@ const TREINO_TABS = [
   { id: 'B', label: '⚡ B · Ombro+Tríceps' },
   { id: 'C', label: '🏹 C · Costas' },
   { id: 'D', label: '🦵 D · Pernas' },
+  { id: 'cargas', label: '📊 Cargas e reps' },
   { id: 'casa', label: '🏠 Casa (15 min)' },
   { id: 'bike', label: '🚴 Bike' }
 ];
@@ -350,6 +351,7 @@ function renderTreino() {
   renderTreinoTabs();
   const c = $('#treinoContent');
   const t = state.tabTreino;
+  if (t === 'cargas') return void (c.innerHTML = viewCargas());
   if (t === 'casa')  return void (c.innerHTML = viewCasa());
   if (t === 'bike')  return void (c.innerHTML = viewBike());
   c.innerHTML = viewSessao(WORKOUTS[t]);
@@ -462,6 +464,7 @@ function viewExercicio(ex, bi, ei, bloco) {
     </div>
     ${ult != null ? `<div class="ex-last">↑ Último registro: ${fmt(ult, 1)} kg</div>` : ''}
     ${ex.tip ? `<div class="ex-tip ${ex.alert ? 'alert' : ''}">${ex.alert ? '<b>ATENÇÃO — LOMBAR.</b> ' : ''}${esc(ex.tip)}</div>` : ''}
+    ${ex.alt ? `<div class="ex-tip" style="border-left-color:var(--turq);background:rgba(45,212,191,.07)"><b style="color:var(--turq-lt)">Se não tiver o aparelho:</b> ${esc(ex.alt)}</div>` : ''}
     ${sets}
   </div>`;
 }
@@ -555,6 +558,44 @@ function salvarSessao() {
 }
 
 /* ---------- vistas auxiliares do treino ---------- */
+function viewCargas() {
+  const L = LOADING;
+  return `
+    <div class="glass-hi card glow-ring" style="padding:16px">
+      <div class="h-lg">📊 ${esc(L.titulo)}</div>
+      <p class="small muted" style="margin-top:10px">${esc(L.tese)}</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-head"><h2 class="sec-title">Quanto peso em cada bloco</h2></div>
+      <div class="glass tbl-wrap"><table class="tbl">
+        <thead><tr><th>Bloco</th><th>Reps</th><th>RIR</th><th>Carga</th><th>Como saber que acertou</th></tr></thead>
+        <tbody>${L.tabela.map(t => `<tr>
+          <td><b>${esc(t.bloco)}</b></td>
+          <td class="n" style="color:var(--turq-lt)">${esc(t.reps)}</td>
+          <td class="n">${esc(t.rir)}</td>
+          <td>${esc(t.carga)}</td>
+          <td class="dim">${esc(t.como)}</td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+      <p class="tiny dim" style="margin-top:9px">${esc(L.rir)}</p>
+    </div>
+
+    <div class="note o"><div class="note-t">📈 Como progredir</div>${esc(L.progressao)}</div>
+    <div class="note t"><div class="note-t">⚡ E para a agilidade</div>${esc(L.agilidade)}</div>
+    <div class="note w"><div class="note-t">📉 O que esperar em déficit</div>${esc(L.emDeficit)}</div>
+
+    <div class="note">
+      <div class="note-t">🔬 Por que carga alta, e não repetições altas</div>
+      <ul class="bullets" style="margin-top:7px">${L.evidencia.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+    </div>
+
+    <div class="note d">
+      <div class="note-t">❌ Os cinco erros que apagam o resultado</div>
+      <ul class="bullets cross" style="margin-top:7px">${L.erros.map(e => `<li>${esc(e)}</li>`).join('')}</ul>
+    </div>`;
+}
+
 function viewCasa() {
   const H = HOME;
   return `

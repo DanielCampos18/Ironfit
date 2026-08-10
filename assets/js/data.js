@@ -115,13 +115,15 @@ const WORKOUTS = {
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
         nota:'A máquina convergente permite carga pesada com a coluna totalmente apoiada e o caminho da barra fechando no topo, o que o Smith não faz. Suba explosivo: a intenção de acelerar gera estímulo de potência sem custar tempo.',
         exercicios:[
-          { nome:'Supino Inclinado 30° — Máquina Convergente', series:4, reps:'6-8', rir:'2',
-            tip:'Sentado, costas coladas no encosto. 30° é o ângulo que Henselmans aponta como o melhor meio-termo: pega a porção clavicular sem transferir tudo para o ombro. Primeira série de aproximação.' }
+          { nome:'Supino Inclinado 30° — Halteres', series:4, reps:'6-8', rir:'2',
+            alt:'Máquina convergente ou Smith inclinado, se houver.',
+            tip:'Banco a 30° — Henselmans aponta esse ângulo como o melhor meio-termo: pega a porção clavicular sem jogar tudo no ombro. Costas coladas no banco, sem ponte lombar. Halteres dão mais amplitude que a barra. Primeira série de aproximação.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
         nota:'Peito e bíceps não competem: enquanto um trabalha, o outro descansa de verdade. O crucifixo unilateral deitado é o exercício de peito com maior alongamento sob carga — e é no alongamento que o músculo mais cresce.',
         exercicios:[
           { nome:'Crucifixo Unilateral no Cabo — deitado no banco', series:3, reps:'10-12 cada lado', rir:'1',
+            alt:'Sem espaço para o banco no cross-over: faça em pé, cabo na altura do peito, um braço por vez.',
             tip:'Banco reto entre duas polias baixas, um braço por vez. O cabo mantém tensão no ponto de maior alongamento, coisa que o halter perde. Cotovelo levemente dobrado e fixo — é um arco, não um empurrão.' },
           { nome:'Rosca Scott Unilateral no Cabo', series:3, reps:'10-12 cada lado', rir:'1',
             tip:'Banco Scott na frente da polia baixa. Cabeça curta do bíceps, tensão constante no fundo. Unilateral corrige o desequilíbrio entre os lados, comum em quem joga raquete.' }
@@ -129,9 +131,11 @@ const WORKOUTS = {
       { tipo:'superset', nome:'Superset B', descanso:'60s',
         nota:'A rosca Bayesian coloca o cotovelo ATRÁS do tronco, que é a única forma de alongar a cabeça longa do bíceps sob carga. É a peça que faltava no programa antigo.',
         exercicios:[
-          { nome:'Mergulho em Máquina Assistida — tronco inclinado', series:3, reps:'8-12', rir:'1',
-            tip:'Incline o tronco à frente uns 20-30° para jogar o trabalho no peitoral em vez do tríceps. Máquina assistida controla a carga e protege o ombro no fundo.' },
+          { nome:'Mergulho nas Paralelas — tronco inclinado', series:3, reps:'8-12', rir:'1',
+            alt:'Sem graviton nem paralela: Supino Reto com Halteres, 3 × 8-10.',
+            tip:'Incline o tronco à frente uns 20-30° para jogar o trabalho no peitoral em vez do tríceps. Use o graviton (máquina assistida) ou um elástico apoiado nos joelhos para regular a carga. Não desça além do confortável no ombro.' },
           { nome:'Rosca Bayesian no Cabo', series:3, reps:'10-12', rir:'1',
+            alt:'Rosca no banco inclinado 45° com halteres — mesmo efeito de alongar a cabeça longa.',
             tip:'De costas para a polia baixa, dê um passo à frente até o cabo puxar o braço para trás. Cotovelo fica atrás da linha do corpo o movimento inteiro. Sem balançar o tronco.' }
         ]},
       { tipo:'final', nome:'Finalizador', descanso:'45s',
@@ -154,7 +158,8 @@ const WORKOUTS = {
     blocos:[
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
         exercicios:[
-          { nome:'Desenvolvimento Sentado — Máquina Convergente', series:3, reps:'8-12', rir:'2', alert:true,
+          { nome:'Desenvolvimento Sentado — Halteres com encosto', series:3, reps:'8-12', rir:'2', alert:true,
+            alt:'Máquina de desenvolvimento, se houver — ainda melhor, porque o encosto é fixo.',
             tip:'Encosto a 80-85°, glúteo e lombar colados nele. É a única forma de carregar pesado em flexão de ombro com a coluna apoiada — em pé com barra você compensa arqueando a lombar. Não trave o cotovelo no topo.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
@@ -163,12 +168,14 @@ const WORKOUTS = {
           { nome:'Elevação Lateral Unilateral no Cabo — polia baixa por trás do corpo', series:3, reps:'12-15 cada lado', rir:'1',
             tip:'O cabo passa por trás das costas. Pegada neutra, polegar à frente, sem rodar o ombro para dentro. Pare na altura do ombro. Mão livre apoiada na torre para não jogar o tronco.' },
           { nome:'Extensão Overhead no Cabo com Corda — sentado de costas para a polia', series:3, reps:'10-12', rir:'1',
+            alt:'Sem polia livre: tríceps francês sentado com halter, segurando com as duas mãos.',
             tip:'A cabeça longa do tríceps só alonga com o braço ACIMA da cabeça — e é a maior das três. Maeo mostrou crescimento bem superior ao pushdown. Sentado no banco com encosto, cotovelos apontando para a frente.' }
         ]},
       { tipo:'superset', nome:'Superset B', descanso:'60s',
         nota:'O deltoide posterior é o freio do braço no smash. Treinar a fase excêntrica dele é prevenção direta: ombro responde por 14% das lesões no beach tennis.',
         exercicios:[
           { nome:'Crucifixo Inverso no Cabo Cruzado', series:3, reps:'12-15', rir:'1',
+            alt:'Voador invertido (peck deck invertido) — praticamente equivalente.',
             tip:'Em pé entre as polias, cabos cruzados na frente do corpo, cotovelos quase estendidos. Abertura pura na altura do ombro, com 2 s de excêntrica — é essa fase que treina a desaceleração.' },
           { nome:'Tríceps Testa em Banco Inclinado 30° — Halteres', series:3, reps:'10-12', rir:'2',
             tip:'Banco inclinado deixa os braços apontados para trás, aumentando o alongamento em relação ao banco reto. Halteres permitem punho neutro, mais confortável para o cotovelo.' }
@@ -193,15 +200,18 @@ const WORKOUTS = {
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
         nota:'A remada cavalinho com apoio de peito é a única remada que permite carga pesada com momento lombar praticamente zero — Fenwick e McGill mediram isso. Para a sua hérnia, ela é insubstituível.',
         exercicios:[
-          { nome:'Remada Cavalinho com Apoio de Peito (T-Bar apoiada ou máquina)', series:3, reps:'8-12', rir:'2',
-            tip:'Peito firme no apoio o tempo todo. Puxe pelos cotovelos, aperte as escápulas 1 s no final. Se a academia não tiver, use a remada máquina com apoio de peito.' }
+          { nome:'Remada Máquina com Apoio de Peito', series:3, reps:'8-12', rir:'2',
+            alt:'Remada cavalinho (T-bar) com o peito apoiado num banco inclinado. Última opção: remada baixa sentada no cabo, tronco travado a 90°.',
+            tip:'O apoio de peito é o que torna esta a única remada pesada com momento lombar praticamente zero — Fenwick e McGill mediram isso. Para a sua hérnia, é insubstituível. Peito firme no apoio, puxe pelos cotovelos, 1 s de aperto nas escápulas.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'65s',
         nota:'A puxada unilateral tem amplitude maior que a bilateral e corrige a assimetria que todo jogador de raquete desenvolve. O pullover isola o latíssimo em extensão pura de ombro, sem o bíceps limitar a carga.',
         exercicios:[
           { nome:'Puxada Unilateral no Cabo Alto — meio-ajoelhado', series:3, reps:'10-12 cada lado', rir:'2',
+            alt:'Sem manopla: puxada frente normal com pegada neutra (triângulo).',
             tip:'Ajoelhado de um joelho, de frente para a polia alta. Puxe o cotovelo para baixo e para trás, deixando a escápula subir no alongamento. Tronco firme — quem gira é nada.' },
           { nome:'Pullover no Cabo Alto', series:3, reps:'12-15', rir:'1',
+            alt:'Pullover com halter deitado no banco, se a polia estiver ocupada.',
             tip:'Em pé, braços quase estendidos, puxe a barra num arco até a coxa sem dobrar o cotovelo. Latíssimo puro. Incline o tronco só uns 15° e mantenha-o parado.' }
         ]},
       { tipo:'superset', nome:'Superset B', descanso:'45s',
@@ -210,6 +220,7 @@ const WORKOUTS = {
           { nome:'Remada Baixa no Cabo com Corda até o Pescoço', series:3, reps:'12-15', rir:'1',
             tip:'Sentado, puxe a corda na altura do pescoço com os cotovelos ABERTOS e altos, terminando com rotação externa. Tronco ereto — não deixe a lombar arredondar ao ir para a frente.' },
           { nome:'Y-Raise no Banco Inclinado 30° — Halteres leves', series:3, reps:'12-15', rir:'1',
+            alt:'Y-raise em pé com elástico preso embaixo, se não houver banco livre.',
             tip:'De bruços no banco inclinado, braços formando um Y acima da cabeça, polegares para cima. Empurre os halteres para longe da cabeça. Carga leve — 4 a 8 kg já é muito.' }
         ]},
       { tipo:'superset', nome:'Superset C', descanso:'45s',
@@ -218,6 +229,7 @@ const WORKOUTS = {
           { nome:'Flexora Deitada', series:3, reps:'12-15', rir:'1',
             tip:'Complementa a flexora sentada do treino D: a sentada alonga mais o biarticular, a deitada trabalha num ângulo de quadril diferente. Amplitude completa, sem levantar o quadril do apoio. É o substituto seguro do stiff.' },
           { nome:'Panturrilha Sentada', series:3, reps:'15-20', rir:'0-1',
+            alt:'Sem a máquina sentada: sente-se no leg press horizontal com o joelho bem dobrado, ou apoie um halter sobre a coxa sentado num banco.',
             tip:'Joelho dobrado isola o SÓLEO, que é o motor da corrida em areia e o que mais fadiga. Zero carga axial. Dois segundos de alongamento no fundo, 1 s de aperto em cima.' }
         ]}
     ]
@@ -235,28 +247,34 @@ const WORKOUTS = {
       { tipo:'forca', nome:'Força Principal', descanso:'150s',
         nota:'O belt squat carrega o quadril por um cinto, sem NADA de carga passando pela coluna. Se a sua academia tiver, é de longe o melhor agachamento possível para uma hérnia lombar. Sem ele, o hack machine com parada aos 90° é a alternativa.',
         exercicios:[
-          { nome:'Belt Squat (ou Hack Machine parando a 90°)', series:3, reps:'8-12', rir:'2', alert:true,
-            tip:'PARE a descida no instante em que a pelve começar a rodar para trás — esse é o ponto em que a lombar passa a flexionar sob carga. Se não houver belt squat nem hack, use o leg press horizontal com amplitude curta.' }
+          { nome:'Hack Machine — parando a 90° de joelho', series:3, reps:'8-12', rir:'2', alert:true,
+            alt:'Agachamento no Smith com os pés bem à frente. Terceira opção: leg press 45° com amplitude PARCIAL (só até 90°, jamais profundo). Se a academia tiver belt squat, ele é melhor que todos — carrega o quadril por um cinto, sem nada passando pela coluna.',
+            tip:'PARE a descida no instante em que a pelve começar a rodar para trás — esse é o ponto em que a lombar passa a flexionar sob carga. No hack, mantenha as costas inteiras coladas no apoio e os pés um pouco à frente.' }
         ]},
       { tipo:'superset', nome:'Superset A', descanso:'75s',
         nota:'A flexora SENTADA gera mais hipertrofia que a deitada (Maeo 2021) porque o quadril fletido alonga o posterior biarticular. E a extensora com encosto reclinado é a única forma de treinar bem o reto femoral, que cruza o quadril.',
         exercicios:[
           { nome:'Flexora Sentada', series:4, reps:'8-12', rir:'1',
-            tip:'Encosto quase a 90°, cinto pélvico bem firme. Pausa de 1 s no ponto de maior alongamento. Se a academia só tiver a deitada, use-a — mas a sentada é melhor.' },
+            alt:'Só tem a deitada? Faça-a UNILATERAL (uma perna por vez) — assim ainda fica diferente da flexora deitada bilateral do treino C.',
+            tip:'Maeo 2021 mostrou mais hipertrofia na sentada que na deitada: o quadril fletido alonga o posterior biarticular. Encosto quase a 90°, cinto pélvico firme, 1 s de pausa no maior alongamento.' },
           { nome:'Cadeira Extensora — encosto reclinado', series:3, reps:'10-15', rir:'1',
+            alt:'Encosto não reclina? Sente-se deslizando um pouco o quadril para a frente, recostando o tronco.',
             tip:'Recline o encosto ao máximo que a máquina permitir. O quadril mais aberto alonga o reto femoral e é o que faz esse exercício render. Quadril não sai do banco, descida em 3 s.' }
         ]},
       { tipo:'superset', nome:'Superset B', descanso:'50s',
         nota:'O step-up lateral treina o mesmo padrão de subir e frear que o deslocamento lateral exige, sem a instabilidade do búlgaro. A abdução em pé no cabo carrega o glúteo médio em pé, que é como ele trabalha no jogo.',
         exercicios:[
           { nome:'Step-up Lateral no Caixote — Halteres', series:3, reps:'8-10 cada lado', rir:'1',
+            alt:'Sem caixote: use o step do aeróbico empilhado ou um banco baixo firme.',
             tip:'Caixote na altura do joelho, de lado para ele. Suba SEM impulso da perna de baixo e desça em 3 s. Joelho alinhado com o segundo dedo do pé. Tronco ereto.' },
           { nome:'Abdução de Quadril no Cabo — em pé', series:3, reps:'12-15 cada lado', rir:'1',
+            alt:'Sem tornozeleira: cadeira abdutora, com o tronco levemente inclinado à frente.',
             tip:'Tornozeleira na polia baixa, apoie a mão na torre. Abra a perna sem inclinar o tronco para o lado — se o tronco balança, a carga está alta demais. Glúteo médio é quem freia você na mudança de direção.' }
         ]},
       { tipo:'final', nome:'Finalizador', descanso:'45s',
         exercicios:[
           { nome:'Panturrilha em Pé no Hack Machine (ou máquina em pé)', series:3, reps:'10-15', rir:'0-1',
+            alt:'Panturrilha no leg press, com os pés na borda da plataforma. Evite a de barra nas costas.',
             tip:'Joelho estendido isola o gastrocnêmio — o complemento da panturrilha sentada do treino C. Dois segundos de alongamento no fundo, amplitude total.' }
         ]}
     ]
@@ -350,6 +368,40 @@ const HOME = {
     'Fazer a sessão A no mesmo dia do treino de perna sem separar por várias horas. Se coincidir, casa de manhã e perna no almoço — nunca o contrário.'
   ],
   nota: 'Este bloco não é o resto do treino. É onde mora quase todo o trabalho que ataca as suas duas queixas: a dor lombar depois dos jogos e a lentidão na areia. A academia constrói o motor; aqui o motor aprende a arrancar, frear e mudar de direção.'
+};
+
+
+/* ---------- GUIA DE CARGA E REPETIÇÕES ---------- */
+const LOADING = {
+  titulo: 'Quanto peso e quantas repetições',
+  tese: 'Definir não é treinar leve. Definição é músculo mantido com a gordura de cima removida — e quem remove a gordura é a dieta, não a série de 25 repetições. O papel da academia em déficit calórico é dar ao corpo um motivo para NÃO descartar o músculo, e esse motivo é carga alta. Treinar leve para "definir" apaga justamente esse sinal: você emagrece perdendo gordura e músculo junto, fica menor mas não mais definido — e mais lento, porque potência vem de força.',
+  evidencia: [
+    'Bickel 2011 e Spiering 2021: adultos mantiveram força e tamanho muscular por 32 semanas treinando com UM TERÇO do volume — desde que a carga relativa fosse mantida. Corte séries se faltar tempo; nunca corte peso.',
+    'Roth 2023: em homens treinados sob restrição calórica, 5 séries por exercício não preservaram mais massa magra que 3. Volume não é a alavanca — intensidade é.',
+    'Schoenfeld 2017: cargas leves levadas à falha igualam a hipertrofia das cargas altas, mas perdem claramente em FORÇA. E é a força que sustenta a explosão na areia.',
+    'Refalo 2024: parar a 1-3 repetições da falha rende praticamente o mesmo que ir à falha. Em déficit e com hérnia, a falha em exercício livre é risco sem retorno.'
+  ],
+  tabela: [
+    { bloco:'Composto principal (1º exercício do dia)', reps:'6-8', rir:'2', carga:'Pesada — ~80-85% do seu máximo',
+      como:'A última repetição tem que sair visivelmente mais devagar que a primeira. Se você chegou na oitava e sente que faria mais três, está leve.' },
+    { bloco:'Superset A (acessórios)', reps:'10-12', rir:'1-2', carga:'Moderada-pesada',
+      como:'Deve queimar nas duas últimas repetições, mas sem quebrar a técnica.' },
+    { bloco:'Superset B (isolados)', reps:'12-15', rir:'1', carga:'Moderada',
+      como:'Foco em sentir o músculo, não em mover o peso. Amplitude completa.' },
+    { bloco:'Finalizador (máquina ou cabo)', reps:'12-15', rir:'0-1', carga:'Moderada-leve',
+      como:'Aqui pode ir até a falha — é máquina ou polia, coluna descarregada e risco zero.' }
+  ],
+  rir: 'RIR quer dizer "repetições na reserva": quantas você ainda conseguiria fazer ao parar a série. RIR 2 = parou com duas no tanque. É assim que se controla o esforço sem precisar testar o máximo — que, com hérnia, você não vai testar.',
+  progressao: 'REGRA DE PROGRESSÃO: quando você completar TODAS as séries no topo da faixa de repetições mantendo o RIR indicado, suba a carga na próxima sessão — 2,5 kg em exercício de braço/ombro, 5 kg em perna e costas. Depois de subir, as repetições caem para o fundo da faixa e você reconstrói. É esse ciclo que mantém o músculo enquanto a gordura sai.',
+  agilidade: 'PARA A AGILIDADE: mesma carga, mas com INTENÇÃO EXPLOSIVA na subida. Desça controlado em 2-3 segundos e suba o mais rápido que o peso permitir. O peso pode até se mover devagar — o que treina a potência é a intenção de acelerar. Custa zero minuto a mais e é o que transfere para o arranque.',
+  emDeficit: 'O QUE ESPERAR EM DÉFICIT: sua força vai estagnar, e em algumas semanas cair um pouco. Isso é normal e não é problema. O sinal de alerta é diferente: queda de mais de 5% na carga do MESMO exercício em duas sessões seguidas. Aí o déficit está grande demais ou o sono está ruim — some 200 kcal por dia e revise o sono antes de mexer no treino.',
+  erros: [
+    'Treinar leve com 20-30 repetições "para definir". É o erro clássico e faz o contrário do que promete.',
+    'Cortar peso quando bate o cansaço do déficit. Corte séries, nunca a carga.',
+    'Ir à falha em exercício livre com halteres pesados. Reserve a falha para máquina e polia.',
+    'Trocar de exercício toda semana. Sem repetir o movimento você não tem como saber se progrediu.',
+    'Não anotar a carga. O app registra justamente para isso — sem o registro anterior você chuta, e chutar em déficit quase sempre é chutar para baixo.'
+  ]
 };
 
 /* ---------- BICICLETA ERGOMÉTRICA ---------- */
