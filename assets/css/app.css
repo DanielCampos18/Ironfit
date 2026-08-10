@@ -72,8 +72,10 @@
 
 html {
   background: var(--bg-0);
-  /* trava rolagem elástica horizontal no iOS */
-  overflow-x: hidden;
+  /* NÃO usar overflow-x:hidden aqui: ele transforma o elemento em contêiner de
+     rolagem, faz o overflow-y virar auto e QUEBRA o position:sticky do cabeçalho.
+     `clip` corta o transbordo sem criar contêiner de rolagem. */
+  overflow-x: clip;
 }
 
 body {
@@ -86,7 +88,7 @@ body {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'tnum' 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 button, input, select, textarea { font: inherit; color: inherit; border: none; background: none; -webkit-appearance: none; appearance: none; }
@@ -265,6 +267,17 @@ a { color: var(--turq-lt); text-decoration: none; }
   width: 26px; height: 3px; border-radius: 0 0 4px 4px; background: var(--grad); box-shadow: 0 0 12px rgba(167, 139, 250, .8);
 }
 
+/* Sem backdrop-filter (parte dos navegadores Android, ou "reduzir transparência"
+   ligado no iOS) o fundo semitransparente deixa o conteúdo aparecer POR BAIXO do
+   cabeçalho e da navegação — e o texto de trás se mistura com os rótulos.
+   Nesses casos o chrome vira opaco. */
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  #header { background: #0a0714; }
+  #nav { background: #0a0714; }
+  #restTimer { background: #120e22; }
+  #toast { background: #120e22; }
+}
+
 /* ---------- 7. TIPOGRAFIA / SEÇÕES ---------- */
 .sec { margin-bottom: 22px; }
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 11px; }
@@ -434,17 +447,29 @@ a { color: var(--turq-lt); text-decoration: none; }
 #restTimer {
   position: fixed; left: 50%; z-index: 90;
   bottom: calc(var(--nav-h) + var(--safe-b) + 14px);
-  transform: translate(-50%, 150%);
   width: min(380px, calc(100vw - 28px));
   padding: 13px 16px; border-radius: var(--r-lg);
-  background: rgba(18, 14, 34, .93);
+  background: rgba(18, 14, 34, .97);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--stroke-2);
   box-shadow: 0 14px 44px rgba(0, 0, 0, .6), 0 0 0 1px rgba(167, 139, 250, .16);
-  transition: transform .42s cubic-bezier(.22, 1, .36, 1);
+  /* Esconder por deslocamento é frágil: 150% da altura dependia do conteúdo e
+     sobravam 35px em cima da navegação. A visibilidade é quem esconde; o
+     transform só anima. */
+  transform: translate(-50%, 130%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .22s ease, visibility 0s linear .42s;
 }
-#restTimer.show { transform: translate(-50%, 0); }
+#restTimer.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .2s ease, visibility 0s;
+}
 .rt-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .rt-lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: .14em; color: var(--turq-lt); font-weight: 700; }
 .rt-time { font-family: var(--font-d); font-size: 32px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -575,9 +600,10 @@ table.tbl tr.is-now td:first-child { box-shadow: inset 3px 0 0 var(--violet-lt);
   -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
   border: 1px solid var(--stroke-2); box-shadow: var(--sh-2);
   font-size: 13.5px; font-weight: 650; white-space: nowrap; max-width: calc(100vw - 32px);
-  transition: transform .42s cubic-bezier(.22, 1, .36, 1);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .22s ease, visibility 0s linear .42s;
 }
-#toast.show { transform: translate(-50%, 0); }
+#toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; transition: transform .42s cubic-bezier(.22, 1, .36, 1), opacity .2s ease, visibility 0s; }
 #toast.ok { border-color: rgba(52, 211, 153, .5); color: var(--ok); }
 #toast.err { border-color: rgba(251, 113, 133, .5); color: var(--danger); }
 
